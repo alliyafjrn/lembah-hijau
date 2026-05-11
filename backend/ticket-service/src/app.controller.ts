@@ -1,5 +1,5 @@
-import { Controller, Get } from '@nestjs/common';
-import { AppService } from './app.service';
+import { Controller, Get, Post, Body } from '@nestjs/common';
+import { AppService } from './app.service.js';
 
 @Controller('tickets')
 export class AppController {
@@ -8,5 +8,10 @@ export class AppController {
   @Get()
   getTickets() {
     return this.appService.getTickets();
+  }
+
+  @Post()
+  createTicket(@Body() data: { nama: string; harga: number; stok: number; deskripsi?: string }) {
+    return this.appService.createTicket(data);
   }
 }
