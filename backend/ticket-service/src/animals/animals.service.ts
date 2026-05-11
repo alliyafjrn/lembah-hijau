@@ -5,8 +5,13 @@ import { PrismaService } from '../prisma.service.js';
 export class AnimalsService {
   constructor(private prisma: PrismaService) {}
 
-  // Fungsi untuk mengambil semua data hewan
   async getAnimals() {
     return this.prisma.hewan.findMany();
+  }
+
+  async createAnimal(data: { nama: string; spesies: string; umur: number; habitat: string; lokasi?: string }) {
+    return this.prisma.hewan.create({
+      data: data,
+    });
   }
 }

@@ -23,6 +23,8 @@ model Hewan {
   id        Int      @id @default(autoincrement())
   nama      String
   spesies   String
+  umur      Int      
   habitat   String
+  lokasi    String?  
   createdAt DateTime @default(now())
 }
