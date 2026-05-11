@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Patch, Body, Param } from '@nestjs/common';
+import { Controller, Get, Post, Patch, Delete, Body, Param } from '@nestjs/common';
 import { AppService } from './app.service.js';
 
 @Controller('tickets')
@@ -21,5 +21,10 @@ export class AppController {
     @Body() data: { nama?: string; harga?: number; stok?: number; deskripsi?: string },
   ) {
     return this.appService.updateTicket(Number(id), data);
+  }
+
+  @Delete(':id')
+  deleteTicket(@Param('id') id: string) {
+    return this.appService.deleteTicket(Number(id));
   }
 }
