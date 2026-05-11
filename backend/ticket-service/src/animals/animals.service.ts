@@ -14,4 +14,11 @@ export class AnimalsService {
       data: data,
     });
   }
+
+  async updateAnimal(id: number, data: { nama?: string; spesies?: string; umur?: number; habitat?: string; lokasi?: string }) {
+    return this.prisma.hewan.update({
+      where: { id: id },
+      data: data,
+    });
+  }
 }
