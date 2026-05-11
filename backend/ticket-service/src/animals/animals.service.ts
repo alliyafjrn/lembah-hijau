@@ -21,4 +21,10 @@ export class AnimalsService {
       data: data,
     });
   }
+
+  async deleteAnimal(id: number) {
+    return this.prisma.hewan.delete({
+      where: { id: id },
+    });
+  }
 }
