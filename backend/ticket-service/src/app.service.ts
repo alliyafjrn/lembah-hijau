@@ -8,8 +8,16 @@ export class AppService {
   async getTickets() {
     return this.prisma.tiket.findMany();
   }
+
   async createTicket(data: { nama: string; harga: number; stok: number; deskripsi?: string }) {
     return this.prisma.tiket.create({
+      data: data,
+    });
+  }
+
+  async updateTicket(id: number, data: { nama?: string; harga?: number; stok?: number; deskripsi?: string }) {
+    return this.prisma.tiket.update({
+      where: { id: id },
       data: data,
     });
   }
