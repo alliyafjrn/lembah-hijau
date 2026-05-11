@@ -9,7 +9,6 @@ datasource db {
   provider = "postgresql"
 }
 
-// Tabel Tiket Lembah Hijau
 model Tiket {
   id        Int      @id @default(autoincrement())
   nama      String
@@ -20,7 +19,6 @@ model Tiket {
   updatedAt DateTime @updatedAt
 }
 
-// Tabel Data Satwa
 model Hewan {
   id        Int      @id @default(autoincrement())
   nama      String
