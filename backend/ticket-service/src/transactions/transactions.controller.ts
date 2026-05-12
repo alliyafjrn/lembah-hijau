@@ -1,12 +1,13 @@
 import { Controller, Post, Get, Patch, Delete, Param, Body } from '@nestjs/common';
 import { TransactionsService } from './transactions.service.js';
+import { CreateTransactionDto, UpdateTransactionDto } from './dto/create-transaction.dto.js';
 
 @Controller('transactions')
 export class TransactionsController {
   constructor(private readonly transactionsService: TransactionsService) {}
 
   @Post()
-  create(@Body() data: { tiketId: number; jumlah: number; namaPembeli: string }) {
+  create(@Body() data: CreateTransactionDto) {
     return this.transactionsService.createTransaction(data);
   }
 
@@ -18,7 +19,7 @@ export class TransactionsController {
   @Patch(':id')
   update(
     @Param('id') id: string,
-    @Body() data: { jumlah?: number; namaPembeli?: string }
+    @Body() data: UpdateTransactionDto
   ) {
     return this.transactionsService.updateTransaction(Number(id), data);
   }

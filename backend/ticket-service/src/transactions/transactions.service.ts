@@ -1,11 +1,12 @@
 import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
 import { PrismaService } from '../prisma.service.js';
+import { CreateTransactionDto, UpdateTransactionDto } from './dto/create-transaction.dto.js';
 
 @Injectable()
 export class TransactionsService {
   constructor(private prisma: PrismaService) {}
 
-  async createTransaction(data: { tiketId: number; jumlah: number; namaPembeli: string }) {
+  async createTransaction(data: CreateTransactionDto) {
     const tiketId = Number(data.tiketId);
     const tiket = await this.prisma.tiket.findUnique({ where: { id: tiketId } });
 
@@ -39,7 +40,7 @@ export class TransactionsService {
     });
   }
 
-  async updateTransaction(id: number, data: { jumlah?: number; namaPembeli?: string }) {
+  async updateTransaction(id: number, data: UpdateTransactionDto) {
     const transaksiLama = await this.prisma.transaksi.findUnique({
       where: { id },
       include: { tiket: true }
