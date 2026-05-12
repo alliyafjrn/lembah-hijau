@@ -78,4 +78,23 @@ export class TransactionsService {
       });
     });
   }
+
+  async deleteTransaction(id: number) {
+    const transaksi = await this.prisma.transaksi.findUnique({
+      where: { id },
+    });
+
+    if (!transaksi) throw new NotFoundException('Transaksi tidak ditemukan');
+
+    return this.prisma.$transaction(async (tx) => {
+      await tx.tiket.update({
+        where: { id: transaksi.tiketId },
+        data: { stok: { increment: transaksi.jumlah } },
+      });
+
+      return tx.transaksi.delete({
+        where: { id },
+      });
+    });
+  }
 }
