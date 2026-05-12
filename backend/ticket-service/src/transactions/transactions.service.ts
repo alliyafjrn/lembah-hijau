@@ -6,18 +6,11 @@ export class TransactionsService {
   constructor(private prisma: PrismaService) {}
 
   async createTransaction(data: { tiketId: number; jumlah: number; namaPembeli: string }) {
-    // Pastikan ID ada dan bertipe number
     const tiketId = Number(data.tiketId);
-    
-    const tiket = await this.prisma.tiket.findUnique({
-      where: { id: tiketId },
-    });
+    const tiket = await this.prisma.tiket.findUnique({ where: { id: tiketId } });
 
     if (!tiket) throw new NotFoundException('Tiket tidak ditemukan');
-
-    if (tiket.stok < data.jumlah) {
-      throw new BadRequestException('Stok tiket tidak mencukupi');
-    }
+    if (tiket.stok < data.jumlah) throw new BadRequestException('Stok tiket tidak mencukupi');
 
     const totalHarga = tiket.harga * data.jumlah;
 
@@ -43,6 +36,46 @@ export class TransactionsService {
   async getAllTransactions() {
     return this.prisma.transaksi.findMany({
       include: { tiket: true },
+    });
+  }
+
+  async updateTransaction(id: number, data: { jumlah?: number; namaPembeli?: string }) {
+    const transaksiLama = await this.prisma.transaksi.findUnique({
+      where: { id },
+      include: { tiket: true }
+    });
+
+    if (!transaksiLama) throw new NotFoundException('Data transaksi tidak ditemukan');
+
+    return this.prisma.$transaction(async (tx) => {
+      if (data.jumlah !== undefined && data.jumlah !== transaksiLama.jumlah) {
+        const selisih = data.jumlah - transaksiLama.jumlah;
+
+        if (transaksiLama.tiket.stok < selisih) {
+          throw new BadRequestException('Stok tiket tidak mencukupi');
+        }
+
+        await tx.tiket.update({
+          where: { id: transaksiLama.tiketId },
+          data: { stok: transaksiLama.tiket.stok - selisih },
+        });
+
+        const totalHargaBaru = transaksiLama.tiket.harga * data.jumlah;
+        
+        return tx.transaksi.update({
+          where: { id },
+          data: { 
+            jumlah: data.jumlah,
+            totalHarga: totalHargaBaru,
+            namaPembeli: data.namaPembeli 
+          },
+        });
+      }
+
+      return tx.transaksi.update({
+        where: { id },
+        data: { namaPembeli: data.namaPembeli },
+      });
     });
   }
 }
