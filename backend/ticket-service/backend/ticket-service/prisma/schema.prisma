@@ -1,0 +1,38 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Tiket {
+  id        Int         @id @default(autoincrement())
+  nama      String
+  harga     Float
+  stok      Int
+  deskripsi String?
+  transaksi Transaksi[]
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+}
+
+model Hewan {
+  id        Int      @id @default(autoincrement())
+  nama      String
+  spesies   String
+  umur      Int
+  habitat   String
+  lokasi    String?
+  createdAt DateTime @default(now())
+}
+
+model Transaksi {
+  id           Int      @id @default(autoincrement())
+  tiketId      Int
+  jumlah       Int
+  totalHarga   Float
+  namaPembeli  String
+  tanggalBayar DateTime @default(now())
+  tiket        Tiket    @relation(fields: [tiketId], references: [id])
+}

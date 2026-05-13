@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { PrismaService } from '../prisma.service';
+import { PrismaService } from '../prisma.service.js';
 
 @Injectable()
 export class AnimalsService {
@@ -9,13 +9,13 @@ export class AnimalsService {
     return this.prisma.hewan.findMany();
   }
 
-  async createAnimal(data: any) {
+  async createAnimal(data: { nama: string; spesies: string; umur: number; habitat: string; lokasi?: string }) {
     return this.prisma.hewan.create({
       data: data,
     });
   }
 
-  async updateAnimal(id: number, data: any) {
+  async updateAnimal(id: number, data: { nama?: string; spesies?: string; umur?: number; habitat?: string; lokasi?: string }) {
     return this.prisma.hewan.update({
       where: { id: id },
       data: data,
