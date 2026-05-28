@@ -1,4 +1,13 @@
-import { Controller } from '@nestjs/common';
+import { Body, Controller, Post } from '@nestjs/common';
+import { KategoriService } from './kategori.service';
+import { CreateKategoriDto } from './dto/create-kategori.dto';
 
 @Controller('kategori')
-export class KategoriController {}
+export class KategoriController {
+  constructor(private readonly kategoriService: KategoriService) {}
+
+  @Post()
+  create(@Body() createKategoriDto: CreateKategoriDto) {
+    return this.kategoriService.create(createKategoriDto);
+  }
+}
