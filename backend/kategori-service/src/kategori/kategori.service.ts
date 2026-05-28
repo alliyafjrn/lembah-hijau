@@ -4,11 +4,19 @@ import { CreateKategoriDto } from './dto/create-kategori.dto';
 
 @Injectable()
 export class KategoriService {
-  constructor(private prisma: PrismaService) {}
+    constructor(private prisma: PrismaService) { }
 
-  async create(createKategoriDto: CreateKategoriDto) {
-    return this.prisma.kategori.create({
-      data: createKategoriDto,
-    });
-  }
+    async create(createKategoriDto: CreateKategoriDto) {
+        return this.prisma.kategori.create({
+            data: createKategoriDto,
+        });
+    }
+
+    async findAll() {
+        return this.prisma.kategori.findMany({
+            orderBy: {
+                id: 'desc',
+            },
+        });
+    }
 }
