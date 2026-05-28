@@ -19,4 +19,12 @@ export class KategoriService {
             },
         });
     }
+
+    async findOne(id: number) {
+        return this.prisma.kategori.findUnique({
+            where: {
+                id,
+            },
+        });
+    }
 }

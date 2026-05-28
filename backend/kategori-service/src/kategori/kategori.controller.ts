@@ -1,4 +1,4 @@
-import { Body, Controller, Post, Get } from '@nestjs/common';
+import { Body, Controller, Post, Get, Param, ParseIntPipe } from '@nestjs/common';
 import { KategoriService } from './kategori.service';
 import { CreateKategoriDto } from './dto/create-kategori.dto';
 
@@ -14,5 +14,10 @@ export class KategoriController {
     @Get()
     findAll() {
         return this.kategoriService.findAll();
+    }
+
+    @Get(':id')
+    findOne(@Param('id', ParseIntPipe) id: number) {
+        return this.kategoriService.findOne(id);
     }
 }
