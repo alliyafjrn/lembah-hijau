@@ -1,4 +1,4 @@
-import { Body, Controller, Post, Get, Param, ParseIntPipe, Put } from '@nestjs/common';
+import { Body, Controller, Post, Get, Param, ParseIntPipe, Put, Delete } from '@nestjs/common';
 import { KategoriService } from './kategori.service';
 import { CreateKategoriDto } from './dto/create-kategori.dto';
 import { UpdateKategoriDto } from './dto/update-kategori.dto';
@@ -28,5 +28,10 @@ export class KategoriController {
         @Body() updateKategoriDto: UpdateKategoriDto,
     ) {
         return this.kategoriService.update(id, updateKategoriDto);
+    }
+
+    @Delete(':id')
+    remove(@Param('id', ParseIntPipe) id: number) {
+        return this.kategoriService.remove(id);
     }
 }
