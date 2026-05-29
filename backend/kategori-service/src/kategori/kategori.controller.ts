@@ -8,8 +8,14 @@ export class KategoriController {
     constructor(private readonly kategoriService: KategoriService) { }
 
     @Post()
-    create(@Body() createKategoriDto: CreateKategoriDto) {
-        return this.kategoriService.create(createKategoriDto);
+    async create(@Body() createKategoriDto: CreateKategoriDto) {
+        const data = await this.kategoriService.create(createKategoriDto);
+
+        return {
+            success: true,
+            message: 'Kategori berhasil dibuat',
+            data,
+        };
     }
 
     @Get()
