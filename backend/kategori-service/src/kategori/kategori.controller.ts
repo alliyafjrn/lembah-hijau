@@ -41,11 +41,17 @@ export class KategoriController {
     }
 
     @Put(':id')
-    update(
+    async update(
         @Param('id', ParseIntPipe) id: number,
         @Body() updateKategoriDto: UpdateKategoriDto,
     ) {
-        return this.kategoriService.update(id, updateKategoriDto);
+        const data = await this.kategoriService.update(id, updateKategoriDto);
+
+        return {
+            success: true,
+            message: 'Kategori berhasil diupdate',
+            data,
+        };
     }
 
     @Delete(':id')
