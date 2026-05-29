@@ -19,13 +19,25 @@ export class KategoriController {
     }
 
     @Get()
-    findAll() {
-        return this.kategoriService.findAll();
+    async findAll() {
+        const data = await this.kategoriService.findAll();
+
+        return {
+            success: true,
+            message: 'Data kategori berhasil diambil',
+            data,
+        };
     }
 
     @Get(':id')
-    findOne(@Param('id', ParseIntPipe) id: number) {
-        return this.kategoriService.findOne(id);
+    async findOne(@Param('id', ParseIntPipe) id: number) {
+        const data = await this.kategoriService.findOne(id);
+
+        return {
+            success: true,
+            message: 'Detail kategori berhasil diambil',
+            data,
+        };
     }
 
     @Put(':id')
