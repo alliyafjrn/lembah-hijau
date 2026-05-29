@@ -55,7 +55,13 @@ export class KategoriController {
     }
 
     @Delete(':id')
-    remove(@Param('id', ParseIntPipe) id: number) {
-        return this.kategoriService.remove(id);
+    async remove(@Param('id', ParseIntPipe) id: number) {
+        const data = await this.kategoriService.remove(id);
+
+        return {
+            success: true,
+            message: 'Kategori berhasil dihapus',
+            data,
+        };
     }
 }
