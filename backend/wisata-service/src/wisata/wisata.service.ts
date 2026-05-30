@@ -4,7 +4,7 @@ import { CreateWisataDto } from './dto/create-wisata.dto';
 
 @Injectable()
 export class WisataService {
-  constructor(private prisma: PrismaService) {}
+  constructor(private prisma: PrismaService) { }
 
   findAll() {
     return this.prisma.wisata.findMany();
@@ -23,6 +23,8 @@ export class WisataService {
   }
 
   create(createWisataDto: CreateWisataDto) {
+    console.log('DATA MASUK:', createWisataDto);
+
     return this.prisma.wisata.create({
       data: createWisataDto,
     });

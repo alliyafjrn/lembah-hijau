@@ -17,6 +17,7 @@ model Wisata {
   nama        String
   deskripsi   String
   lokasi      String
+  kategoriId  Int?
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 }

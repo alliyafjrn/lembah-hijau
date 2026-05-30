@@ -1,15 +1,18 @@
-import { IsOptional, IsString } from 'class-validator';
+import { ApiPropertyOptional } from '@nestjs/swagger';
 
 export class UpdateWisataDto {
-  @IsOptional()
-  @IsString()
+  @ApiPropertyOptional({
+    example: 'Lembah Hijau Lampung',
+  })
   nama?: string;
 
-  @IsOptional()
-  @IsString()
+  @ApiPropertyOptional({
+    example: 'Wisata Kebun Binatang dan Waterboom',
+  })
   deskripsi?: string;
 
-  @IsOptional()
-  @IsString()
+  @ApiPropertyOptional({
+    example: 'Bandar Lampung',
+  })
   lokasi?: string;
 }
