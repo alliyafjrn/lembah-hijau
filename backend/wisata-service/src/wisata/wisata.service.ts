@@ -1,10 +1,19 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
+import { HttpService } from '@nestjs/axios';
+import { firstValueFrom } from 'rxjs';
+
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateWisataDto } from './dto/create-wisata.dto';
 
 @Injectable()
 export class WisataService {
-  constructor(private prisma: PrismaService) { }
+  constructor(
+    private prisma: PrismaService,
+    private httpService: HttpService,
+  ) {}
 
   findAll() {
     return this.prisma.wisata.findMany();
@@ -16,21 +25,37 @@ export class WisataService {
     });
 
     if (!wisata) {
-      throw new NotFoundException('Data wisata tidak ditemukan');
+      throw new NotFoundException(
+        'Data wisata tidak ditemukan',
+      );
+    }
+
+    if (wisata.kategoriId) {
+      const response = await firstValueFrom(
+        this.httpService.get(
+          `http://localhost:3001/kategori/${wisata.kategoriId}`,
+        ),
+      );
+
+      return {
+        ...wisata,
+        kategori: response.data.data,
+      };
     }
 
     return wisata;
   }
 
   create(createWisataDto: CreateWisataDto) {
-    console.log('DATA MASUK:', createWisataDto);
-
     return this.prisma.wisata.create({
       data: createWisataDto,
     });
   }
 
-  async update(id: number, createWisataDto: CreateWisataDto) {
+  async update(
+    id: number,
+    createWisataDto: CreateWisataDto,
+  ) {
     await this.findOne(id);
 
     return this.prisma.wisata.update({
