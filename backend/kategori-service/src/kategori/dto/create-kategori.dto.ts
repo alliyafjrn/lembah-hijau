@@ -1,7 +1,12 @@
 import { IsNotEmpty, IsString } from 'class-validator';
+import { ApiProperty } from '@nestjs/swagger';
 
 export class CreateKategoriDto {
-  @IsString()
-  @IsNotEmpty()
-  nama!: string;
+    @ApiProperty({
+        example: 'Waterboom',
+        description: 'Nama kategori wisata',
+    })
+    @IsString()
+    @IsNotEmpty()
+    nama!: string;
 }
