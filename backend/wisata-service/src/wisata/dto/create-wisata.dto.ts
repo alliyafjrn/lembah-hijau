@@ -3,26 +3,20 @@ import { IsInt, IsString } from 'class-validator';
 
 export class CreateWisataDto {
   @ApiProperty({
-    example: 'Lembah Hijau',
+    example: 'Zona Gajah',
   })
   @IsString()
-  nama: string;
+  nama!: string;
 
   @ApiProperty({
-    example: 'Wisata Kebun Binatang',
+    example: 'Area melihat gajah',
   })
   @IsString()
-  deskripsi: string;
-
-  @ApiProperty({
-    example: 'Bandar Lampung',
-  })
-  @IsString()
-  lokasi: string;
+  deskripsi!: string;
 
   @ApiProperty({
     example: 1,
   })
   @IsInt()
-  kategoriId: number;
+  kategoriId!: number;
 }
