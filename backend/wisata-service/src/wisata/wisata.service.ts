@@ -4,7 +4,7 @@ import {
 } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
 import { firstValueFrom } from 'rxjs';
-
+import axios from 'axios';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateWisataDto } from './dto/create-wisata.dto';
 
@@ -13,10 +13,32 @@ export class WisataService {
   constructor(
     private prisma: PrismaService,
     private httpService: HttpService,
-  ) {}
+  ) { }
 
-  findAll() {
-    return this.prisma.wisata.findMany();
+  async findAll() {
+    const wisataList = await this.prisma.wisata.findMany();
+
+    const hasil = await Promise.all(
+      wisataList.map(async (wisata) => {
+        try {
+          const kategoriResponse = await axios.get(
+            `http://localhost:3001/kategori/${wisata.kategoriId}`,
+          );
+
+          return {
+            ...wisata,
+            kategori: kategoriResponse.data.data,
+          };
+        } catch {
+          return {
+            ...wisata,
+            kategori: null,
+          };
+        }
+      }),
+    );
+
+    return hasil;
   }
 
   async findOne(id: number) {
