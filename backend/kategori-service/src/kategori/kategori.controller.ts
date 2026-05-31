@@ -8,30 +8,60 @@ export class KategoriController {
     constructor(private readonly kategoriService: KategoriService) { }
 
     @Post()
-    create(@Body() createKategoriDto: CreateKategoriDto) {
-        return this.kategoriService.create(createKategoriDto);
+    async create(@Body() createKategoriDto: CreateKategoriDto) {
+        const data = await this.kategoriService.create(createKategoriDto);
+
+        return {
+            success: true,
+            message: 'Kategori berhasil dibuat',
+            data,
+        };
     }
 
     @Get()
-    findAll() {
-        return this.kategoriService.findAll();
+    async findAll() {
+        const data = await this.kategoriService.findAll();
+
+        return {
+            success: true,
+            message: 'Data kategori berhasil diambil',
+            data,
+        };
     }
 
     @Get(':id')
-    findOne(@Param('id', ParseIntPipe) id: number) {
-        return this.kategoriService.findOne(id);
+    async findOne(@Param('id', ParseIntPipe) id: number) {
+        const data = await this.kategoriService.findOne(id);
+
+        return {
+            success: true,
+            message: 'Detail kategori berhasil diambil',
+            data,
+        };
     }
 
     @Put(':id')
-    update(
+    async update(
         @Param('id', ParseIntPipe) id: number,
         @Body() updateKategoriDto: UpdateKategoriDto,
     ) {
-        return this.kategoriService.update(id, updateKategoriDto);
+        const data = await this.kategoriService.update(id, updateKategoriDto);
+
+        return {
+            success: true,
+            message: 'Kategori berhasil diupdate',
+            data,
+        };
     }
 
     @Delete(':id')
-    remove(@Param('id', ParseIntPipe) id: number) {
-        return this.kategoriService.remove(id);
+    async remove(@Param('id', ParseIntPipe) id: number) {
+        const data = await this.kategoriService.remove(id);
+
+        return {
+            success: true,
+            message: 'Kategori berhasil dihapus',
+            data,
+        };
     }
 }

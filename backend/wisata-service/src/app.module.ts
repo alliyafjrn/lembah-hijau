@@ -1,11 +1,12 @@
 import { Module } from '@nestjs/common';
-import { HttpModule } from '@nestjs/axios';
-
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 
+import { PrismaModule } from './prisma/prisma.module';
+import { WisataModule } from './wisata/wisata.module';
+
 @Module({
-  imports: [HttpModule],
+  imports: [PrismaModule, WisataModule],
   controllers: [AppController],
   providers: [AppService],
 })
