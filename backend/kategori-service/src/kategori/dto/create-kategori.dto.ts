@@ -3,7 +3,7 @@ import { ApiProperty } from '@nestjs/swagger';
 
 export class CreateKategoriDto {
     @ApiProperty({
-        example: 'Waterboom',
+        example: 'Kebun Binatang',
         description: 'Nama kategori wisata',
     })
     @IsString()
