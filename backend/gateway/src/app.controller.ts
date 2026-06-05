@@ -14,13 +14,17 @@ import {
   ApiParam,
   ApiTags,
 } from '@nestjs/swagger';
+import {
+  Headers,
+  UnauthorizedException,
+} from '@nestjs/common';
 
 @ApiTags('Gateway')
 @Controller()
 export class AppController {
   constructor(
     private readonly httpService: HttpService,
-  ) {}
+  ) { }
 
   // KATEGORI
 
@@ -133,7 +137,13 @@ export class AppController {
 
   @ApiOperation({ summary: 'Tambah wisata' })
   @Post('wisata')
-  async createWisata(@Body() body: any) {
+  async createWisata(
+    @Body() body: any,
+    @Headers('authorization')
+    token: string,
+  ) {
+    await this.verifyToken(token);
+
     const response = await firstValueFrom(
       this.httpService.post(
         'http://localhost:3002/wisata',
@@ -150,7 +160,11 @@ export class AppController {
   async updateWisata(
     @Param('id') id: string,
     @Body() body: any,
+    @Headers('authorization')
+    token: string,
   ) {
+    await this.verifyToken(token);
+
     const response = await firstValueFrom(
       this.httpService.put(
         `http://localhost:3002/wisata/${id}`,
@@ -164,7 +178,13 @@ export class AppController {
   @ApiOperation({ summary: 'Hapus wisata' })
   @ApiParam({ name: 'id', example: 1 })
   @Delete('wisata/:id')
-  async deleteWisata(@Param('id') id: string) {
+  async deleteWisata(
+    @Param('id') id: string,
+    @Headers('authorization')
+    token: string,
+  ) {
+    await this.verifyToken(token);
+
     const response = await firstValueFrom(
       this.httpService.delete(
         `http://localhost:3002/wisata/${id}`,
@@ -172,5 +192,26 @@ export class AppController {
     );
 
     return response.data;
+  }
+
+  private async verifyToken(token: string) {
+    try {
+      const response = await firstValueFrom(
+        this.httpService.get(
+          'http://localhost:3003/auth/verify',
+          {
+            headers: {
+              Authorization: token,
+            },
+          },
+        ),
+      );
+
+      return response.data;
+    } catch {
+      throw new UnauthorizedException(
+        'Token tidak valid',
+      );
+    }
   }
 }
