@@ -27,4 +27,12 @@ export class AuthController {
     profile(@Req() req) {
         return req.user;
     }
+    @Get('verify')
+    @UseGuards(JwtAuthGuard)
+    verify(@Req() req) {
+        return {
+            valid: true,
+            user: req.user,
+        };
+    }
 }
