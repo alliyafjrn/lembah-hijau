@@ -35,3 +35,24 @@ export async function deleteKategori(id: number) {
 
   return response.json();
 }
+
+// 4. Update Kategori (Baru)
+export async function updateKategori(
+  id: number,
+  nama: string,
+) {
+  const response = await fetch(
+    `http://localhost:3000/kategori/${id}`,
+    {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        nama,
+      }),
+    }
+  );
+
+  return response.json();
+}
