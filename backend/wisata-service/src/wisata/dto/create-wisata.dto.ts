@@ -21,6 +21,13 @@ export class CreateWisataDto {
   deskripsi!: string;
 
   @ApiProperty({
+    example: 'Lembah Hijau, Bandar Lampung',
+  })
+  @IsString()
+  @IsNotEmpty()
+  lokasi!: string;
+
+  @ApiProperty({
     example: 1,
   })
   @IsNumber()

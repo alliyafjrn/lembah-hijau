@@ -3,7 +3,11 @@
 import { useEffect, useState } from "react";
 import Navbar from "@/components/navbar";
 import Sidebar from "@/components/sidebar";
-import { getKategori } from "@/services/kategori";
+import {
+  getKategori,
+  createKategori,
+  deleteKategori,
+} from "@/services/kategori";
 
 export default function KategoriPage() {
     const [kategori, setKategori] = useState<any[]>([]);
@@ -16,6 +20,18 @@ export default function KategoriPage() {
         const response = await getKategori();
         console.log(response);
         setKategori(response.data);
+    }
+
+    async function handleDelete(id: number) {
+        const confirmDelete = confirm(
+            "Yakin ingin menghapus kategori?"
+        );
+
+        if (!confirmDelete) return;
+
+        await deleteKategori(id);
+
+        loadKategori();
     }
 
     return (
@@ -35,6 +51,7 @@ export default function KategoriPage() {
                             <tr>
                                 <th className="border p-2">ID</th>
                                 <th className="border p-2">Nama</th>
+                                <th className="border p-2">Aksi</th>
                             </tr>
                         </thead>
 
@@ -47,6 +64,17 @@ export default function KategoriPage() {
 
                                     <td className="border p-2">
                                         {item.nama}
+                                    </td>
+
+                                    <td className="border p-2">
+                                        <button
+                                            onClick={() =>
+                                                handleDelete(item.id)
+                                            }
+                                            className="bg-red-600 text-white px-3 py-1 rounded"
+                                        >
+                                            Hapus
+                                        </button>
                                     </td>
                                 </tr>
                             ))}

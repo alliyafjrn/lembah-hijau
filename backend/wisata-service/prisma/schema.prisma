@@ -16,6 +16,7 @@ model Wisata {
   id          Int      @id @default(autoincrement())
   nama        String
   deskripsi   String
+  lokasi      String
   kategoriId  Int?
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
