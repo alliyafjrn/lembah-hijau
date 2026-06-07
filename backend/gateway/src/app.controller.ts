@@ -15,7 +15,6 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import {
-  Headers,
   UnauthorizedException,
 } from '@nestjs/common';
 

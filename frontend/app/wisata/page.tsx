@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Sidebar from "@/components/sidebar";
 import Navbar from "@/components/navbar";
-import { getWisata, createWisata, deleteWisata } from "@/services/wisata";
+import { getWisata, createWisata, deleteWisata, updateWisata } from "@/services/wisata";
 import { getKategori } from "@/services/kategori";
 
 export default function WisataPage() {
@@ -12,6 +12,7 @@ export default function WisataPage() {
   const [deskripsi, setDeskripsi] = useState("");
   const [kategoriId, setKategoriId] = useState("");
   const [kategori, setKategori] = useState<any[]>([]);
+  const [editId, setEditId] = useState<number | null>(null);
 
   useEffect(() => {
     loadWisata();
@@ -34,17 +35,34 @@ export default function WisataPage() {
       return;
     }
 
-    await createWisata(
-      nama,
-      deskripsi,
-      Number(kategoriId)
-    );
+    if (editId) {
+      await updateWisata(
+        editId,
+        nama,
+        deskripsi,
+        Number(kategoriId),
+      );
+      setEditId(null);
+    } else {
+      await createWisata(
+        nama,
+        deskripsi,
+        Number(kategoriId)
+      );
+    }
 
     setNama("");
     setDeskripsi("");
     setKategoriId("");
 
     loadWisata();
+  }
+
+  function handleEdit(item: any) {
+    setEditId(item.id);
+    setNama(item.nama);
+    setDeskripsi(item.deskripsi);
+    setKategoriId(String(item.kategoriId));
   }
 
   async function handleDelete(id: number) {
@@ -102,7 +120,7 @@ export default function WisataPage() {
               onClick={handleSubmit}
               className="bg-green-700 text-white px-4 py-2 rounded font-semibold mt-1"
             >
-              Tambah
+              {editId ? "Update" : "Tambah"}
             </button>
           </div>
 
@@ -113,7 +131,7 @@ export default function WisataPage() {
                 <th className="border p-2 text-left w-16">ID</th>
                 <th className="border p-2 text-left w-1/3">Nama</th>
                 <th className="border p-2 text-left">Deskripsi</th>
-                <th className="border p-2 text-left w-24">Aksi</th>
+                <th className="border p-2 text-left w-44">Aksi</th>
               </tr>
             </thead>
 
@@ -125,6 +143,12 @@ export default function WisataPage() {
                     <td className="border p-2">{item.nama}</td>
                     <td className="border p-2">{item.deskripsi}</td>
                     <td className="border p-2">
+                      <button
+                        onClick={() => handleEdit(item)}
+                        className="bg-blue-600 text-white px-3 py-1 rounded mr-2"
+                      >
+                        Edit
+                      </button>
                       <button
                         onClick={() => handleDelete(item.id)}
                         className="bg-red-600 text-white px-3 py-1 rounded"

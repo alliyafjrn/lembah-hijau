@@ -15,7 +15,6 @@ import {
 } from '@nestjs/swagger';
 import { WisataService } from './wisata.service';
 import { CreateWisataDto } from './dto/create-wisata.dto';
-import { UpdateWisataDto } from './dto/update-wisata.dto';
 
 @ApiTags('Wisata')
 @Controller('wisata')
@@ -46,9 +45,9 @@ export class WisataController {
   @Put(':id')
   update(
     @Param('id', ParseIntPipe) id: number,
-    @Body() updateWisataDto: UpdateWisataDto,
+    @Body() createWisataDto: CreateWisataDto,
   ) {
-    return this.wisataService.update(id, updateWisataDto as any);
+    return this.wisataService.update(id, createWisataDto);
   }
 
   @ApiOperation({ summary: 'Menghapus data wisata' })

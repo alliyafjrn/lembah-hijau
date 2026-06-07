@@ -38,3 +38,27 @@ export async function deleteWisata(id: number) {
 
   return response.json();
 }
+
+export async function updateWisata(
+  id: number,
+  nama: string,
+  deskripsi: string,
+  kategoriId: number,
+) {
+  const response = await fetch(
+    `http://localhost:3000/wisata/${id}`,
+    {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        nama,
+        deskripsi,
+        kategoriId,
+      }),
+    },
+  );
+
+  return response.json();
+}
