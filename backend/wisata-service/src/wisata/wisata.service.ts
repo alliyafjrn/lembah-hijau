@@ -70,7 +70,11 @@ export class WisataService {
 
   create(createWisataDto: CreateWisataDto) {
     return this.prisma.wisata.create({
-      data: createWisataDto,
+      data: {
+        nama: createWisataDto.nama,
+        deskripsi: createWisataDto.deskripsi,
+        kategoriId: Number(createWisataDto.kategoriId),
+      },
     });
   }
 
@@ -82,7 +86,11 @@ export class WisataService {
 
     return this.prisma.wisata.update({
       where: { id },
-      data: createWisataDto,
+      data: {
+        nama: createWisataDto.nama,
+        deskripsi: createWisataDto.deskripsi,
+        kategoriId: Number(createWisataDto.kategoriId),
+      },
     });
   }
 

@@ -139,11 +139,7 @@ export class AppController {
   @Post('wisata')
   async createWisata(
     @Body() body: any,
-    @Headers('authorization')
-    token: string,
   ) {
-    await this.verifyToken(token);
-
     const response = await firstValueFrom(
       this.httpService.post(
         'http://localhost:3002/wisata',
@@ -160,11 +156,7 @@ export class AppController {
   async updateWisata(
     @Param('id') id: string,
     @Body() body: any,
-    @Headers('authorization')
-    token: string,
   ) {
-    await this.verifyToken(token);
-
     const response = await firstValueFrom(
       this.httpService.put(
         `http://localhost:3002/wisata/${id}`,
@@ -180,11 +172,7 @@ export class AppController {
   @Delete('wisata/:id')
   async deleteWisata(
     @Param('id') id: string,
-    @Headers('authorization')
-    token: string,
   ) {
-    await this.verifyToken(token);
-
     const response = await firstValueFrom(
       this.httpService.delete(
         `http://localhost:3002/wisata/${id}`,
