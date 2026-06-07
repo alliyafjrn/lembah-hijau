@@ -2,7 +2,6 @@ export async function getKategori() {
   const response = await fetch(
     "http://localhost:3000/kategori"
   );
-
   return response.json();
 }
 
@@ -20,7 +19,6 @@ export async function createKategori(nama: string) {
       }),
     }
   );
-
   return response.json();
 }
 
@@ -32,11 +30,10 @@ export async function deleteKategori(id: number) {
       method: "DELETE",
     }
   );
-
   return response.json();
 }
 
-// 4. Update Kategori (Baru)
+// 4. Update Kategori
 export async function updateKategori(
   id: number,
   nama: string,
@@ -53,6 +50,5 @@ export async function updateKategori(
       }),
     }
   );
-
   return response.json();
 }
