@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Sidebar from "@/components/sidebar";
 import Navbar from "@/components/navbar";
-import { getWisata, createWisata } from "@/services/wisata";
+import { getWisata, createWisata, deleteWisata } from "@/services/wisata";
 import { getKategori } from "@/services/kategori";
 
 export default function WisataPage() {
@@ -44,6 +44,14 @@ export default function WisataPage() {
     setDeskripsi("");
     setKategoriId("");
 
+    loadWisata();
+  }
+
+  async function handleDelete(id: number) {
+    const confirmDelete = confirm("Yakin ingin menghapus wisata?");
+    if (!confirmDelete) return;
+
+    await deleteWisata(id);
     loadWisata();
   }
 
@@ -105,6 +113,7 @@ export default function WisataPage() {
                 <th className="border p-2 text-left w-16">ID</th>
                 <th className="border p-2 text-left w-1/3">Nama</th>
                 <th className="border p-2 text-left">Deskripsi</th>
+                <th className="border p-2 text-left w-24">Aksi</th>
               </tr>
             </thead>
 
@@ -115,11 +124,19 @@ export default function WisataPage() {
                     <td className="border p-2">{item.id}</td>
                     <td className="border p-2">{item.nama}</td>
                     <td className="border p-2">{item.deskripsi}</td>
+                    <td className="border p-2">
+                      <button
+                        onClick={() => handleDelete(item.id)}
+                        className="bg-red-600 text-white px-3 py-1 rounded"
+                      >
+                        Hapus
+                      </button>
+                    </td>
                   </tr>
                 ))
               ) : (
                 <tr>
-                  <td colSpan={3} className="border p-4 text-center text-gray-500">
+                  <td colSpan={4} className="border p-4 text-center text-gray-500">
                     Belum ada data wisata.
                   </td>
                 </tr>

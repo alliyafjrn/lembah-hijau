@@ -27,3 +27,14 @@ export async function createWisata(
 
   return response.json();
 }
+
+export async function deleteWisata(id: number) {
+  const response = await fetch(
+    `http://localhost:3000/wisata/${id}`,
+    {
+      method: "DELETE",
+    },
+  );
+
+  return response.json();
+}
