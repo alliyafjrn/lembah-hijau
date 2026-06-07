@@ -11,6 +11,7 @@ import {
 
 export default function KategoriPage() {
     const [kategori, setKategori] = useState<any[]>([]);
+    const [nama, setNama] = useState("");
 
     useEffect(() => {
         loadKategori();
@@ -20,6 +21,14 @@ export default function KategoriPage() {
         const response = await getKategori();
         console.log(response);
         setKategori(response.data);
+    }
+
+    async function handleSubmit() {
+        await createKategori(nama);
+
+        setNama("");
+
+        loadKategori();
     }
 
     async function handleDelete(id: number) {
@@ -45,6 +54,26 @@ export default function KategoriPage() {
                     <h1 className="text-3xl font-bold mb-5">
                         Data Kategori
                     </h1>
+
+                    {/* Form Input Sesuai Request */}
+                    <div className="mb-5 flex gap-2">
+                      <input
+                        type="text"
+                        placeholder="Nama Kategori"
+                        value={nama}
+                        onChange={(e) =>
+                          setNama(e.target.value)
+                        }
+                        className="border p-2 rounded"
+                      />
+
+                      <button
+                        onClick={handleSubmit}
+                        className="bg-green-700 text-white px-4 py-2 rounded"
+                      >
+                        Tambah
+                      </button>
+                    </div>
 
                     <table className="w-full border">
                         <thead>
