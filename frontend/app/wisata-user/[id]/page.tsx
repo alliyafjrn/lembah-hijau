@@ -1,0 +1,84 @@
+"use client";
+
+import { useEffect, useState } from "react";
+import { getWisataById } from "@/services/wisata";
+import Link from "next/link";
+
+export default function DetailWisataPage({ params }: { params: { id: string } }) {
+  const [wisata, setWisata] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    loadWisata();
+  }, []);
+
+  async function loadWisata() {
+    try {
+      const response = await getWisataById(Number(params.id));
+      console.log("Response Detail Wisata:", response);
+
+      // Mengantisipasi jika data dibungkus response.data atau langsung response
+      if (response && response.data) {
+        setWisata(response.data);
+      } else {
+        setWisata(response);
+      }
+    } catch (error) {
+      console.error("Gagal memuat detail wisata:", error);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-100">
+        <p className="text-xl text-gray-600 font-semibold animate-pulse">
+          Memuat detail wisata...
+        </p>
+      </div>
+    );
+  }
+
+  if (!wisata) {
+    return (
+      <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100 text-black">
+        <p className="text-xl font-semibold text-gray-600 mb-4">
+          Data wisata tidak ditemukan.
+        </p>
+        <Link href="/wisata-user" className="text-green-700 hover:underline">
+          ← Kembali ke Daftar Wisata
+        </Link>
+      </div>
+    );
+  }
+
+  return (
+    <div className="min-h-screen bg-gray-100 p-8 text-black">
+      <div className="max-w-3xl mx-auto">
+        {/* Tombol Kembali */}
+        <Link
+          href="/wisata-user"
+          className="inline-block mb-6 text-green-700 font-medium hover:text-green-800 transition"
+        >
+          ← Kembali ke Daftar Wisata
+        </Link>
+
+        {/* Konten Utama Detail */}
+        <div className="bg-white p-8 rounded-xl shadow-md border border-gray-200">
+          <h1 className="text-4xl font-bold text-green-700 mb-5">
+            {wisata.nama}
+          </h1>
+
+          <p className="text-lg text-gray-700 mb-6 leading-relaxed">
+            {wisata.deskripsi || "Tidak ada deskripsi lengkap mengenai tempat wisata ini."}
+          </p>
+
+          <div className="inline-block bg-green-50 text-green-800 px-4 py-2 rounded-lg border border-green-200 font-medium">
+            Kategori: {wisata.kategori?.nama || wisata.kategoriNama || "-"}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}

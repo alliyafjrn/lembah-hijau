@@ -59,3 +59,13 @@ method: "DELETE",
 
 return response.json();
 }
+
+export async function getWisataById(
+  id: number,
+) {
+  const response = await fetch(
+    `http://localhost:3000/wisata/${id}`
+  );
+
+  return response.json();
+}
