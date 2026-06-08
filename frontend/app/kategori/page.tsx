@@ -105,8 +105,8 @@ export default function KategoriPage() {
                         </div>
 
                         <div className="bg-white rounded shadow overflow-hidden">
-                            <table className="w-full border-collapse">
-                                <thead className="bg-green-700 text-white">
+                            <table className="w-full bg-white shadow-md rounded-lg overflow-hidden">
+                                <thead className="bg-green-700 text-black">
                                     <tr className="bg-gray-200">
                                         <th className="border-b p-3 text-left w-20">ID</th>
                                         <th className="border-b p-3 text-left">Nama Kategori</th>
@@ -117,7 +117,7 @@ export default function KategoriPage() {
                                 <tbody>
                                     {kategori && kategori.length > 0 ? (
                                         kategori.map((item) => (
-                                            <tr key={item.id} className="hover:bg-gray-50 border-b">
+                                            <tr key={item.id} className="hover:bg-gray-100">
                                                 <td className="p-3">{item.id}</td>
                                                 <td className="p-3">{item.nama}</td>
                                                 <td className="p-3 text-center">
