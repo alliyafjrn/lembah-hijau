@@ -72,8 +72,8 @@ export default function KategoriPage() {
         <div className="flex-1 flex flex-col">
           <Navbar />
 
-          <div className="p-6">
-            <h1 className="text-3xl font-bold mb-5">Data Kategori</h1>
+          <div className="p-8 bg-gray-100 min-h-screen">
+            <h1 className="text-3xl font-bold mb-6 text-green-700">Data Kategori</h1>
 
             <div className="mb-5 flex gap-2">
               <input
