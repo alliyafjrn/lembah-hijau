@@ -24,5 +24,6 @@ export class CreateWisataDto {
     example: 1,
   })
   @IsNumber()
+  @IsNotEmpty()
   kategoriId!: number;
 }
