@@ -1,5 +1,6 @@
 import Link from "next/link";
 import UserNavbar from "@/components/UserNavbar";
+import Footer from "@/components/Footer";
 
 export default function Home() {
   return (
@@ -28,6 +29,7 @@ export default function Home() {
           Admin
         </Link>
       </div>
+      <Footer />
     </main>
   );
 }

@@ -1,10 +1,11 @@
 import UserNavbar from "@/components/UserNavbar";
+import Footer from "@/components/Footer";
 
 export default function KontakPage() {
   return (
-    <div className="min-h-screen bg-gray-100">
+    <div className="min-h-screen bg-gray-100 flex flex-col">
       <UserNavbar />
-      <div className="max-w-5xl mx-auto bg-white p-8 rounded-lg shadow-md mt-10">
+      <div className="flex-grow max-w-5xl mx-auto bg-white p-8 rounded-lg shadow-md mt-10 w-full">
         <h1 className="text-4xl font-bold text-green-700 mb-6">
           Kontak
         </h1>
@@ -34,6 +35,7 @@ export default function KontakPage() {
           />
         </div>
       </div>
+      <Footer />
     </div>
   );
 }

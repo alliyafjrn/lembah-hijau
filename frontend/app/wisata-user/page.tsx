@@ -5,6 +5,7 @@ import { getWisata } from "@/services/wisata";
 import { getKategori } from "@/services/kategori";
 import Link from "next/link";
 import UserNavbar from "@/components/UserNavbar";
+import Footer from "@/components/Footer";
 
 export default function WisataUserPage() {
   const [wisata, setWisata] = useState<any[]>([]);
@@ -55,13 +56,18 @@ export default function WisataUserPage() {
   }
 
   return (
-    <div style={{ backgroundColor: "#f8fafc", minHeight: "100vh", fontFamily: "sans-serif", boxSizing: "border-box", width: "100%" }}>
+    <div style={{ 
+      backgroundColor: "#f8fafc", 
+      minHeight: "100vh", 
+      fontFamily: "sans-serif", 
+      display: "flex", 
+      flexDirection: "column" 
+    }}>
       <UserNavbar />
       
-      {/* Pembatas Lebar Maksimal Layar Laptop */}
-      <div style={{ maxWidth: "1000px", margin: "0 auto", width: "100%", padding: "40px 20px" }}>
+      {/* Konten utama dengan flexGrow: 1 agar mendorong footer ke bawah */}
+      <div style={{ flexGrow: 1, maxWidth: "1000px", margin: "0 auto", width: "100%", padding: "40px 20px" }}>
         
-        {/* Judul Atas */}
         <div style={{ textAlign: "center", marginBottom: "30px" }}>
           <h1 style={{ fontSize: "28px", fontWeight: "800", color: "#15803d", margin: "0 0 6px 0" }}>
             Daftar Wisata Lembah Hijau
@@ -71,7 +77,6 @@ export default function WisataUserPage() {
           </p>
         </div>
 
-        {/* Input Pencarian */}
         <div style={{ maxWidth: "400px", margin: "0 auto 24px auto" }}>
           <input
             type="text"
@@ -91,7 +96,6 @@ export default function WisataUserPage() {
           />
         </div>
 
-        {/* Tombol Filter Kategori */}
         <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: "8px", marginBottom: "35px" }}>
           <button
             onClick={() => setSelectedKategori(null)}
@@ -128,7 +132,6 @@ export default function WisataUserPage() {
           ))}
         </div>
 
-        {/* PROSES PAKSA GRID 3 KOLOM KE SAMPING */}
         {wisata && wisata.length > 0 ? (
           <div style={{ 
             display: "grid", 
@@ -148,14 +151,12 @@ export default function WisataUserPage() {
                     backgroundColor: "#ffffff", 
                     borderRadius: "16px", 
                     overflow: "hidden", 
-                    boxShadow: "0 4px 6px -1px rgba(0,0,0,0.05), 0 2px 4px -1px rgba(0,0,0,0.03)",
+                    boxShadow: "0 4px 6px -1px rgba(0,0,0,0.05)",
                     border: "1px solid #f1f5f9",
                     display: "flex",
                     flexDirection: "column",
                     height: "100%"
                   }}>
-                    
-                    {/* FOTO DIPAKSA MENGECIL (Tinggi cuma 140px) */}
                     <div style={{ width: "100%", height: "140px", backgroundColor: "#f1f5f9" }}>
                       <img
                         src={item.gambar || "https://placehold.co/600x400"}
@@ -163,38 +164,17 @@ export default function WisataUserPage() {
                         style={{ width: "100%", height: "100%", objectFit: "cover" }}
                       />
                     </div>
-
-                    {/* Deskripsi Teks */}
                     <div style={{ padding: "16px", display: "flex", flexDirection: "column", flexGrow: 1 }}>
                       <h2 style={{ fontSize: "16px", fontWeight: "700", color: "#0f172a", margin: "0 0 6px 0" }}>
                         {item.nama}
                       </h2>
-                      <p style={{ 
-                        fontSize: "13px", 
-                        color: "#64748b", 
-                        margin: "0 0 16px 0", 
-                        lineHeight: "1.5",
-                        display: "-webkit-box",
-                        WebkitLineClamp: 2,
-                        WebkitBoxOrient: "vertical",
-                        overflow: "hidden",
-                        flexGrow: 1
-                      }}>
+                      <p style={{ fontSize: "13px", color: "#64748b", margin: "0 0 16px 0", lineHeight: "1.5", display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden", flexGrow: 1 }}>
                         {item.deskripsi || "Tidak ada deskripsi singkat."}
                       </p>
-                      
-                      <div style={{ 
-                        paddingTop: "12px", 
-                        borderTop: "1px solid #f1f5f9", 
-                        fontSize: "11px", 
-                        fontWeight: "700", 
-                        color: "#15803d", 
-                        textTransform: "uppercase"
-                      }}>
+                      <div style={{ paddingTop: "12px", borderTop: "1px solid #f1f5f9", fontSize: "11px", fontWeight: "700", color: "#15803d", textTransform: "uppercase" }}>
                         Lihat Detail ➔
                       </div>
                     </div>
-
                   </div>
                 </Link>
               ))}
@@ -205,6 +185,8 @@ export default function WisataUserPage() {
           </div>
         )}
       </div>
+      
+      <Footer />
     </div>
   );
 }
