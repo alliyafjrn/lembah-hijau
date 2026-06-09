@@ -8,14 +8,36 @@ import ProtectedRoute from "@/components/ProtectedRoute";
 import { getKategori } from "@/services/kategori";
 import { getWisata } from "@/services/wisata";
 
+
 export default function DashboardPage() {
   const [totalKategori, setTotalKategori] = useState(0);
   const [totalWisata, setTotalWisata] = useState(0);
   const [loading, setLoading] = useState(true);
 
+
   useEffect(() => {
     loadStatistik();
   }, []);
+
+  useEffect(() => {
+    loadDashboard();
+  }, []);
+
+  async function loadDashboard() {
+    const kategoriResponse =
+      await getKategori();
+
+    const wisataResponse =
+      await getWisata();
+
+    setTotalKategori(
+      kategoriResponse.data.length
+    );
+
+    setTotalWisata(
+      wisataResponse.data.length
+    );
+  }
 
   async function loadStatistik() {
     try {
@@ -39,14 +61,14 @@ export default function DashboardPage() {
 
   return (
     <ProtectedRoute>
-      <div style={{ 
-        display: "flex", 
-        minHeight: "100vh", 
-        backgroundColor: "#f9fafb", 
+      <div style={{
+        display: "flex",
+        minHeight: "100vh",
+        backgroundColor: "#f9fafb",
         fontFamily: "sans-serif",
         flexDirection: "row" // Default desktop
       }}>
-        
+
         {/* Sidebar - Menggunakan media query via CSS atau class Tailwind jika memungkinkan, 
             namun di sini kita gunakan inline flex agar fleksibel */}
         <div style={{ display: "flex" }}>
@@ -54,17 +76,17 @@ export default function DashboardPage() {
         </div>
 
         {/* Konten Utama */}
-        <div style={{ 
-          flex: 1, 
-          display: "flex", 
+        <div style={{
+          flex: 1,
+          display: "flex",
           flexDirection: "column",
           minWidth: 0 // Penting agar konten tidak meluap
         }}>
-          
+
           <Navbar />
-          
+
           <div style={{ padding: "40px 32px", boxSizing: "border-box" }}>
-            
+
             <div style={{ marginBottom: "32px" }}>
               <h1 style={{ fontSize: "28px", fontWeight: "700", color: "#1f2937", margin: "0 0 6px 0" }}>
                 Dashboard Ringkasan
@@ -73,57 +95,24 @@ export default function DashboardPage() {
                 Selamat datang kembali, Admin! Berikut adalah data statistik terbaru kawasan Lembah Hijau.
               </p>
             </div>
-            
+
             {/* Grid Card Statistik - Responsif dengan flex-wrap */}
-            <div style={{
-              display: "flex",
-              gap: "24px",
-              flexWrap: "wrap",
-              marginBottom: "40px"
-            }}>
+            <div className="grid md:grid-cols-2 gap-5 mb-10">
               
-              <div style={{
-                flex: "1 1 250px",
-                backgroundColor: "#fff",
-                border: "1px solid #e5e7eb",
-                borderRadius: "16px",
-                padding: "24px",
-                boxShadow: "0 4px 6px -1px rgba(0,0,0,0.05)",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "space-between"
-              }}>
-                <div>
-                  <h2 style={{ fontSize: "13px", fontWeight: "600", color: "#9ca3af", margin: "0 0 6px 0", textTransform: "uppercase" }}>
-                    Total Kategori
-                  </h2>
-                  <p style={{ fontSize: "36px", fontWeight: "800", color: "#15803d", margin: 0 }}>
-                    {loading ? "..." : totalKategori}
-                  </p>
-                </div>
+              <div className="bg-white p-6 rounded-lg shadow">
+                <h2 className="text-gray-500">Total Kategori</h2>
+                <p className="text-4xl font-bold text-green-700">
+                  {loading ? "..." : totalKategori}
+                  
+                </p>
               </div>
 
-              <div style={{
-                flex: "1 1 250px",
-                backgroundColor: "#fff",
-                border: "1px solid #e5e7eb",
-                borderRadius: "16px",
-                padding: "24px",
-                boxShadow: "0 4px 6px -1px rgba(0,0,0,0.05)",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "space-between"
-              }}>
-                <div>
-                  <h2 style={{ fontSize: "13px", fontWeight: "600", color: "#9ca3af", margin: "0 0 6px 0", textTransform: "uppercase" }}>
-                    Total Wisata
-                  </h2>
-                  <p style={{ fontSize: "36px", fontWeight: "800", color: "#15803d", margin: 0 }}>
-                    {loading ? "..." : totalWisata}
-                  </p>
-                </div>
+              <div className="bg-white p-6 rounded-lg shadow">
+                <h2 className="text-gray-500">Total Wisata</h2>
+                <p className="text-4xl font-bold text-blue-700">
+                  {loading ? "..." : totalWisata}
+                </p>
               </div>
-
             </div>
 
             {/* Quick Menu */}
