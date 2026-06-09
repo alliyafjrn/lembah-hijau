@@ -76,94 +76,133 @@ export default function WisataPage() {
 
   return (
     <ProtectedRoute>
-      <div className="flex">
+      <div style={{ display: "flex", minHeight: "100vh", backgroundColor: "#f8fafc", fontFamily: "sans-serif", color: "#334155", width: "100%" }}>
+        
         <Sidebar />
-        <div className="flex-1">
+        
+        <div style={{ flex: 1, display: "flex", flexDirection: "column", minWidth: 0, width: "100%" }}>
           <Navbar />
-          <div className="p-6">
-            <h1 className="text-3xl font-bold mb-5">Data Wisata</h1>
-            <div className="mb-5 flex flex-col gap-2 max-w-md">
-              <input
-                type="text"
-                placeholder="Nama Wisata"
-                value={nama}
-                onChange={(e) => setNama(e.target.value)}
-                className="border p-2 rounded text-black"
-              />
-              <textarea
-                placeholder="Deskripsi Wisata"
-                value={deskripsi}
-                onChange={(e) => setDeskripsi(e.target.value)}
-                className="border p-2 rounded text-black"
-                rows={2}
-              />
-              <select
-                value={kategoriId}
-                onChange={(e) => setKategoriId(e.target.value)}
-                className="border p-2 rounded text-black"
-              >
-                <option value="">Pilih Kategori</option>
-                {kategori.map((item) => (
-                  <option key={item.id} value={item.id}>
-                    {item.nama}
-                  </option>
-                ))}
-              </select>
-              <input
-                type="text"
-                placeholder="URL Gambar"
-                value={gambar}
-                onChange={(e) => setGambar(e.target.value)}
-                className="border p-2 rounded text-black"
-              />
-              <button
-                onClick={handleSubmit}
-                className="bg-green-700 text-white px-4 py-2 rounded font-semibold mt-1"
-              >
-                {editId ? "Update" : "Tambah"}
-              </button>
-            </div>
-            <table className="w-full border">
-              <thead>
-                <tr className="bg-gray-100 text-black">
-                  <th className="border p-2 text-left w-16">ID</th>
-                  <th className="border p-2 text-left w-1/3">Nama</th>
-                  <th className="border p-2 text-left">Deskripsi</th>
-                  <th className="border p-2 text-left w-44">Aksi</th>
-                </tr>
-              </thead>
-              <tbody>
-                {wisata && wisata.length > 0 ? (
-                  wisata.map((item) => (
-                    <tr key={item.id}>
-                      <td className="border p-2">{item.id}</td>
-                      <td className="border p-2">{item.nama}</td>
-                      <td className="border p-2">{item.deskripsi}</td>
-                      <td className="border p-2">
-                        <button
-                          onClick={() => handleEdit(item)}
-                          className="bg-blue-600 text-white px-3 py-1 rounded mr-2"
-                        >
-                          Edit
-                        </button>
-                        <button
-                          onClick={() => handleDelete(item.id)}
-                          className="bg-red-600 text-white px-3 py-1 rounded"
-                        >
-                          Hapus
-                        </button>
-                      </td>
+          
+          <div style={{ padding: "24px", flexGrow: 1 }}>
+            <h1 style={{ fontSize: "24px", fontWeight: "750", marginBottom: "20px", color: "#1e293b" }}>Data Wisata</h1>
+            
+            {/* Menggunakan Grid murni: Form di kiri (1 bagian), Tabel di kanan (2 bagian) */}
+            <div style={{ display: "grid", gridTemplateColumns: "320px 1fr", gap: "24px", alignItems: "start", width: "100%" }}>
+              
+              {/* SISI KIRI: Form Input */}
+              <div style={{ backgroundColor: "#ffffff", padding: "20px", borderRadius: "12px", border: "1px solid #e2e8f0", boxShadow: "0 1px 3px rgba(0,0,0,0.05)", display: "flex", flexDirection: "column", gap: "12px" }}>
+                <span style={{ fontSize: "14px", fontWeight: "700", color: "#15803d" }}>
+                  {editId ? "✏️ Edit Destinasi" : "➕ Tambah Destinasi"}
+                </span>
+                
+                <input
+                  type="text"
+                  placeholder="Nama Wisata"
+                  value={nama}
+                  onChange={(e) => setNama(e.target.value)}
+                  style={{ width: "100%", padding: "10px", border: "1px solid #cbd5e1", borderRadius: "8px", fontSize: "13px", boxSizing: "border-box", outline: "none", backgroundColor: "#ffffff", color: "#000000" }}
+                />
+                
+                <textarea
+                  placeholder="Deskripsi Wisata"
+                  value={deskripsi}
+                  onChange={(e) => setDeskripsi(e.target.value)}
+                  rows={3}
+                  style={{ width: "100%", padding: "10px", border: "1px solid #cbd5e1", borderRadius: "8px", fontSize: "13px", boxSizing: "border-box", outline: "none", fontFamily: "sans-serif", backgroundColor: "#ffffff", color: "#000000" }}
+                />
+                
+                <select
+                  value={kategoriId}
+                  onChange={(e) => setKategoriId(e.target.value)}
+                  style={{ width: "100%", padding: "10px", border: "1px solid #cbd5e1", borderRadius: "8px", fontSize: "13px", boxSizing: "border-box", outline: "none", backgroundColor: "#ffffff", color: "#000000" }}
+                >
+                  <option value="">Pilih Kategori</option>
+                  {kategori.map((item) => (
+                    <option key={item.id} value={item.id}>
+                      {item.nama}
+                    </option>
+                  ))}
+                </select>
+                
+                <input
+                  type="text"
+                  placeholder="URL Gambar"
+                  value={gambar}
+                  onChange={(e) => setGambar(e.target.value)}
+                  style={{ width: "100%", padding: "10px", border: "1px solid #cbd5e1", borderRadius: "8px", fontSize: "13px", boxSizing: "border-box", outline: "none", backgroundColor: "#ffffff", color: "#000000" }}
+                />
+                
+                <div style={{ display: "flex", gap: "8px", marginTop: "4px" }}>
+                  <button
+                    onClick={handleSubmit}
+                    style={{ flex: 1, backgroundColor: "#15803d", color: "#ffffff", border: "none", padding: "10px", borderRadius: "8px", fontSize: "13px", fontWeight: "600", cursor: "pointer" }}
+                  >
+                    {editId ? "Update" : "Simpan"}
+                  </button>
+                  {editId && (
+                    <button
+                      onClick={() => {
+                        setEditId(null);
+                        setNama("");
+                        setDeskripsi("");
+                        setKategoriId("");
+                        setGambar("");
+                      }}
+                      style={{ backgroundColor: "#94a3b8", color: "#ffffff", border: "none", padding: "10px", borderRadius: "8px", fontSize: "13px", fontWeight: "600", cursor: "pointer" }}
+                    >
+                      Batal
+                    </button>
+                  )}
+                </div>
+              </div>
+
+              {/* SISI KANAN: Tabel Data */}
+              <div style={{ backgroundColor: "#ffffff", borderRadius: "12px", border: "1px solid #e2e8f0", boxShadow: "0 1px 3px rgba(0,0,0,0.05)", overflow: "hidden" }}>
+                <table style={{ width: "100%", borderCollapse: "collapse", textAlign: "left", fontSize: "13px" }}>
+                  <thead>
+                    <tr style={{ backgroundColor: "#f1f5f9", borderBottom: "1px solid #e2e8f0", color: "#475569" }}>
+                      <th style={{ padding: "12px 16px", fontWeight: "600", width: "60px" }}>ID</th>
+                      <th style={{ padding: "12px 16px", fontWeight: "600", width: "200px" }}>Nama</th>
+                      <th style={{ padding: "12px 16px", fontWeight: "600" }}>Deskripsi</th>
+                      <th style={{ padding: "12px 16px", fontWeight: "600", width: "150px", textAlign: "center" }}>Aksi</th>
                     </tr>
-                  ))
-                ) : (
-                  <tr>
-                    <td colSpan={4} className="border p-4 text-center text-gray-500">
-                      Belum ada data wisata.
-                    </td>
-                  </tr>
-                )}
-              </tbody>
-            </table>
+                  </thead>
+                  <tbody>
+                    {wisata && wisata.length > 0 ? (
+                      wisata.map((item) => (
+                        <tr key={item.id} style={{ borderBottom: "1px solid #f1f5f9" }}>
+                          <td style={{ padding: "12px 16px", color: "#64748b" }}>{item.id}</td>
+                          <td style={{ padding: "12px 16px", fontWeight: "600", color: "#0f172a" }}>{item.nama}</td>
+                          <td style={{ padding: "12px 16px", color: "#475569", lineHeight: "1.5" }}>{item.deskripsi}</td>
+                          <td style={{ padding: "12px 16px", textAlign: "center", whiteSpace: "nowrap" }}>
+                            <button
+                              onClick={() => handleEdit(item)}
+                              style={{ backgroundColor: "#3b82f6", color: "#ffffff", border: "none", padding: "6px 12px", borderRadius: "6px", fontSize: "12px", fontWeight: "500", cursor: "pointer", marginRight: "6px" }}
+                            >
+                              Edit
+                            </button>
+                            <button
+                              onClick={() => handleDelete(item.id)}
+                              style={{ backgroundColor: "#ef4444", color: "#ffffff", border: "none", padding: "6px 12px", borderRadius: "6px", fontSize: "12px", fontWeight: "500", cursor: "pointer" }}
+                            >
+                              Hapus
+                            </button>
+                          </td>
+                        </tr>
+                      ))
+                    ) : (
+                      <tr>
+                        <td colSpan={4} style={{ padding: "32px", textAlign: "center", color: "#94a3b8" }}>
+                          Belum ada data wisata yang tersedia.
+                        </td>
+                      </tr>
+                    )}
+                  </tbody>
+                </table>
+              </div>
+
+            </div>
+
           </div>
         </div>
       </div>
