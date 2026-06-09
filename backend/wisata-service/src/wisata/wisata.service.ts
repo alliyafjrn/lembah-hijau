@@ -73,7 +73,9 @@ export class WisataService {
       data: {
         nama: createWisataDto.nama,
         deskripsi: createWisataDto.deskripsi,
+        lokasi: "Default Lokasi", // Field wajib di database
         kategoriId: Number(createWisataDto.kategoriId),
+        gambar: createWisataDto.gambar || null,
       },
     });
   }
@@ -89,7 +91,9 @@ export class WisataService {
       data: {
         nama: createWisataDto.nama,
         deskripsi: createWisataDto.deskripsi,
+        lokasi: "Default Lokasi",
         kategoriId: Number(createWisataDto.kategoriId),
+        gambar: createWisataDto.gambar || null,
       },
     });
   }

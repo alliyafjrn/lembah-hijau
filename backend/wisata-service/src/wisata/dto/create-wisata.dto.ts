@@ -2,6 +2,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import {
   IsNotEmpty,
   IsNumber,
+  IsOptional,
   IsString,
 } from 'class-validator';
 
@@ -26,4 +27,12 @@ export class CreateWisataDto {
   @IsNumber()
   @IsNotEmpty()
   kategoriId!: number;
+
+  @ApiProperty({
+    example: 'gambar.jpg',
+    required: false,
+  })
+  @IsString()
+  @IsOptional()
+  gambar?: string;
 }
