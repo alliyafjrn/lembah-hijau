@@ -23,7 +23,6 @@ export default function KategoriPage() {
     async function loadKategori() {
         try {
             const response = await getKategori();
-            // Menyesuaikan jika response dari backend dibungkus { data: [...] } atau langsung array
             setKategori(response.data || response);
         } catch (error) {
             console.error("Gagal memuat kategori:", error);
@@ -81,12 +80,12 @@ export default function KategoriPage() {
                                 placeholder="Nama Kategori"
                                 value={nama}
                                 onChange={(e) => setNama(e.target.value)}
-                                className="borderp-3rounded-lg text- -white shadow-sm w-80"
+                                className="border p-3 rounded-lg text-black shadow-sm w-80"
                             />
 
                             <button
                                 onClick={handleSubmit}
-                                className="bg-green-700 hover:bg-green-800 text-white px-5 py-3 rounded-lg "
+                                className="bg-green-700 hover:bg-green-800 text-white px-5 py-3 rounded-lg"
                             >
                                 {editId ? "Update" : "Tambah"}
                             </button>
@@ -106,8 +105,8 @@ export default function KategoriPage() {
 
                         <div className="bg-white rounded shadow overflow-hidden">
                             <table className="w-full bg-white shadow-md rounded-lg overflow-hidden">
-                                <thead className="bg-green-700 text-black">
-                                    <tr className="bg-gray-200">
+                                <thead className="bg-gray-200">
+                                    <tr>
                                         <th className="border-b p-3 text-left w-20">ID</th>
                                         <th className="border-b p-3 text-left">Nama Kategori</th>
                                         <th className="border-b p-3 text-center w-48">Aksi</th>
@@ -118,9 +117,9 @@ export default function KategoriPage() {
                                     {kategori && kategori.length > 0 ? (
                                         kategori.map((item) => (
                                             <tr key={item.id} className="hover:bg-gray-100">
-                                                <td className="p-3">{item.id}</td>
-                                                <td className="p-3">{item.nama}</td>
-                                                <td className="p-3 text-center">
+                                                <td className="p-3 border-b">{item.id}</td>
+                                                <td className="p-3 border-b">{item.nama}</td>
+                                                <td className="p-3 text-center border-b">
                                                     <button
                                                         onClick={() => handleEdit(item)}
                                                         className="bg-blue-500 text-white px-3 py-1 rounded mr-2 hover:bg-blue-600 transition"
