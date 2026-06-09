@@ -1,30 +1,33 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, use } from "react";
 import { getWisataById } from "@/services/wisata";
 import Link from "next/link";
 
-export default function DetailWisataPage({ params }: { params: { id: string } }) {
+export default function DetailWisataPage({ params }: { params: Promise<{ id: string }> }) {
   const [wisata, setWisata] = useState<any>(null);
   const [loading, setLoading] = useState(true);
 
+  const resolvedParams = use(params);
+  const id = resolvedParams.id;
+
   useEffect(() => {
-    loadWisata();
-  }, []);
+    if (id) {
+      loadWisata(Number(id));
+    }
+  }, [id]);
 
-  async function loadWisata() {
+  async function loadWisata(wisataId: number) {
     try {
-      const response = await getWisataById(Number(params.id));
-      console.log("Response Detail Wisata:", response);
+      const response = await getWisataById(wisataId);
 
-      // Mengantisipasi jika data dibungkus response.data atau langsung response
       if (response && response.data) {
         setWisata(response.data);
       } else {
         setWisata(response);
       }
     } catch (error) {
-      console.error("Gagal memuat detail wisata:", error);
+      console.error(error);
     } finally {
       setLoading(false);
     }
@@ -56,7 +59,6 @@ export default function DetailWisataPage({ params }: { params: { id: string } })
   return (
     <div className="min-h-screen bg-gray-100 p-8 text-black">
       <div className="max-w-3xl mx-auto">
-        {/* Tombol Kembali */}
         <Link
           href="/wisata-user"
           className="inline-block mb-6 text-green-700 font-medium hover:text-green-800 transition"
@@ -64,7 +66,6 @@ export default function DetailWisataPage({ params }: { params: { id: string } })
           ← Kembali ke Daftar Wisata
         </Link>
 
-        {/* Konten Utama Detail */}
         <div className="bg-white p-8 rounded-xl shadow-md border border-gray-200">
           <h1 className="text-4xl font-bold text-green-700 mb-5">
             {wisata.nama}

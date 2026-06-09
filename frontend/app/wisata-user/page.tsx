@@ -6,6 +6,7 @@ import Link from "next/link";
 
 export default function WisataUserPage() {
   const [wisata, setWisata] = useState<any[]>([]);
+  const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -17,7 +18,6 @@ export default function WisataUserPage() {
       const response = await getWisata();
       console.log("Cek struktur data API Wisata:", response);
 
-      // Antisipasi segala jenis bentuk pembungkusan array dari backend
       if (response && Array.isArray(response.data)) {
         setWisata(response.data);
       } else if (response && Array.isArray(response.result)) {
@@ -50,24 +50,36 @@ export default function WisataUserPage() {
         Daftar Wisata Lembah Hijau
       </h1>
 
+      <input
+        type="text"
+        placeholder="Cari wisata..."
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}
+        className="border p-3 rounded-lg bg-white mb-6 w-full"
+      />
+
       {wisata && wisata.length > 0 ? (
         <div className="grid md:grid-cols-3 gap-5">
-          {wisata.map((item: any) => (
-            <Link 
-              href={`/wisata-user/${item.id}`} 
-              key={item.id} 
-              className="block"
-            >
-              <div className="bg-white p-5 rounded-lg shadow-md hover:shadow-xl transition h-full border border-gray-200">
-                <h2 className="text-xl font-bold mb-2 text-green-800">
-                  {item.nama}
-                </h2>
-                <p className="text-gray-600 line-clamp-3">
-                  {item.deskripsi || "Tidak ada deskripsi."}
-                </p>
-              </div>
-            </Link>
-          ))}
+          {wisata
+            .filter((item) =>
+              item.nama.toLowerCase().includes(search.toLowerCase())
+            )
+            .map((item: any) => (
+              <Link
+                href={`/wisata-user/${item.id}`}
+                key={item.id}
+                className="block"
+              >
+                <div className="bg-white p-5 rounded-lg shadow-md hover:shadow-xl transition h-full border border-gray-200">
+                  <h2 className="text-xl font-bold mb-2 text-green-800">
+                    {item.nama}
+                  </h2>
+                  <p className="text-gray-600 line-clamp-3">
+                    {item.deskripsi || "Tidak ada deskripsi."}
+                  </p>
+                </div>
+              </Link>
+            ))}
         </div>
       ) : (
         <div className="text-center py-12 bg-white rounded-xl shadow border border-gray-200">

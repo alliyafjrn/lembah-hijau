@@ -36,26 +36,22 @@ export default function WisataPage() {
       return;
     }
 
+    const payload = {
+      nama,
+      deskripsi,
+      kategoriId: Number(kategoriId),
+    };
+
     if (editId) {
-      await updateWisata(
-        editId,
-        nama,
-        deskripsi,
-        Number(kategoriId),
-      );
+      await updateWisata(editId, payload);
       setEditId(null);
     } else {
-      await createWisata(
-        nama,
-        deskripsi,
-        Number(kategoriId)
-      );
+      await createWisata(payload);
     }
 
     setNama("");
     setDeskripsi("");
     setKategoriId("");
-
     loadWisata();
   }
 
@@ -78,16 +74,10 @@ export default function WisataPage() {
     <ProtectedRoute>
       <div className="flex">
         <Sidebar />
-
         <div className="flex-1">
           <Navbar />
-
           <div className="p-6">
-            <h1 className="text-3xl font-bold mb-5">
-              Data Wisata
-            </h1>
-
-            {/* Form Input Komponen */}
+            <h1 className="text-3xl font-bold mb-5">Data Wisata</h1>
             <div className="mb-5 flex flex-col gap-2 max-w-md">
               <input
                 type="text"
@@ -96,7 +86,6 @@ export default function WisataPage() {
                 onChange={(e) => setNama(e.target.value)}
                 className="border p-2 rounded text-black"
               />
-
               <textarea
                 placeholder="Deskripsi Wisata"
                 value={deskripsi}
@@ -104,7 +93,6 @@ export default function WisataPage() {
                 className="border p-2 rounded text-black"
                 rows={2}
               />
-
               <select
                 value={kategoriId}
                 onChange={(e) => setKategoriId(e.target.value)}
@@ -117,7 +105,6 @@ export default function WisataPage() {
                   </option>
                 ))}
               </select>
-
               <button
                 onClick={handleSubmit}
                 className="bg-green-700 text-white px-4 py-2 rounded font-semibold mt-1"
@@ -125,8 +112,6 @@ export default function WisataPage() {
                 {editId ? "Update" : "Tambah"}
               </button>
             </div>
-
-            {/* Tabel Komponen */}
             <table className="w-full border">
               <thead>
                 <tr className="bg-gray-100 text-black">
@@ -136,7 +121,6 @@ export default function WisataPage() {
                   <th className="border p-2 text-left w-44">Aksi</th>
                 </tr>
               </thead>
-
               <tbody>
                 {wisata && wisata.length > 0 ? (
                   wisata.map((item) => (
