@@ -66,7 +66,7 @@ export default function WisataUserPage() {
       <UserNavbar />
       
       {/* Konten utama dengan flexGrow: 1 agar mendorong footer ke bawah */}
-      <div style={{ flexGrow: 1, maxWidth: "1000px", margin: "0 auto", width: "100%", padding: "40px 20px" }}>
+      <main style={{ flexGrow: 1, maxWidth: "1000px", margin: "0 auto", width: "100%", padding: "40px 20px", boxSizing: "border-box" }}>
         
         <div style={{ textAlign: "center", marginBottom: "30px" }}>
           <h1 style={{ fontSize: "28px", fontWeight: "800", color: "#15803d", margin: "0 0 6px 0" }}>
@@ -132,6 +132,7 @@ export default function WisataUserPage() {
           ))}
         </div>
 
+        {/* DIUBAH KE STYLE MURNI: Memaksa Layout Menjadi Tepat 3 Kolom Ke Samping */}
         {wisata && wisata.length > 0 ? (
           <div style={{ 
             display: "grid", 
@@ -157,24 +158,47 @@ export default function WisataUserPage() {
                     flexDirection: "column",
                     height: "100%"
                   }}>
-                    <div style={{ width: "100%", height: "140px", backgroundColor: "#f1f5f9" }}>
+                    
+                    {/* Wadah foto dikunci pendek (135px), gambar otomatis menyesuaikan lebar card */}
+                    <div style={{ width: "100%", height: "135px", backgroundColor: "#f1f5f9" }}>
                       <img
                         src={item.gambar || "https://placehold.co/600x400"}
                         alt={item.nama}
                         style={{ width: "100%", height: "100%", objectFit: "cover" }}
                       />
                     </div>
+
+                    {/* Deskripsi Teks */}
                     <div style={{ padding: "16px", display: "flex", flexDirection: "column", flexGrow: 1 }}>
                       <h2 style={{ fontSize: "16px", fontWeight: "700", color: "#0f172a", margin: "0 0 6px 0" }}>
                         {item.nama}
                       </h2>
-                      <p style={{ fontSize: "13px", color: "#64748b", margin: "0 0 16px 0", lineHeight: "1.5", display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden", flexGrow: 1 }}>
+                      <p style={{ 
+                        fontSize: "13px", 
+                        color: "#64748b", 
+                        margin: "0 0 16px 0", 
+                        lineHeight: "1.5",
+                        display: "-webkit-box",
+                        WebkitLineClamp: 2,
+                        WebkitBoxOrient: "vertical",
+                        overflow: "hidden",
+                        flexGrow: 1
+                      }}>
                         {item.deskripsi || "Tidak ada deskripsi singkat."}
                       </p>
-                      <div style={{ paddingTop: "12px", borderTop: "1px solid #f1f5f9", fontSize: "11px", fontWeight: "700", color: "#15803d", textTransform: "uppercase" }}>
+                      
+                      <div style={{ 
+                        paddingTop: "12px", 
+                        borderTop: "1px solid #f1f5f9", 
+                        fontSize: "11px", 
+                        fontWeight: "700", 
+                        color: "#15803d", 
+                        textTransform: "uppercase"
+                      }}>
                         Lihat Detail ➔
                       </div>
                     </div>
+
                   </div>
                 </Link>
               ))}
@@ -184,7 +208,7 @@ export default function WisataUserPage() {
             <p style={{ color: "#64748b", fontSize: "14px", margin: 0 }}>Belum ada data wisata yang tersedia.</p>
           </div>
         )}
-      </div>
+      </main>
       
       <Footer />
     </div>
