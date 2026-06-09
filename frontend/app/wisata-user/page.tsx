@@ -2,22 +2,24 @@
 
 import { useEffect, useState } from "react";
 import { getWisata } from "@/services/wisata";
+import { getKategori } from "@/services/kategori";
 import Link from "next/link";
 
 export default function WisataUserPage() {
   const [wisata, setWisata] = useState<any[]>([]);
   const [search, setSearch] = useState("");
+  const [selectedKategori, setSelectedKategori] = useState<number | null>(null);
+  const [kategori, setKategori] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     loadWisata();
+    loadKategori();
   }, []);
 
   async function loadWisata() {
     try {
       const response = await getWisata();
-      console.log("Cek struktur data API Wisata:", response);
-
       if (response && Array.isArray(response.data)) {
         setWisata(response.data);
       } else if (response && Array.isArray(response.result)) {
@@ -32,6 +34,11 @@ export default function WisataUserPage() {
     } finally {
       setLoading(false);
     }
+  }
+
+  async function loadKategori() {
+    const response = await getKategori();
+    setKategori(response.data || []);
   }
 
   if (loading) {
@@ -55,23 +62,55 @@ export default function WisataUserPage() {
         placeholder="Cari wisata..."
         value={search}
         onChange={(e) => setSearch(e.target.value)}
-        className="border p-3 rounded-lg bg-white mb-6 w-full"
+        className="border border-gray-300 p-3 rounded-xl bg-white mb-6 w-full shadow-sm focus:ring-2 focus:ring-green-500 outline-none"
       />
 
+      <div className="flex flex-wrap gap-3 mb-8">
+        <button
+          onClick={() => setSelectedKategori(null)}
+          className={`px-5 py-2.5 rounded-full font-medium transition-all ${
+            selectedKategori === null
+              ? "bg-green-700 text-white shadow-lg scale-105"
+              : "bg-white text-gray-700 border border-gray-300 hover:bg-gray-50"
+          }`}
+        >
+          Semua
+        </button>
+
+        {kategori.map((item) => (
+          <button
+            key={item.id}
+            onClick={() => setSelectedKategori(item.id)}
+            className={`px-5 py-2.5 rounded-full font-medium transition-all ${
+              selectedKategori === item.id
+                ? "bg-green-700 text-white shadow-lg scale-105"
+                : "bg-white text-gray-700 border border-gray-300 hover:bg-gray-50"
+            }`}
+          >
+            {item.nama}
+          </button>
+        ))}
+      </div>
+
       {wisata && wisata.length > 0 ? (
-        <div className="grid md:grid-cols-3 gap-5">
+        <div className="grid md:grid-cols-3 gap-6">
           {wisata
-            .filter((item) =>
-              item.nama.toLowerCase().includes(search.toLowerCase())
-            )
+            .filter((item) => {
+              const cocokNama = item.nama
+                .toLowerCase()
+                .includes(search.toLowerCase());
+              const cocokKategori =
+                !selectedKategori || item.kategoriId === selectedKategori;
+              return cocokNama && cocokKategori;
+            })
             .map((item: any) => (
               <Link
                 href={`/wisata-user/${item.id}`}
                 key={item.id}
-                className="block"
+                className="block group"
               >
-                <div className="bg-white p-5 rounded-lg shadow-md hover:shadow-xl transition h-full border border-gray-200">
-                  <h2 className="text-xl font-bold mb-2 text-green-800">
+                <div className="bg-white p-6 rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 h-full border border-gray-100">
+                  <h2 className="text-xl font-bold mb-2 text-green-800 group-hover:text-green-600 transition-colors">
                     {item.nama}
                   </h2>
                   <p className="text-gray-600 line-clamp-3">
@@ -82,7 +121,7 @@ export default function WisataUserPage() {
             ))}
         </div>
       ) : (
-        <div className="text-center py-12 bg-white rounded-xl shadow border border-gray-200">
+        <div className="text-center py-16 bg-white rounded-2xl shadow-sm border border-gray-100">
           <p className="text-gray-500 text-lg font-medium">
             Belum ada data wisata yang tersedia.
           </p>
