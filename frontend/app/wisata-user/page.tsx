@@ -37,77 +37,172 @@ export default function WisataUserPage() {
   }
 
   async function loadKategori() {
-    const response = await getKategori();
-    setKategori(response.data || []);
+    try {
+      const response = await getKategori();
+      setKategori(response.data || []);
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-100">
-        <p className="text-xl text-gray-600 font-semibold animate-pulse">Memuat data wisata...</p>
+      <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "80vh", fontFamily: "sans-serif" }}>
+        <p style={{ fontSize: "16px", color: "#475569", fontWeight: "600" }}>Memuat data wisata...</p>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gray-100 p-8 text-black">
-      <h1 className="text-4xl font-bold text-green-700 mb-8">Daftar Wisata Lembah Hijau</h1>
-      <input
-        type="text"
-        placeholder="Cari wisata..."
-        value={search}
-        onChange={(e) => setSearch(e.target.value)}
-        className="border border-gray-300 p-3 rounded-xl bg-white mb-6 w-full shadow-sm focus:ring-2 focus:ring-green-500 outline-none"
-      />
-      <div className="flex flex-wrap gap-3 mb-8">
-        <button
-          onClick={() => setSelectedKategori(null)}
-          className={`px-5 py-2.5 rounded-full font-medium transition-all ${
-            selectedKategori === null ? "bg-green-700 text-white shadow-lg scale-105" : "bg-white text-gray-700 border border-gray-300 hover:bg-gray-50"
-          }`}
-        >
-          Semua
-        </button>
-        {kategori.map((item) => (
+    <div style={{ backgroundColor: "#f8fafc", minHeight: "100vh", padding: "40px 20px", fontFamily: "sans-serif", boxSizing: "border-box", width: "100%" }}>
+      
+      {/* Pembatas Lebar Maksimal Layar Laptop */}
+      <div style={{ maxWidth: "1000px", margin: "0 auto", width: "100%" }}>
+        
+        {/* Judul Atas */}
+        <div style={{ textAlign: "center", marginBottom: "30px" }}>
+          <h1 style={{ fontSize: "28px", fontWeight: "800", color: "#15803d", margin: "0 0 6px 0" }}>
+            Daftar Wisata Lembah Hijau
+          </h1>
+          <p style={{ color: "#64748b", fontSize: "14px", margin: 0 }}>
+            Pilih dan jelajahi destinasi liburan terbaik Anda.
+          </p>
+        </div>
+
+        {/* Input Pencarian */}
+        <div style={{ maxWidth: "400px", margin: "0 auto 24px auto" }}>
+          <input
+            type="text"
+            placeholder="Cari destinasi wisata..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            style={{
+              width: "100%",
+              padding: "10px 16px",
+              border: "1px solid #cbd5e1",
+              borderRadius: "12px",
+              fontSize: "14px",
+              boxSizing: "border-box",
+              outline: "none",
+              backgroundColor: "#ffffff"
+            }}
+          />
+        </div>
+
+        {/* Tombol Filter Kategori */}
+        <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: "8px", marginBottom: "35px" }}>
           <button
-            key={item.id}
-            onClick={() => setSelectedKategori(item.id)}
-            className={`px-5 py-2.5 rounded-full font-medium transition-all ${
-              selectedKategori === item.id ? "bg-green-700 text-white shadow-lg scale-105" : "bg-white text-gray-700 border border-gray-300 hover:bg-gray-50"
-            }`}
+            onClick={() => setSelectedKategori(null)}
+            style={{
+              padding: "8px 18px",
+              borderRadius: "20px",
+              fontSize: "13px",
+              fontWeight: "600",
+              cursor: "pointer",
+              border: selectedKategori === null ? "none" : "1px solid #cbd5e1",
+              backgroundColor: selectedKategori === null ? "#15803d" : "#ffffff",
+              color: selectedKategori === null ? "#ffffff" : "#475569",
+            }}
           >
-            {item.nama}
+            Semua
           </button>
-        ))}
+          {kategori.map((item) => (
+            <button
+              key={item.id}
+              onClick={() => setSelectedKategori(item.id)}
+              style={{
+                padding: "8px 18px",
+                borderRadius: "20px",
+                fontSize: "13px",
+                fontWeight: "600",
+                cursor: "pointer",
+                border: selectedKategori === item.id ? "none" : "1px solid #cbd5e1",
+                backgroundColor: selectedKategori === item.id ? "#15803d" : "#ffffff",
+                color: selectedKategori === item.id ? "#ffffff" : "#475569",
+              }}
+            >
+              {item.nama}
+            </button>
+          ))}
+        </div>
+
+        {/* PROSES PAKSA GRID 3 KOLOM KE SAMPING */}
+        {wisata && wisata.length > 0 ? (
+          <div style={{ 
+            display: "grid", 
+            gridTemplateColumns: "repeat(3, 1fr)", 
+            gap: "24px",
+            width: "100%"
+          }}>
+            {wisata
+              .filter((item) => {
+                const cocokNama = (item.nama || "").toLowerCase().includes(search.toLowerCase());
+                const cocokKategori = !selectedKategori || item.kategoriId === selectedKategori;
+                return cocokNama && cocokKategori;
+              })
+              .map((item: any) => (
+                <Link href={`/wisata-user/${item.id}`} key={item.id} style={{ textDecoration: "none", color: "inherit", display: "block" }}>
+                  <div style={{ 
+                    backgroundColor: "#ffffff", 
+                    borderRadius: "16px", 
+                    overflow: "hidden", 
+                    boxShadow: "0 4px 6px -1px rgba(0,0,0,0.05), 0 2px 4px -1px rgba(0,0,0,0.03)",
+                    border: "1px solid #f1f5f9",
+                    display: "flex",
+                    flexDirection: "column",
+                    height: "100%"
+                  }}>
+                    
+                    {/* FOTO DIPAKSA MENGECIL (Tinggi cuma 140px) */}
+                    <div style={{ width: "100%", height: "140px", backgroundColor: "#f1f5f9" }}>
+                      <img
+                        src={item.gambar || "https://placehold.co/600x400"}
+                        alt={item.nama}
+                        style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                      />
+                    </div>
+
+                    {/* Deskripsi Teks */}
+                    <div style={{ padding: "16px", display: "flex", flexDirection: "column", flexGrow: 1 }}>
+                      <h2 style={{ fontSize: "16px", fontWeight: "700", color: "#0f172a", margin: "0 0 6px 0" }}>
+                        {item.nama}
+                      </h2>
+                      <p style={{ 
+                        fontSize: "13px", 
+                        color: "#64748b", 
+                        margin: "0 0 16px 0", 
+                        lineHeight: "1.5",
+                        display: "-webkit-box",
+                        WebkitLineClamp: 2,
+                        WebkitBoxOrient: "vertical",
+                        overflow: "hidden",
+                        flexGrow: 1
+                      }}>
+                        {item.deskripsi || "Tidak ada deskripsi singkat."}
+                      </p>
+                      
+                      <div style={{ 
+                        paddingTop: "12px", 
+                        borderTop: "1px solid #f1f5f9", 
+                        fontSize: "11px", 
+                        fontWeight: "700", 
+                        color: "#15803d", 
+                        textTransform: "uppercase"
+                      }}>
+                        Lihat Detail ➔
+                      </div>
+                    </div>
+
+                  </div>
+                </Link>
+              ))}
+          </div>
+        ) : (
+          <div style={{ textAlign: "center", padding: "40px", backgroundColor: "#ffffff", borderRadius: "16px", border: "1px solid #f1f5f9", maxWidth: "400px", margin: "0 auto" }}>
+            <p style={{ color: "#64748b", fontSize: "14px", margin: 0 }}>Belum ada data wisata yang tersedia.</p>
+          </div>
+        )}
       </div>
-      {wisata && wisata.length > 0 ? (
-        <div className="grid md:grid-cols-3 gap-6">
-          {wisata
-            .filter((item) => {
-              const cocokNama = item.nama.toLowerCase().includes(search.toLowerCase());
-              const cocokKategori = !selectedKategori || item.kategoriId === selectedKategori;
-              return cocokNama && cocokKategori;
-            })
-            .map((item: any) => (
-              <Link href={`/wisata-user/${item.id}`} key={item.id} className="block group">
-                <div className="bg-white p-5 rounded-2xl shadow-sm hover:shadow-lg transition-all duration-300 h-full border border-gray-100">
-                  {/* UKURAN FOTO DIUBAH DI SINI (Dari h-40 ke h-32) */}
-                  <img
-                    src={item.gambar || "https://placehold.co/600x400"}
-                    alt={item.nama}
-                    className="w-full h-32 object-cover rounded-lg mb-4 shadow-sm"
-                  />
-                  <h2 className="text-lg font-bold mb-1 text-green-800 group-hover:text-green-600 transition-colors">{item.nama}</h2>
-                  <p className="text-sm text-gray-600 line-clamp-2">{item.deskripsi || "Tidak ada deskripsi."}</p>
-                </div>
-              </Link>
-            ))}
-        </div>
-      ) : (
-        <div className="text-center py-16 bg-white rounded-2xl shadow-sm border border-gray-100">
-          <p className="text-gray-500 text-lg font-medium">Belum ada data wisata yang tersedia.</p>
-        </div>
-      )}
     </div>
   );
 }
