@@ -13,6 +13,8 @@ export default function DashboardPage() {
   const [totalKategori, setTotalKategori] = useState(0);
   const [totalWisata, setTotalWisata] = useState(0);
   const [loading, setLoading] = useState(true);
+  const [recentWisata, setRecentWisata] =
+    useState<any[]>([]);
 
 
   useEffect(() => {
@@ -37,6 +39,28 @@ export default function DashboardPage() {
     setTotalWisata(
       wisataResponse.data.length
     );
+
+    async function loadDashboard() {
+      const kategoriResponse =
+        await getKategori();
+
+      const wisataResponse =
+        await getWisata();
+
+      setTotalKategori(
+        kategoriResponse.data.length
+      );
+
+      setTotalWisata(
+        wisataResponse.data.length
+      );
+
+      setRecentWisata(
+        wisataResponse.data
+          .slice(-5)
+          .reverse()
+      );
+    }
   }
 
   async function loadStatistik() {
@@ -98,12 +122,12 @@ export default function DashboardPage() {
 
             {/* Grid Card Statistik - Responsif dengan flex-wrap */}
             <div className="grid md:grid-cols-2 gap-5 mb-10">
-              
+
               <div className="bg-white p-6 rounded-lg shadow">
                 <h2 className="text-gray-500">Total Kategori</h2>
                 <p className="text-4xl font-bold text-green-700">
                   {loading ? "..." : totalKategori}
-                  
+
                 </p>
               </div>
 

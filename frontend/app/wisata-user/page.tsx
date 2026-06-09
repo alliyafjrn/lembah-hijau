@@ -56,18 +56,66 @@ export default function WisataUserPage() {
   }
 
   return (
-    <div style={{ 
-      backgroundColor: "#f8fafc", 
-      minHeight: "100vh", 
-      fontFamily: "sans-serif", 
-      display: "flex", 
-      flexDirection: "column" 
+    <div style={{
+      backgroundColor: "#f8fafc",
+      minHeight: "100vh",
+      fontFamily: "sans-serif",
+      display: "flex",
+      flexDirection: "column"
     }}>
       <UserNavbar />
-      
+
       {/* Konten utama dengan flexGrow: 1 agar mendorong footer ke bawah */}
       <main style={{ flexGrow: 1, maxWidth: "1000px", margin: "0 auto", width: "100%", padding: "40px 20px", boxSizing: "border-box" }}>
-        
+        <div
+          style={{
+            background:
+              "linear-gradient(135deg,#15803d,#16a34a)",
+            color: "white",
+            borderRadius: "20px",
+            padding: "60px 30px",
+            marginBottom: "40px",
+            textAlign: "center",
+          }}
+        >
+          <h1
+            style={{
+              fontSize: "42px",
+              fontWeight: "800",
+              marginBottom: "15px",
+            }}
+          >
+            Lembah Hijau
+          </h1>
+
+          <p
+            style={{
+              fontSize: "18px",
+              maxWidth: "600px",
+              margin: "0 auto",
+              lineHeight: "1.6",
+            }}
+          >
+            Temukan berbagai destinasi wisata
+            terbaik untuk keluarga dan nikmati
+            pengalaman liburan yang seru.
+          </p>
+
+          <button
+            style={{
+              marginTop: "25px",
+              backgroundColor: "white",
+              color: "#15803d",
+              border: "none",
+              padding: "12px 24px",
+              borderRadius: "10px",
+              fontWeight: "700",
+              cursor: "pointer",
+            }}
+          >
+            Jelajahi Sekarang
+          </button>
+        </div>
         <div style={{ textAlign: "center", marginBottom: "30px" }}>
           <h1 style={{ fontSize: "28px", fontWeight: "800", color: "#15803d", margin: "0 0 6px 0" }}>
             Daftar Wisata Lembah Hijau
@@ -134,9 +182,9 @@ export default function WisataUserPage() {
 
         {/* DIUBAH KE STYLE MURNI: Memaksa Layout Menjadi Tepat 3 Kolom Ke Samping */}
         {wisata && wisata.length > 0 ? (
-          <div style={{ 
-            display: "grid", 
-            gridTemplateColumns: "repeat(3, 1fr)", 
+          <div style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(3, 1fr)",
             gap: "24px",
             width: "100%"
           }}>
@@ -148,17 +196,17 @@ export default function WisataUserPage() {
               })
               .map((item: any) => (
                 <Link href={`/wisata-user/${item.id}`} key={item.id} style={{ textDecoration: "none", color: "inherit", display: "block" }}>
-                  <div style={{ 
-                    backgroundColor: "#ffffff", 
-                    borderRadius: "16px", 
-                    overflow: "hidden", 
+                  <div style={{
+                    backgroundColor: "#ffffff",
+                    borderRadius: "16px",
+                    overflow: "hidden",
                     boxShadow: "0 4px 6px -1px rgba(0,0,0,0.05)",
                     border: "1px solid #f1f5f9",
                     display: "flex",
                     flexDirection: "column",
                     height: "100%"
                   }}>
-                    
+
                     {/* Wadah foto dikunci pendek (135px), gambar otomatis menyesuaikan lebar card */}
                     <div style={{ width: "100%", height: "135px", backgroundColor: "#f1f5f9" }}>
                       <img
@@ -173,10 +221,10 @@ export default function WisataUserPage() {
                       <h2 style={{ fontSize: "16px", fontWeight: "700", color: "#0f172a", margin: "0 0 6px 0" }}>
                         {item.nama}
                       </h2>
-                      <p style={{ 
-                        fontSize: "13px", 
-                        color: "#64748b", 
-                        margin: "0 0 16px 0", 
+                      <p style={{
+                        fontSize: "13px",
+                        color: "#64748b",
+                        margin: "0 0 16px 0",
                         lineHeight: "1.5",
                         display: "-webkit-box",
                         WebkitLineClamp: 2,
@@ -186,13 +234,13 @@ export default function WisataUserPage() {
                       }}>
                         {item.deskripsi || "Tidak ada deskripsi singkat."}
                       </p>
-                      
-                      <div style={{ 
-                        paddingTop: "12px", 
-                        borderTop: "1px solid #f1f5f9", 
-                        fontSize: "11px", 
-                        fontWeight: "700", 
-                        color: "#15803d", 
+
+                      <div style={{
+                        paddingTop: "12px",
+                        borderTop: "1px solid #f1f5f9",
+                        fontSize: "11px",
+                        fontWeight: "700",
+                        color: "#15803d",
                         textTransform: "uppercase"
                       }}>
                         Lihat Detail ➔
@@ -209,7 +257,7 @@ export default function WisataUserPage() {
           </div>
         )}
       </main>
-      
+
       <Footer />
     </div>
   );
