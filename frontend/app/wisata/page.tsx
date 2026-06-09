@@ -12,6 +12,7 @@ export default function WisataPage() {
   const [nama, setNama] = useState("");
   const [deskripsi, setDeskripsi] = useState("");
   const [kategoriId, setKategoriId] = useState("");
+  const [gambar, setGambar] = useState("");
   const [kategori, setKategori] = useState<any[]>([]);
   const [editId, setEditId] = useState<number | null>(null);
 
@@ -40,6 +41,7 @@ export default function WisataPage() {
       nama,
       deskripsi,
       kategoriId: Number(kategoriId),
+      gambar,
     };
 
     if (editId) {
@@ -52,6 +54,7 @@ export default function WisataPage() {
     setNama("");
     setDeskripsi("");
     setKategoriId("");
+    setGambar("");
     loadWisata();
   }
 
@@ -60,6 +63,7 @@ export default function WisataPage() {
     setNama(item.nama);
     setDeskripsi(item.deskripsi);
     setKategoriId(String(item.kategoriId));
+    setGambar(item.gambar || "");
   }
 
   async function handleDelete(id: number) {
@@ -105,6 +109,13 @@ export default function WisataPage() {
                   </option>
                 ))}
               </select>
+              <input
+                type="text"
+                placeholder="URL Gambar"
+                value={gambar}
+                onChange={(e) => setGambar(e.target.value)}
+                className="border p-2 rounded text-black"
+              />
               <button
                 onClick={handleSubmit}
                 className="bg-green-700 text-white px-4 py-2 rounded font-semibold mt-1"
