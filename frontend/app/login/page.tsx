@@ -47,19 +47,16 @@ export default function LoginPage() {
       alignItems: "center",
       justifyContent: "center",
       minHeight: "100vh",
-      height: "100vh",
       backgroundColor: "#f3f4f6",
       fontFamily: "sans-serif",
       color: "#333",
-      boxSizing: "border-box",
-      margin: 0,
-      padding: "20px"
+      padding: "16px" // Padding sedikit lebih kecil untuk mobile
     }}>
       <div style={{
         backgroundColor: "#fff",
-        padding: "40px",
+        padding: "32px 24px", // Padding responsif
         borderRadius: "12px",
-        boxShadow: "0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06)",
+        boxShadow: "0 4px 6px -1px rgba(0,0,0,0.1)",
         width: "100%",
         maxWidth: "360px",
         textAlign: "center",
@@ -67,15 +64,15 @@ export default function LoginPage() {
       }}>
         
         {/* Header */}
-        <h1 style={{ fontSize: "24px", fontWeight: "bold", color: "#15803d", margin: "0 0 8px 0" }}>
+        <h1 style={{ fontSize: "22px", fontWeight: "bold", color: "#15803d", marginBottom: "8px" }}>
           Lembah Hijau
         </h1>
-        <p style={{ fontSize: "14px", color: "#6b7280", margin: "0 0 24px 0" }}>
+        <p style={{ fontSize: "14px", color: "#6b7280", marginBottom: "24px" }}>
           Silakan masuk ke panel admin
         </p>
 
         {/* Form Inputs */}
-        <div style={{ textLeft: "left", textAlign: "left", marginBottom: "16px" }}>
+        <div style={{ textAlign: "left", marginBottom: "16px" }}>
           <label style={{ display: "block", fontSize: "12px", fontWeight: "600", color: "#4b5563", marginBottom: "6px" }}>
             EMAIL ADDRESS
           </label>
@@ -87,18 +84,18 @@ export default function LoginPage() {
             disabled={loading}
             style={{
               width: "100%",
-              padding: "10px",
+              padding: "12px", // Sedikit lebih besar agar lebih nyaman diklik di mobile
               border: "1px solid #d1d5db",
-              borderRadius: "6px",
-              boxSizing: "border-box",
+              borderRadius: "8px",
               fontSize: "14px",
               backgroundColor: "#f9fafb",
-              color: "#000"
+              color: "#000",
+              boxSizing: "border-box"
             }}
           />
         </div>
 
-        <div style={{ textLeft: "left", textAlign: "left", marginBottom: "24px" }}>
+        <div style={{ textAlign: "left", marginBottom: "24px" }}>
           <label style={{ display: "block", fontSize: "12px", fontWeight: "600", color: "#4b5563", marginBottom: "6px" }}>
             PASSWORD
           </label>
@@ -111,13 +108,13 @@ export default function LoginPage() {
             onKeyDown={(e) => e.key === 'Enter' && handleLogin()}
             style={{
               width: "100%",
-              padding: "10px",
+              padding: "12px",
               border: "1px solid #d1d5db",
-              borderRadius: "6px",
-              boxSizing: "border-box",
+              borderRadius: "8px",
               fontSize: "14px",
               backgroundColor: "#f9fafb",
-              color: "#000"
+              color: "#000",
+              boxSizing: "border-box"
             }}
           />
         </div>
@@ -128,21 +125,22 @@ export default function LoginPage() {
           disabled={loading}
           style={{
             width: "100%",
-            padding: "12px",
+            padding: "14px",
             backgroundColor: "#15803d",
             color: "#fff",
             border: "none",
-            borderRadius: "6px",
+            borderRadius: "8px",
             fontSize: "14px",
             fontWeight: "600",
             cursor: loading ? "not-allowed" : "pointer",
-            opacity: loading ? 0.7 : 1
+            opacity: loading ? 0.7 : 1,
+            transition: "background-color 0.2s"
           }}
         >
           {loading ? "Memproses..." : "Masuk ke Akun"}
         </button>
 
-        <p style={{ fontSize: "11px", color: "#9ca3af", marginTop: "24px", marginBottom: "0" }}>
+        <p style={{ fontSize: "11px", color: "#9ca3af", marginTop: "24px" }}>
           &copy; 2026 Lembah Hijau. All rights reserved.
         </p>
 
