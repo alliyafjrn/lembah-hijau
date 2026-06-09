@@ -1,8 +1,10 @@
 import Link from "next/link";
+import UserNavbar from "@/components/UserNavbar";
 
 export default function Home() {
   return (
     <main className="min-h-screen flex flex-col items-center justify-center bg-green-50">
+      <UserNavbar />
       <h1 className="text-5xl font-bold text-green-700 mb-4">
         Lembah Hijau
       </h1>

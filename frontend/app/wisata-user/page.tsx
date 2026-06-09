@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { getWisata } from "@/services/wisata";
 import { getKategori } from "@/services/kategori";
 import Link from "next/link";
+import UserNavbar from "@/components/UserNavbar";
 
 export default function WisataUserPage() {
   const [wisata, setWisata] = useState<any[]>([]);
@@ -54,10 +55,11 @@ export default function WisataUserPage() {
   }
 
   return (
-    <div style={{ backgroundColor: "#f8fafc", minHeight: "100vh", padding: "40px 20px", fontFamily: "sans-serif", boxSizing: "border-box", width: "100%" }}>
+    <div style={{ backgroundColor: "#f8fafc", minHeight: "100vh", fontFamily: "sans-serif", boxSizing: "border-box", width: "100%" }}>
+      <UserNavbar />
       
       {/* Pembatas Lebar Maksimal Layar Laptop */}
-      <div style={{ maxWidth: "1000px", margin: "0 auto", width: "100%" }}>
+      <div style={{ maxWidth: "1000px", margin: "0 auto", width: "100%", padding: "40px 20px" }}>
         
         {/* Judul Atas */}
         <div style={{ textAlign: "center", marginBottom: "30px" }}>

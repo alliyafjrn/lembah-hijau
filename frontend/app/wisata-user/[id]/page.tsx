@@ -3,6 +3,7 @@
 import { useEffect, useState, use } from "react";
 import { getWisataById } from "@/services/wisata";
 import Link from "next/link";
+import UserNavbar from "@/components/UserNavbar";
 
 export default function DetailWisataPage({ params }: { params: Promise<{ id: string }> }) {
   const [wisata, setWisata] = useState<any>(null);
@@ -46,6 +47,7 @@ export default function DetailWisataPage({ params }: { params: Promise<{ id: str
   if (!wisata) {
     return (
       <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100 text-black">
+        <UserNavbar />
         <p className="text-xl font-semibold text-gray-600 mb-4">
           Data wisata tidak ditemukan.
         </p>
@@ -57,8 +59,9 @@ export default function DetailWisataPage({ params }: { params: Promise<{ id: str
   }
 
   return (
-    <div className="min-h-screen bg-gray-100 p-8 text-black">
-      <div className="max-w-3xl mx-auto">
+    <div className="min-h-screen bg-gray-100 text-black">
+      <UserNavbar />
+      <div className="max-w-3xl mx-auto p-8">
         <Link
           href="/wisata-user"
           className="inline-block mb-6 text-green-700 font-medium hover:text-green-800 transition"
@@ -67,6 +70,11 @@ export default function DetailWisataPage({ params }: { params: Promise<{ id: str
         </Link>
 
         <div className="bg-white p-8 rounded-xl shadow-md border border-gray-200">
+          <img
+            src={wisata.gambar || "https://placehold.co/600x400"}
+            alt={wisata.nama}
+            className="w-full h-64 object-cover rounded-lg mb-6 shadow-sm"
+          />
           <h1 className="text-4xl font-bold text-green-700 mb-5">
             {wisata.nama}
           </h1>
