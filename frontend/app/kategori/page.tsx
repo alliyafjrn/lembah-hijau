@@ -65,86 +65,97 @@ export default function KategoriPage() {
 
     return (
         <ProtectedRoute>
-            <div className="flex min-h-screen bg-gray-100 text-black">
+            <div style={{ display: "flex", minHeight: "100vh", backgroundColor: "#f8fafc", fontFamily: "sans-serif", color: "#334155", width: "100%" }}>
+                
                 <Sidebar />
 
-                <div className="flex-1 flex flex-col">
+                <div style={{ flex: 1, display: "flex", flexDirection: "column", minWidth: 0, width: "100%" }}>
                     <Navbar />
 
-                    <div className="p-8 bg-gray-100 min-h-screen">
-                        <h1 className="text-3xl font-bold mb-6 text-green-700">Data Kategori</h1>
+                    <div style={{ padding: "24px", flexGrow: 1 }}>
+                        <h1 style={{ fontSize: "24px", fontWeight: "750", marginBottom: "20px", color: "#15803d" }}>Data Kategori</h1>
 
-                        <div className="mb-5 flex gap-2">
-                            <input
-                                type="text"
-                                placeholder="Nama Kategori"
-                                value={nama}
-                                onChange={(e) => setNama(e.target.value)}
-                                className="border p-3 rounded-lg text-black shadow-sm w-80"
-                            />
+                        <div style={{ display: "grid", gridTemplateColumns: "320px 1fr", gap: "24px", alignItems: "start", width: "100%" }}>
+                            
+                            <div style={{ backgroundColor: "#ffffff", padding: "20px", borderRadius: "12px", border: "1px solid #e2e8f0", boxShadow: "0 1px 3px rgba(0,0,0,0.05)", display: "flex", flexDirection: "column", gap: "12px" }}>
+                                <span style={{ fontSize: "14px", fontWeight: "700", color: "#15803d" }}>
+                                    {editId ? "✏️ Edit Kategori" : "➕ Tambah Kategori"}
+                                </span>
+                                
+                                <input
+                                    type="text"
+                                    placeholder="Nama Kategori"
+                                    value={nama}
+                                    onChange={(e) => setNama(e.target.value)}
+                                    style={{ width: "100%", padding: "10px", border: "1px solid #cbd5e1", borderRadius: "8px", fontSize: "13px", boxSizing: "border-box", outline: "none", backgroundColor: "#ffffff", color: "#000000" }}
+                                />
 
-                            <button
-                                onClick={handleSubmit}
-                                className="bg-green-700 hover:bg-green-800 text-white px-5 py-3 rounded-lg"
-                            >
-                                {editId ? "Update" : "Tambah"}
-                            </button>
+                                <div style={{ display: "flex", gap: "8px", marginTop: "4px" }}>
+                                    <button
+                                        onClick={handleSubmit}
+                                        style={{ flex: 1, backgroundColor: "#15803d", color: "#ffffff", border: "none", padding: "10px", borderRadius: "8px", fontSize: "13px", fontWeight: "600", cursor: "pointer" }}
+                                    >
+                                        {editId ? "Update" : "Tambah"}
+                                    </button>
 
-                            {editId && (
-                                <button
-                                    onClick={() => {
-                                        setEditId(null);
-                                        setNama("");
-                                    }}
-                                    className="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600 transition"
-                                >
-                                    Batal
-                                </button>
-                            )}
-                        </div>
+                                    {editId && (
+                                        <button
+                                            onClick={() => {
+                                                setEditId(null);
+                                                setNama("");
+                                            }}
+                                            style={{ backgroundColor: "#94a3b8", color: "#ffffff", border: "none", padding: "10px", borderRadius: "8px", fontSize: "13px", fontWeight: "600", cursor: "pointer" }}
+                                        >
+                                            Batal
+                                        </button>
+                                    )}
+                                </div>
+                            </div>
 
-                        <div className="bg-white rounded shadow overflow-hidden">
-                            <table className="w-full bg-white shadow-md rounded-lg overflow-hidden">
-                                <thead className="bg-gray-200">
-                                    <tr>
-                                        <th className="border-b p-3 text-left w-20">ID</th>
-                                        <th className="border-b p-3 text-left">Nama Kategori</th>
-                                        <th className="border-b p-3 text-center w-48">Aksi</th>
-                                    </tr>
-                                </thead>
+                            <div style={{ backgroundColor: "#ffffff", borderRadius: "12px", border: "1px solid #e2e8f0", boxShadow: "0 1px 3px rgba(0,0,0,0.05)", overflow: "hidden" }}>
+                                <table style={{ width: "100%", borderCollapse: "collapse", textAlign: "left", fontSize: "13px" }}>
+                                    <thead>
+                                        <tr style={{ backgroundColor: "#f1f5f9", borderBottom: "1px solid #e2e8f0", color: "#475569" }}>
+                                            <th style={{ padding: "12px 16px", fontWeight: "600", width: "80px" }}>ID</th>
+                                            <th style={{ padding: "12px 16px", fontWeight: "600" }}>Nama Kategori</th>
+                                            <th style={{ padding: "12px 16px", fontWeight: "600", width: "180px", textAlign: "center" }}>Aksi</th>
+                                        </tr>
+                                    </thead>
 
-                                <tbody>
-                                    {kategori && kategori.length > 0 ? (
-                                        kategori.map((item) => (
-                                            <tr key={item.id} className="hover:bg-gray-100">
-                                                <td className="p-3 border-b">{item.id}</td>
-                                                <td className="p-3 border-b">{item.nama}</td>
-                                                <td className="p-3 text-center border-b">
-                                                    <button
-                                                        onClick={() => handleEdit(item)}
-                                                        className="bg-blue-500 text-white px-3 py-1 rounded mr-2 hover:bg-blue-600 transition"
-                                                    >
-                                                        Edit
-                                                    </button>
+                                    <tbody>
+                                        {kategori && kategori.length > 0 ? (
+                                            kategori.map((item) => (
+                                                <tr key={item.id} style={{ borderBottom: "1px solid #f1f5f9" }}>
+                                                    <td style={{ padding: "12px 16px", color: "#64748b" }}>{item.id}</td>
+                                                    <td style={{ padding: "12px 16px", fontWeight: "600", color: "#0f172a" }}>{item.nama}</td>
+                                                    <td style={{ padding: "12px 16px", textAlign: "center", whiteSpace: "nowrap" }}>
+                                                        <button
+                                                            onClick={() => handleEdit(item)}
+                                                            style={{ backgroundColor: "#3b82f6", color: "#ffffff", border: "none", padding: "6px 12px", borderRadius: "6px", fontSize: "12px", fontWeight: "500", cursor: "pointer", marginRight: "6px" }}
+                                                        >
+                                                            Edit
+                                                        </button>
 
-                                                    <button
-                                                        onClick={() => handleDelete(item.id)}
-                                                        className="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700 transition"
-                                                    >
-                                                        Hapus
-                                                    </button>
+                                                        <button
+                                                            onClick={() => handleDelete(item.id)}
+                                                            style={{ backgroundColor: "#ef4444", color: "#ffffff", border: "none", padding: "6px 12px", borderRadius: "6px", fontSize: "12px", fontWeight: "500", cursor: "pointer" }}
+                                                        >
+                                                            Hapus
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            ))
+                                        ) : (
+                                            <tr>
+                                                <td colSpan={3} style={{ padding: "32px", textAlign: "center", color: "#94a3b8" }}>
+                                                    Belum ada data kategori.
                                                 </td>
                                             </tr>
-                                        ))
-                                    ) : (
-                                        <tr>
-                                            <td colSpan={3} className="p-8 text-center text-gray-500">
-                                                Belum ada data kategori.
-                                            </td>
-                                        </tr>
-                                    )}
-                                </tbody>
-                            </table>
+                                        )}
+                                    </tbody>
+                                </table>
+                            </div>
+
                         </div>
                     </div>
                 </div>
