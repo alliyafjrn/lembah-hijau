@@ -8,7 +8,7 @@ export async function createTiket(
 ) {
   const response =
     await fetch(
-      "http://localhost:3000/tiket",
+      "http://localhost:3002/tiket",
       {
         method: "POST",
 

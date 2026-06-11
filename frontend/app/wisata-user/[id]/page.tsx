@@ -90,6 +90,40 @@ export default function DetailWisataPage({ params }: { params: Promise<{ id: str
           <div className="inline-block bg-green-50 text-green-800 px-4 py-2 rounded-lg border border-green-200 font-medium">
             Kategori: {wisata.kategori?.nama || wisata.kategoriNama || "-"}
           </div>
+
+          <div className="mt-10">
+            <h2 className="text-2xl font-bold mb-5 text-green-700">Pesan Tiket</h2>
+            <div className="space-y-4">
+              <input
+                type="text"
+                placeholder="Nama Pemesan"
+                value={namaPemesan}
+                onChange={(e) => setNamaPemesan(e.target.value)}
+                className="w-full border p-3 rounded"
+              />
+              <input
+                type="email"
+                placeholder="Email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="w-full border p-3 rounded"
+              />
+              <input
+                type="number"
+                min={1}
+                value={jumlahTiket}
+                onChange={(e) => setJumlahTiket(Number(e.target.value))}
+                className="w-full border p-3 rounded"
+              />
+              <button
+                onClick={handlePesan}
+                className="bg-green-700 text-white px-5 py-3 rounded"
+              >
+                Pesan Tiket
+              </button>
+            </div>
+          </div>
+
         </div>
       </div>
     </div>
@@ -97,12 +131,18 @@ export default function DetailWisataPage({ params }: { params: Promise<{ id: str
 
   async function handlePesan() {
     try {
-      await createTiket({
-        namaPemesan,
-        email,
-        jumlahTiket,
-        wisataId: wisata.id,
-      });
+      const response =
+        await createTiket({
+          namaPemesan,
+          email,
+          jumlahTiket,
+          wisataId: wisata.id,
+        });
+
+      console.log(
+        "RESPONSE TIKET:",
+        response
+      );
 
       alert(
         "Pemesanan tiket berhasil"
@@ -119,5 +159,6 @@ export default function DetailWisataPage({ params }: { params: Promise<{ id: str
         "Pemesanan gagal"
       );
     }
+
   }
 }

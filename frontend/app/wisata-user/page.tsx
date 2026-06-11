@@ -180,7 +180,6 @@ export default function WisataUserPage() {
           ))}
         </div>
 
-        {/* DIUBAH KE STYLE MURNI: Memaksa Layout Menjadi Tepat 3 Kolom Ke Samping */}
         {wisata && wisata.length > 0 ? (
           <div style={{
             display: "grid",
@@ -207,7 +206,6 @@ export default function WisataUserPage() {
                     height: "100%"
                   }}>
 
-                    {/* Wadah foto dikunci pendek (135px), gambar otomatis menyesuaikan lebar card */}
                     <div style={{ width: "100%", height: "135px", backgroundColor: "#f1f5f9" }}>
                       <img
                         src={item.gambar || "https://placehold.co/600x400"}
