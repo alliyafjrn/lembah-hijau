@@ -1,5 +1,5 @@
 import { IsNotEmpty, IsString, IsEmail, IsNumber } from 'class-validator';
-import { Min } from 'class-validator'; // Kita pisah dekorator Min secara eksplisit
+import { Min } from 'class-validator'; 
 import { Type } from 'class-transformer';
 
 export class CreateTiketDto {
