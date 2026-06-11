@@ -2,12 +2,16 @@
 
 import { useEffect, useState, use } from "react";
 import { getWisataById } from "@/services/wisata";
+import { createTiket } from "@/services/tiket";
 import Link from "next/link";
 import UserNavbar from "@/components/UserNavbar";
 
 export default function DetailWisataPage({ params }: { params: Promise<{ id: string }> }) {
   const [wisata, setWisata] = useState<any>(null);
   const [loading, setLoading] = useState(true);
+  const [namaPemesan, setNamaPemesan] = useState("");
+  const [email, setEmail] = useState("");
+  const [jumlahTiket, setJumlahTiket] =useState(1);
 
   const resolvedParams = use(params);
   const id = resolvedParams.id;
