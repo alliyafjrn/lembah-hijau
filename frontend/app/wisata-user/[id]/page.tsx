@@ -11,7 +11,7 @@ export default function DetailWisataPage({ params }: { params: Promise<{ id: str
   const [loading, setLoading] = useState(true);
   const [namaPemesan, setNamaPemesan] = useState("");
   const [email, setEmail] = useState("");
-  const [jumlahTiket, setJumlahTiket] =useState(1);
+  const [jumlahTiket, setJumlahTiket] = useState(1);
 
   const resolvedParams = use(params);
   const id = resolvedParams.id;
@@ -94,4 +94,30 @@ export default function DetailWisataPage({ params }: { params: Promise<{ id: str
       </div>
     </div>
   );
+
+  async function handlePesan() {
+    try {
+      await createTiket({
+        namaPemesan,
+        email,
+        jumlahTiket,
+        wisataId: wisata.id,
+      });
+
+      alert(
+        "Pemesanan tiket berhasil"
+      );
+
+      setNamaPemesan("");
+      setEmail("");
+      setJumlahTiket(1);
+
+    } catch (error) {
+      console.log(error);
+
+      alert(
+        "Pemesanan gagal"
+      );
+    }
+  }
 }
