@@ -130,35 +130,17 @@ export default function DetailWisataPage({ params }: { params: Promise<{ id: str
   );
 
   async function handlePesan() {
-    try {
-      const response =
-        await createTiket({
-          namaPemesan,
-          email,
-          jumlahTiket,
-          wisataId: wisata.id,
-        });
+    localStorage.setItem(
+      "checkout",
+      JSON.stringify({
+        namaPemesan,
+        email,
+        jumlahTiket,
+        wisataId: wisata.id,
+        namaWisata: wisata.nama,
+      })
+    );
 
-      console.log(
-        "RESPONSE TIKET:",
-        response
-      );
-
-      alert(
-        "Pemesanan tiket berhasil"
-      );
-
-      setNamaPemesan("");
-      setEmail("");
-      setJumlahTiket(1);
-
-    } catch (error) {
-      console.log(error);
-
-      alert(
-        "Pemesanan gagal"
-      );
-    }
-
+    window.location.href = "/checkout";
   }
 }
