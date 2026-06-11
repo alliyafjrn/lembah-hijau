@@ -21,4 +21,16 @@ model Wisata {
   kategoriId Int?
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
+
+  tiket Tiket[]
+}
+
+model Tiket {
+  id          Int      @id @default(autoincrement())
+  namaPemesan String
+  email       String
+  jumlahTiket Int
+  wisataId    Int
+  createdAt   DateTime @default(now())
+  wisata      Wisata   @relation(fields: [wisataId], references: [id])
 }
