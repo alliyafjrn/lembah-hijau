@@ -20,7 +20,10 @@ export default function CheckoutPage() {
       const response = await createTiket({
         namaPemesan: data.namaPemesan,
         email: data.email,
+        jenisTiket: data.jenisTiket,
+        harga: data.harga,
         jumlahTiket: data.jumlahTiket,
+        totalHarga: data.totalHarga,
         wisataId: data.wisataId,
       });
 
