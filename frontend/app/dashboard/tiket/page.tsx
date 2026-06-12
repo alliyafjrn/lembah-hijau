@@ -41,6 +41,7 @@ export default function TiketPage() {
                 <th className="border p-3 text-left">Nama</th>
                 <th className="border p-3 text-left">Email</th>
                 <th className="border p-3 text-left">Jumlah</th>
+                <th className="border p-3 text-left">Kode Booking</th>
                 <th className="border p-3 text-left">Wisata</th>
               </tr>
             </thead>
@@ -52,6 +53,7 @@ export default function TiketPage() {
                     <td className="border p-3">{item.namaPemesan}</td>
                     <td className="border p-3">{item.email}</td>
                     <td className="border p-3">{item.jumlahTiket}</td>
+                    <td className="border p-3">{item.kodeBooking}</td>
                     <td className="border p-3">{item.wisata?.nama || "-"}</td>
                   </tr>
                 ))

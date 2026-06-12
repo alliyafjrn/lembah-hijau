@@ -27,10 +27,12 @@ model Wisata {
 
 model Tiket {
   id          Int      @id @default(autoincrement())
+  kodeBooking String?
   namaPemesan String
   email       String
   jumlahTiket Int
   wisataId    Int
   createdAt   DateTime @default(now())
+  
   wisata      Wisata   @relation(fields: [wisataId], references: [id])
 }

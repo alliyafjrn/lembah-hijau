@@ -17,18 +17,19 @@ export default function CheckoutPage() {
 
   async function handleBayar() {
     try {
-      await createTiket({
+      const response = await createTiket({
         namaPemesan: data.namaPemesan,
         email: data.email,
         jumlahTiket: data.jumlahTiket,
         wisataId: data.wisataId,
       });
 
+      localStorage.setItem("tiket", JSON.stringify(response));
       localStorage.removeItem("checkout");
-      window.location.href = "/checkout/sukses";
+      window.location.href = "/tiket-user";
     } catch (error) {
       console.error(error);
-      alert("Pembayaran gagal");
+      alert("Gagal");
     }
   }
 
@@ -57,7 +58,7 @@ export default function CheckoutPage() {
 
             <button
               className="mt-8 bg-green-700 hover:bg-green-800 text-white px-6 py-3 rounded-lg font-medium transition-colors w-full sm:w-auto"
-              onClick={ handleBayar }
+              onClick={handleBayar}
             >
               Bayar Sekarang
             </button>
