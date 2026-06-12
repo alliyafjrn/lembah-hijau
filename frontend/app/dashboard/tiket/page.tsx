@@ -15,7 +15,7 @@ export default function TiketPage() {
   async function loadData() {
     try {
       const response = await getTiket();
-      
+
       if (response && Array.isArray(response.data)) {
         setData(response.data);
       } else if (Array.isArray(response)) {
@@ -53,6 +53,8 @@ export default function TiketPage() {
                     <td className="border p-3">{item.namaPemesan}</td>
                     <td className="border p-3">{item.email}</td>
                     <td className="border p-3">{item.jumlahTiket}</td>
+                    <td className="border p-3">{item.jenisTiket}</td>
+                    <td className="border p-3"> Rp {item.totalHarga?.toLocaleString()}</td>
                     <td className="border p-3">{item.kodeBooking}</td>
                     <td className="border p-3">{item.wisata?.nama || "-"}</td>
                   </tr>
