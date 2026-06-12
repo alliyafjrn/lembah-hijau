@@ -103,6 +103,7 @@ export default function DetailWisataPage({ params }: { params: Promise<{ id: str
                 onChange={(e) => setNamaPemesan(e.target.value)}
                 className="w-full border p-3 rounded"
               />
+
               <input
                 type="email"
                 placeholder="Email"
@@ -110,6 +111,23 @@ export default function DetailWisataPage({ params }: { params: Promise<{ id: str
                 onChange={(e) => setEmail(e.target.value)}
                 className="w-full border p-3 rounded"
               />
+
+              <select
+                value={jenisTiket}
+                onChange={(e) => handleJenisTiket(e.target.value)}
+                className="w-full border rounded p-3"
+              >
+                <option value="waterboom">
+                  Tiket Masuk + Waterboom (Rp25.000)
+                </option>
+                <option value="satwa">
+                  Tiket Masuk + Taman Satwa (Rp50.000)
+                </option>
+                <option value="terusan">
+                  Tiket Terusan (Rp60.000)
+                </option>
+              </select>
+
               <input
                 type="number"
                 min={1}
@@ -117,6 +135,16 @@ export default function DetailWisataPage({ params }: { params: Promise<{ id: str
                 onChange={(e) => setJumlahTiket(Number(e.target.value))}
                 className="w-full border p-3 rounded"
               />
+
+              <div className="border rounded p-4 bg-green-50">
+                <p>
+                  Harga: Rp{harga.toLocaleString()}
+                </p>
+                <p>
+                  Total: Rp{(harga * jumlahTiket).toLocaleString()}
+                </p>
+              </div>
+
               <button
                 onClick={handlePesan}
                 className="bg-green-700 text-white px-5 py-3 rounded"
@@ -137,7 +165,10 @@ export default function DetailWisataPage({ params }: { params: Promise<{ id: str
       JSON.stringify({
         namaPemesan,
         email,
+        jenisTiket,
+        harga,
         jumlahTiket,
+        totalHarga: harga * jumlahTiket,
         wisataId: wisata.id,
         namaWisata: wisata.nama,
       })
