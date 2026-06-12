@@ -49,11 +49,34 @@ export default function CheckoutPage() {
           <div className="bg-white rounded-xl p-8 shadow">
             <h1 className="text-3xl font-bold mb-8 text-gray-800">Checkout Tiket</h1>
 
-            <div className="space-y-3 text-gray-700">
-              <p>Nama: <span className="font-bold">{data.namaPemesan}</span></p>
-              <p>Email: <span className="font-bold">{data.email}</span></p>
-              <p>Jumlah: <span className="font-bold">{data.jumlahTiket} Tiket</span></p>
-              <p>Wisata: <span className="font-bold">{data.namaWisata}</span></p>
+            <div className="space-y-4">
+              <div>
+                Nama: <b>{data.namaPemesan}</b>
+              </div>
+
+              <div>
+                Email: <b>{data.email}</b>
+              </div>
+
+              <div>
+                Wisata: <b>{data.namaWisata}</b>
+              </div>
+
+              <div>
+                Kategori Tiket: <b>{data.jenisTiket}</b>
+              </div>
+
+              <div>
+                Jumlah: <b>{data.jumlahTiket}</b>
+              </div>
+
+              <div>
+                Harga: <b>Rp {Number(data.harga).toLocaleString()}</b>
+              </div>
+
+              <div className="border-t pt-4 text-xl font-bold text-green-700">
+                Total: Rp {Number(data.totalHarga).toLocaleString()}
+              </div>
             </div>
 
             <button
