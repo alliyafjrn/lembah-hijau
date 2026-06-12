@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import UserNavbar from "@/components/UserNavbar";
 import Footer from "@/components/Footer";
+import { createTiket } from "@/services/tiket";
 
 export default function CheckoutPage() {
   const [data, setData] = useState<any>(null);
@@ -13,6 +14,23 @@ export default function CheckoutPage() {
       setData(JSON.parse(tiket));
     }
   }, []);
+
+  async function handleBayar() {
+    try {
+      await createTiket({
+        namaPemesan: data.namaPemesan,
+        email: data.email,
+        jumlahTiket: data.jumlahTiket,
+        wisataId: data.wisataId,
+      });
+
+      localStorage.removeItem("checkout");
+      window.location.href = "/checkout/sukses";
+    } catch (error) {
+      console.error(error);
+      alert("Pembayaran gagal");
+    }
+  }
 
   if (!data) {
     return (
@@ -29,7 +47,7 @@ export default function CheckoutPage() {
         <div className="max-w-3xl mx-auto p-8">
           <div className="bg-white rounded-xl p-8 shadow">
             <h1 className="text-3xl font-bold mb-8 text-gray-800">Checkout Tiket</h1>
-            
+
             <div className="space-y-3 text-gray-700">
               <p>Nama: <span className="font-bold">{data.namaPemesan}</span></p>
               <p>Email: <span className="font-bold">{data.email}</span></p>
@@ -39,7 +57,7 @@ export default function CheckoutPage() {
 
             <button
               className="mt-8 bg-green-700 hover:bg-green-800 text-white px-6 py-3 rounded-lg font-medium transition-colors w-full sm:w-auto"
-              onClick={() => alert("Pembayaran simulasi berhasil")}
+              onClick={ handleBayar }
             >
               Bayar Sekarang
             </button>
