@@ -11,6 +11,8 @@ export default function DetailWisataPage({ params }: { params: Promise<{ id: str
   const [loading, setLoading] = useState(true);
   const [namaPemesan, setNamaPemesan] = useState("");
   const [email, setEmail] = useState("");
+  const [jenisTiket, setJenisTiket] = useState("waterboom");
+  const [harga, setHarga] = useState(25000);
   const [jumlahTiket, setJumlahTiket] = useState(1);
 
   const resolvedParams = use(params);
@@ -142,5 +144,19 @@ export default function DetailWisataPage({ params }: { params: Promise<{ id: str
     );
 
     window.location.href = "/checkout";
+  }
+
+  function handleJenisTiket(value: string) {
+    setJenisTiket(value);
+
+    if (value === "waterboom") {
+      setHarga(25000);
+    }
+    if (value === "satwa") {
+      setHarga(50000);
+    }
+    if (value === "terusan") {
+      setHarga(60000);
+    }
   }
 }
