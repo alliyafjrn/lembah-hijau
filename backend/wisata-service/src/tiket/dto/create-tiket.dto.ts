@@ -11,14 +11,27 @@ export class CreateTiketDto {
   @IsEmail()
   email!: string;
 
+  @IsString()
+  @IsNotEmpty()
+  jenisTiket!: string; 
+
+  
+  @IsNumber()
+  @IsNotEmpty()
+  harga!: number; 
+  
   @IsNotEmpty()
   @IsNumber()
   @Min(1)
   @Type(() => Number) 
   jumlahTiket!: number;
 
-  @IsNotEmpty()
   @IsNumber()
-  @Type(() => Number) 
+  @IsNotEmpty()
+  totalHarga!: number; 
+
+  @IsNumber()
+  @IsNotEmpty()
   wisataId!: number;
+
 }

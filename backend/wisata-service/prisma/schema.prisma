@@ -30,9 +30,12 @@ model Tiket {
   kodeBooking String?
   namaPemesan String
   email       String
+  jenisTiket  String
+  harga       Int
   jumlahTiket Int
+  totalHarga  Int
   wisataId    Int
   createdAt   DateTime @default(now())
-  
-  wisata      Wisata   @relation(fields: [wisataId], references: [id])
+
+  wisata Wisata @relation(fields: [wisataId], references: [id])
 }
