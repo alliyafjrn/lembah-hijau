@@ -22,12 +22,12 @@ export class WisataService {
       wisataList.map(async (wisata) => {
         try {
           const kategoriResponse = await axios.get(
-            `http://localhost:3001/kategori/${wisata.kategoriId}`,
+            `http://localhost:3003/kategori/${wisata.kategoriId}`,
           );
 
           return {
             ...wisata,
-            kategori: kategoriResponse.data.data,
+            kategori: kategoriResponse.data,
           };
         } catch {
           return {
@@ -53,19 +53,29 @@ export class WisataService {
     }
 
     if (wisata.kategoriId) {
-      const response = await firstValueFrom(
-        this.httpService.get(
-          `http://localhost:3001/kategori/${wisata.kategoriId}`,
-        ),
-      );
+      try {
+        const response = await firstValueFrom(
+          this.httpService.get(
+            `http://localhost:3003/kategori/${wisata.kategoriId}`,
+          ),
+        );
 
-      return {
-        ...wisata,
-        kategori: response.data.data,
-      };
+        return {
+          ...wisata,
+          kategori: response.data,
+        };
+      } catch {
+        return {
+          ...wisata,
+          kategori: null,
+        };
+      }
     }
 
-    return wisata;
+    return {
+      ...wisata,
+      kategori: null,
+    };
   }
 
   create(createWisataDto: CreateWisataDto) {

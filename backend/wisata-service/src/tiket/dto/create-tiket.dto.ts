@@ -1,9 +1,28 @@
+import {
+  IsEmail,
+  IsNumber,
+  IsString,
+} from 'class-validator';
+
 export class CreateTiketDto {
-  namaPemesan!: string;
-  email!: string;
-  jenisTiket!: string;
-  harga!: number;
-  jumlahTiket!: number;
-  totalHarga!: number;
-  wisataId!: number;
+  @IsString()
+  namaPemesan: string;
+
+  @IsEmail()
+  email: string;
+
+  @IsString()
+  jenisTiket: string;
+
+  @IsNumber()
+  harga: number;
+
+  @IsNumber()
+  jumlahTiket: number;
+
+  @IsNumber()
+  totalHarga: number;
+
+  @IsNumber()
+  wisataId: number;
 }

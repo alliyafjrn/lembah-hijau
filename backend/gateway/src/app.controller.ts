@@ -6,6 +6,8 @@ import {
   Param,
   Post,
   Put,
+  Headers,
+  UnauthorizedException,
 } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
 import { firstValueFrom } from 'rxjs';
@@ -14,9 +16,6 @@ import {
   ApiParam,
   ApiTags,
 } from '@nestjs/swagger';
-import {
-  UnauthorizedException,
-} from '@nestjs/common';
 
 @ApiTags('Gateway')
 @Controller()
@@ -25,15 +24,12 @@ export class AppController {
     private readonly httpService: HttpService,
   ) { }
 
-  // KATEGORI
-
   @ApiOperation({ summary: 'Ambil semua kategori' })
   @Get('kategori')
   async getKategori() {
     const response = await firstValueFrom(
-      this.httpService.get('http://localhost:3001/kategori'),
+      this.httpService.get('http://localhost:3003/kategori'),
     );
-
     return response.data;
   }
 
@@ -42,9 +38,8 @@ export class AppController {
   @Get('kategori/:id')
   async getKategoriById(@Param('id') id: string) {
     const response = await firstValueFrom(
-      this.httpService.get(`http://localhost:3001/kategori/${id}`),
+      this.httpService.get(`http://localhost:3003/kategori/${id}`),
     );
-
     return response.data;
   }
 
@@ -52,29 +47,18 @@ export class AppController {
   @Post('kategori')
   async createKategori(@Body() body: any) {
     const response = await firstValueFrom(
-      this.httpService.post(
-        'http://localhost:3001/kategori',
-        body,
-      ),
+      this.httpService.post('http://localhost:3003/kategori', body),
     );
-
     return response.data;
   }
 
   @ApiOperation({ summary: 'Update kategori' })
   @ApiParam({ name: 'id', example: 1 })
   @Put('kategori/:id')
-  async updateKategori(
-    @Param('id') id: string,
-    @Body() body: any,
-  ) {
+  async updateKategori(@Param('id') id: string, @Body() body: any) {
     const response = await firstValueFrom(
-      this.httpService.put(
-        `http://localhost:3001/kategori/${id}`,
-        body,
-      ),
+      this.httpService.put(`http://localhost:3003/kategori/${id}`, body),
     );
-
     return response.data;
   }
 
@@ -83,49 +67,36 @@ export class AppController {
   @Delete('kategori/:id')
   async deleteKategori(@Param('id') id: string) {
     const response = await firstValueFrom(
-      this.httpService.delete(
-        `http://localhost:3001/kategori/${id}`,
-      ),
+      this.httpService.delete(`http://localhost:3003/kategori/${id}`),
     );
-
     return response.data;
   }
-
-  // WISATA
 
   @ApiOperation({ summary: 'Ambil semua wisata' })
   @Get('wisata')
   async getWisata() {
     const response = await firstValueFrom(
-      this.httpService.get('http://localhost:3002/wisata'),
+      this.httpService.get('http://localhost:3003/wisata'),
     );
-
     return response.data;
   }
 
-  @ApiOperation({
-    summary: 'Ambil detail wisata beserta kategori',
-  })
+  @ApiOperation({ summary: 'Ambil detail wisata beserta kategori' })
   @ApiParam({ name: 'id', example: 1 })
   @Get('wisata/:id')
   async getWisataById(@Param('id') id: string) {
     const wisataResponse = await firstValueFrom(
-      this.httpService.get(
-        `http://localhost:3002/wisata/${id}`,
-      ),
+      this.httpService.get(`http://localhost:3003/wisata/${id}`),
     );
 
     const wisata = wisataResponse.data;
 
-    if (wisata.kategoriId) {
+    if (wisata && wisata.kategoriId) {
       try {
         const kategoriResponse = await firstValueFrom(
-          this.httpService.get(
-            `http://localhost:3001/kategori/${wisata.kategoriId}`,
-          ),
+          this.httpService.get(`http://localhost:3003/kategori/${wisata.kategoriId}`),
         );
-
-        wisata.kategori = kategoriResponse.data.data;
+        wisata.kategori = kategoriResponse.data;
       } catch {
         wisata.kategori = null;
       }
@@ -136,69 +107,63 @@ export class AppController {
 
   @ApiOperation({ summary: 'Tambah wisata' })
   @Post('wisata')
-  async createWisata(
-    @Body() body: any,
-  ) {
+  async createWisata(@Body() body: any) {
     const response = await firstValueFrom(
-      this.httpService.post(
-        'http://localhost:3002/wisata',
-        body,
-      ),
+      this.httpService.post('http://localhost:3003/wisata', body),
     );
-
     return response.data;
   }
 
   @ApiOperation({ summary: 'Update wisata' })
   @ApiParam({ name: 'id', example: 1 })
   @Put('wisata/:id')
-  async updateWisata(
-    @Param('id') id: string,
-    @Body() body: any,
-  ) {
+  async updateWisata(@Param('id') id: string, @Body() body: any) {
     const response = await firstValueFrom(
-      this.httpService.put(
-        `http://localhost:3002/wisata/${id}`,
-        body,
-      ),
+      this.httpService.put(`http://localhost:3003/wisata/${id}`, body),
     );
-
     return response.data;
   }
 
   @ApiOperation({ summary: 'Hapus wisata' })
   @ApiParam({ name: 'id', example: 1 })
   @Delete('wisata/:id')
-  async deleteWisata(
-    @Param('id') id: string,
-  ) {
+  async deleteWisata(@Param('id') id: string) {
     const response = await firstValueFrom(
-      this.httpService.delete(
-        `http://localhost:3002/wisata/${id}`,
-      ),
+      this.httpService.delete(`http://localhost:3003/wisata/${id}`),
     );
+    return response.data;
+  }
 
+  @ApiOperation({ summary: 'Ambil semua tiket' })
+  @Get('tiket')
+  async getTiket() {
+    const response = await firstValueFrom(
+      this.httpService.get('http://localhost:3003/tiket'),
+    );
+    return response.data;
+  }
+
+  @ApiOperation({ summary: 'Tambah booking tiket baru' })
+  @Post('tiket')
+  async createTiket(@Body() body: any) {
+    const response = await firstValueFrom(
+      this.httpService.post('http://localhost:3003/tiket', body),
+    );
     return response.data;
   }
 
   private async verifyToken(token: string) {
     try {
       const response = await firstValueFrom(
-        this.httpService.get(
-          'http://localhost:3003/auth/verify',
-          {
-            headers: {
-              Authorization: token,
-            },
+        this.httpService.get('http://localhost:3001/auth/verify', {
+          headers: {
+            Authorization: token,
           },
-        ),
+        }),
       );
-
       return response.data;
     } catch {
-      throw new UnauthorizedException(
-        'Token tidak valid',
-      );
+      throw new UnauthorizedException('Token tidak valid');
     }
   }
 }

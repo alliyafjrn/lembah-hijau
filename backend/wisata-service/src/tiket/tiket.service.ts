@@ -1,34 +1,55 @@
-import { Injectable } from '@nestjs/common';
-import { PrismaService } from '../prisma/prisma.service'; // Sesuaikan path jika berbeda
+import {
+  Injectable,
+  BadRequestException,
+  NotFoundException,
+} from '@nestjs/common';
+import { PrismaService } from '../prisma/prisma.service';
 import { CreateTiketDto } from './dto/create-tiket.dto';
 import { UpdateTiketDto } from './dto/update-tiket.dto';
 
 @Injectable()
 export class TiketService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(private prisma: PrismaService) {}
 
   async create(createTiketDto: CreateTiketDto) {
-  const kode = "TKT-" + Date.now();
+    console.log('DATA MASUK:', createTiketDto);
 
-  async create(createTiketDto: CreateTiketDto) {
-  const kode = "TKT-" + Date.now();
+    const wisataId = Number(createTiketDto.wisataId);
 
-  return this.prisma.tiket.create({
-    data: {
-      kodeBooking: kode,
-      namaPemesan: createTiketDto.namaPemesan,
-      email: createTiketDto.email,
-      jenisTiket: createTiketDto.jenisTiket,
-      harga: Number(createTiketDto.harga),         // Ditambahkan casting Number untuk keamanan
-      jumlahTiket: Number(createTiketDto.jumlahTiket), // Ditambahkan casting Number untuk keamanan
-      totalHarga: Number(createTiketDto.totalHarga),   // Ditambahkan casting Number untuk keamanan
-      wisataId: Number(createTiketDto.wisataId),       // Ditambahkan casting Number untuk keamanan
-    },
-    include: {
-      wisata: true,
-    },
-  });
-}
+    if (!wisataId) {
+      throw new BadRequestException('wisataId wajib diisi');
+    }
+
+    const wisata = await this.prisma.wisata.findFirst({
+      where: {
+        id: wisataId,
+      },
+    });
+
+    if (!wisata) {
+      throw new NotFoundException(
+        `Wisata dengan ID ${wisataId} tidak ditemukan`,
+      );
+    }
+
+    const kodeBooking = `TKT-${Date.now()}`;
+
+    return this.prisma.tiket.create({
+      data: {
+        kodeBooking,
+        namaPemesan: createTiketDto.namaPemesan,
+        email: createTiketDto.email,
+        jenisTiket: createTiketDto.jenisTiket,
+        harga: Number(createTiketDto.harga),
+        jumlahTiket: Number(createTiketDto.jumlahTiket),
+        totalHarga: Number(createTiketDto.totalHarga),
+        wisataId,
+      },
+      include: {
+        wisata: true,
+      },
+    });
+  }
 
   async findAll() {
     return this.prisma.tiket.findMany({
@@ -40,7 +61,9 @@ export class TiketService {
 
   async findOne(id: number) {
     return this.prisma.tiket.findUnique({
-      where: { id },
+      where: {
+        id,
+      },
       include: {
         wisata: true,
       },
@@ -49,22 +72,18 @@ export class TiketService {
 
   async update(id: number, updateTiketDto: UpdateTiketDto) {
     return this.prisma.tiket.update({
-      where: { id },
-      data: {
-        namaPemesan: updateTiketDto.namaPemesan,
-        email: updateTiketDto.email,
-        jenisTiket: updateTiketDto.jenisTiket,
-        harga: updateTiketDto.harga ? Number(updateTiketDto.harga) : undefined,
-        jumlahTiket: updateTiketDto.jumlahTiket ? Number(updateTiketDto.jumlahTiket) : undefined,
-        totalHarga: updateTiketDto.totalHarga ? Number(updateTiketDto.totalHarga) : undefined,
-        wisataId: updateTiketDto.wisataId ? Number(updateTiketDto.wisataId) : undefined,
+      where: {
+        id,
       },
+      data: updateTiketDto,
     });
   }
 
   async remove(id: number) {
     return this.prisma.tiket.delete({
-      where: { id },
+      where: {
+        id,
+      },
     });
   }
 }
