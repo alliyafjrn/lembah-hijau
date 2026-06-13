@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import UserNavbar from "@/components/UserNavbar";
+import QRCode from "react-qr-code"; 
 
 export default function SuksesPage() {
   const [tiket, setTiket] = useState<any>(null);
@@ -26,6 +27,11 @@ export default function SuksesPage() {
 
         {tiket ? (
           <div className="space-y-4 text-sm text-gray-700">
+            {/* QR CODE SECTION */}
+            <div className="flex justify-center py-4">
+              <QRCode value={tiket.kodeBooking || "TICKET-EMPTY"} size={130} />
+            </div>
+
             <div className="flex justify-between bg-gray-50 p-2.5 rounded border">
               <span className="text-gray-500 font-medium">Kode Booking</span>
               <span className="font-mono font-bold text-gray-900">{tiket.kodeBooking || "GENERATING..."}</span>
@@ -33,28 +39,28 @@ export default function SuksesPage() {
 
             <div className="flex justify-between border-b pb-2">
               <span className="text-gray-500">Nama Pemesan</span>
-              <span className="text-gray-900 font-bold">{tiket.namaPemesan}</span>
+              <span className="text-gray-900 font-bold">{tiket.namaPemesan || "-"}</span>
             </div>
 
             <div className="flex justify-between border-b pb-2">
               <span className="text-gray-500">Email</span>
-              <span className="text-gray-900 font-medium">{tiket.email}</span>
+              <span className="text-gray-900 font-medium">{tiket.email || "-"}</span>
             </div>
 
             <div className="flex justify-between border-b pb-2">
               <span className="text-gray-500">Kategori Tiket</span>
-              <span className="text-blue-600 font-bold uppercase">{tiket.jenisTiket}</span>
+              <span className="text-blue-600 font-bold uppercase">{tiket.jenisTiket || "-"}</span>
             </div>
 
             <div className="flex justify-between border-b pb-2">
               <span className="text-gray-500">Jumlah Tiket</span>
-              <span className="text-gray-900 font-bold">{tiket.jumlahTiket} Pcs</span>
+              <span className="text-gray-900 font-bold">{tiket.jumlahTiket || 0} Pcs</span>
             </div>
 
             <div className="pt-4 flex justify-between items-center text-lg font-bold text-green-600">
               <span>Total Pembayaran</span>
               <span className="bg-green-700 text-white px-3 py-1 rounded font-extrabold text-base">
-                Rp {Number(tiket.totalHarga || 0).toLocaleString()}
+                Rp {Number(tiket.totalHarga || 0).toLocaleString('id-ID')}
               </span>
             </div>
           </div>

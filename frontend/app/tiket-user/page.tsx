@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { QRCodeSVG } from 'react-qr-code'; // Tambahan
 
 export default function TiketUserPage() {
   const router = useRouter();
@@ -61,6 +62,11 @@ export default function TiketUserPage() {
         </div>
         <h2 className="text-2xl font-black text-gray-800 tracking-tight">LEMBAH HIJAU</h2>
         <p className="text-xs text-gray-400 font-mono mt-0.5">Bukti Pembayaran Tiket Masuk</p>
+      </div>
+
+      {/* QR CODE SECTION (Tambahan) */}
+      <div className="flex justify-center mb-6">
+        <QRCodeSVG value={tiket.kodeBooking || "TICKET-EMPTY"} size={150} />
       </div>
 
       {/* Detail Konten Tiket */}
