@@ -8,8 +8,20 @@ export class TiketController {
   constructor(private readonly tiketService: TiketService) {}
 
   @Post()
-  create(@Body() createTiketDto: CreateTiketDto) {
-    return this.tiketService.create(createTiketDto);
+  async create(@Body() createTiketDto: CreateTiketDto) {
+    // Paksa konversi string dari frontend menjadi tipe number murni
+    createTiketDto.harga = Number(createTiketDto.harga);
+    createTiketDto.jumlahTiket = Number(createTiketDto.jumlahTiket);
+    createTiketDto.totalHarga = Number(createTiketDto.totalHarga);
+    createTiketDto.wisataId = Number(createTiketDto.wisataId);
+
+    const data = await this.tiketService.create(createTiketDto);
+
+    return {
+      success: true,
+      message: 'Tiket berhasil dibuat',
+      data,
+    };
   }
 
   @Get()

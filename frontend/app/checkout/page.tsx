@@ -1,107 +1,117 @@
-"use client";
+'use client';
 
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation"; // Diimpor untuk navigasi Next.js
+import { useRouter } from "next/navigation";
 import UserNavbar from "@/components/UserNavbar";
 import Footer from "@/components/Footer";
 import { createTiket } from "@/services/tiket";
 
 export default function CheckoutPage() {
+  const router = useRouter();
+
   const [data, setData] = useState<any>(null);
-  const router = useRouter(); // Inisialisasi router
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const tiket = localStorage.getItem("checkout");
-    if (tiket) {
-      setData(JSON.parse(tiket));
+    const checkoutData = localStorage.getItem('checkout');
+    if (checkoutData) {
+      setData(JSON.parse(checkoutData));
     }
+    setLoading(false);
   }, []);
 
   async function handleBayar() {
-    console.log("TOMBOL BAYAR DIKLIK");
-    console.log("Data yang dikirim ke API:", data);
-    
+    if (!data) {
+      alert("Data pemesanan tidak ditemukan!");
+      return;
+    }
+
     try {
-      const response = await createTiket({
-        namaPemesan: data.namaPemesan,
-        email: data.email,
-        jenisTiket: data.jenisTiket,
-        harga: data.harga,
-        jumlahTiket: data.jumlahTiket,
-        totalHarga: data.totalHarga,
-        wisataId: data.wisataId,
-      });
+      const dataKirim = {
+        namaPemesan: data.namaPemesan || "Anonim",
+        email: data.email || "",
+        jenisTiket: data.jenisTiket || "waterboom",
+        harga: Number(data.harga) || 0,
+        jumlahTiket: Number(data.jumlahTiket) || 1,
+        totalHarga:
+          Number(data.totalHarga) ||
+          Number(data.harga) * Number(data.jumlahTiket),
+        wisataId: Number(data.wisataId) || 1,
+      };
 
-      console.log("RESPONSE TIKET BERHASIL:", response);
+      console.log("Mengirim data tiket:", dataKirim);
 
-      localStorage.setItem("tiket", JSON.stringify(response));
+      const response = await createTiket(dataKirim);
+
+      console.log("Response tiket:", response);
+
+      localStorage.setItem(
+        "tiket",
+        JSON.stringify(response?.data ?? response),
+      );
+
       localStorage.removeItem("checkout");
-      
-      // Menggantikan window.location.href dengan navigasi bawaan Next.js
+
       router.push("/tiket-user");
-    } catch (error: any) {
+    } catch (error) {
       console.error("ERROR SAAT CREATE TIKET:", error);
-      // Menampilkan detail error response jika ada dari backend
-      alert(`Gagal melakukan pembayaran: ${error.response?.data?.message || error.message}`);
+      alert("Gagal melakukan pembayaran");
     }
   }
 
-  if (!data) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-100 text-gray-500">
-        Data tidak ditemukan
-      </div>
-    );
+  try {
+    const dataKirim = {
+      namaPemesan: data.namaPemesan || "Anonim",
+      email: data.email || "",
+      jenisTiket: data.jenisTiket || "waterboom",
+      harga: Number(data.harga) || 0,
+      jumlahTiket: Number(data.jumlahTiket) || 1,
+      totalHarga: Number(data.totalHarga) || (Number(data.harga) * Number(data.jumlahTiket)),
+      wisataId: Number(data.wisataId) || 1,
+    };
+
+    console.log("Mengirim data tiket ke backend:", dataKirim);
+
+    const response = await createTiket(dataKirim);
+    console.log("Response sukses dari backend:", response);
+
+    const tiketSaved = response?.data ? response.data : response;
+    localStorage.setItem('tiket', JSON.stringify(tiketSaved));
+
+    router.push('/tiket-user');
+  } catch (error) {
+    console.error("Proses pembuatan tiket gagal:", error);
+    alert("Gagal melakukan pembayaran, silakan cek terminal backend!");
+>>>>>>> 462a3f9 (progress halaman checkout)
   }
+}
 
-  return (
-    <div className="min-h-screen bg-gray-100 flex flex-col justify-between">
-      <div>
-        <UserNavbar />
-        <div className="max-w-3xl mx-auto p-8">
-          <div className="bg-white rounded-xl p-8 shadow">
-            <h1 className="text-3xl font-bold mb-8 text-gray-800">Checkout Tiket</h1>
+if (loading) return <div className="p-8 text-center">Loading...</div>;
+if (!data) return <div className="p-8 text-center text-red-500">Gagal memuat data checkout. Silakan pesan ulang.</div>;
 
-            <div className="space-y-4">
-              <div>
-                Nama: <b>{data.namaPemesan}</b>
-              </div>
+return (
+  <div className="max-w-md mx-auto my-10 p-6 bg-white rounded-lg shadow-md border">
+    <h2 className="text-2xl font-bold mb-6 text-gray-800">Review Pembayaran</h2>
 
-              <div>
-                Email: <b>{data.email}</b>
-              </div>
+    <div className="space-y-4 text-gray-700">
+      <div>Nama Pemesan: <span className="font-semibold">{data.namaPemesan}</span></div>
+      <div>Email: <span className="font-semibold">{data.email}</span></div>
+      <div>Kategori Tiket: <span className="font-semibold uppercase">{data.jenisTiket}</span></div>
+      <div>Jumlah Tiket: <span className="font-semibold">{data.jumlahTiket} Pcs</span></div>
+      <div>Harga Satuan: <span className="font-semibold">Rp {Number(data.harga).toLocaleString()}</span></div>
 
-              <div>
-                Wisata: <b>{data.namaWisata}</b>
-              </div>
-
-              <div>
-                Kategori Tiket: <b>{data.jenisTiket}</b>
-              </div>
-
-              <div>
-                Jumlah: <b>{data.jumlahTiket}</b>
-              </div>
-
-              <div>
-                Harga: <b>Rp {Number(data.harga).toLocaleString()}</b>
-              </div>
-
-              <div className="border-t pt-4 text-xl font-bold text-green-700">
-                Total: Rp {Number(data.totalHarga).toLocaleString()}
-              </div>
-            </div>
-
-            <button
-              className="mt-8 bg-green-700 hover:bg-green-800 text-white px-6 py-3 rounded-lg font-medium transition-colors w-full sm:w-auto"
-              onClick={handleBayar}
-            >
-              Bayar Sekarang
-            </button>
-          </div>
-        </div>
+      <div className="border-t pt-4 text-xl font-bold text-green-600 flex justify-between">
+        <span>Total Bayar:</span>
+        <span>Rp {Number(data.totalHarga).toLocaleString()}</span>
       </div>
-      <Footer />
     </div>
-  );
+
+    <button
+      onClick={handleBayar}
+      className="w-full mt-6 bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-4 rounded transition duration-200"
+    >
+      Bayar Sekarang
+    </button>
+  </div>
+);
 }
