@@ -1,12 +1,14 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation"; // Diimpor untuk navigasi Next.js
 import UserNavbar from "@/components/UserNavbar";
 import Footer from "@/components/Footer";
 import { createTiket } from "@/services/tiket";
 
 export default function CheckoutPage() {
   const [data, setData] = useState<any>(null);
+  const router = useRouter(); // Inisialisasi router
 
   useEffect(() => {
     const tiket = localStorage.getItem("checkout");
@@ -16,6 +18,9 @@ export default function CheckoutPage() {
   }, []);
 
   async function handleBayar() {
+    console.log("TOMBOL BAYAR DIKLIK");
+    console.log("Data yang dikirim ke API:", data);
+    
     try {
       const response = await createTiket({
         namaPemesan: data.namaPemesan,
@@ -27,12 +32,17 @@ export default function CheckoutPage() {
         wisataId: data.wisataId,
       });
 
+      console.log("RESPONSE TIKET BERHASIL:", response);
+
       localStorage.setItem("tiket", JSON.stringify(response));
       localStorage.removeItem("checkout");
-      window.location.href = "/tiket-user";
-    } catch (error) {
-      console.error(error);
-      alert("Gagal");
+      
+      // Menggantikan window.location.href dengan navigasi bawaan Next.js
+      router.push("/tiket-user");
+    } catch (error: any) {
+      console.error("ERROR SAAT CREATE TIKET:", error);
+      // Menampilkan detail error response jika ada dari backend
+      alert(`Gagal melakukan pembayaran: ${error.response?.data?.message || error.message}`);
     }
   }
 
