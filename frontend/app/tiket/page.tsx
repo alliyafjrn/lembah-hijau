@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Sidebar from "@/components/sidebar";
 import Navbar from "@/components/navbar";
-import { getTiket, deleteTiket, updateStatusTiket } from "@/services/tiket";
+import { getTiket, updateStatusTiket } from "@/services/tiket";
 
 export default function TiketPage() {
   const [tiket, setTiket] = useState<any[]>([]);
@@ -22,13 +22,6 @@ export default function TiketPage() {
     loadTiket();
   }
 
-  async function handleDelete(id: number) {
-    if (confirm("Yakin ingin menghapus data tiket ini?")) {
-      await deleteTiket(id);
-      loadTiket();
-    }
-  }
-
   return (
     <div className="flex min-h-screen bg-gray-50">
       <Sidebar />
@@ -39,54 +32,59 @@ export default function TiketPage() {
             <h1 className="text-2xl font-bold text-gray-800 mb-6">Data Tiket Pelanggan</h1>
             
             <div className="overflow-x-auto">
-              <table className="w-full text-left border-collapse">
+              <table className="w-full text-left border" style={{ width: "100%", borderCollapse: "collapse" }}>
                 <thead>
                   <tr className="bg-gray-50 border-b border-gray-200">
-                    <th className="p-4 font-semibold text-gray-700">Kode Booking</th>
-                    <th className="p-4 font-semibold text-gray-700">Nama</th>
-                    <th className="p-4 font-semibold text-gray-700">Email</th>
-                    <th className="p-4 font-semibold text-gray-700">Kategori</th>
-                    <th className="p-4 font-semibold text-gray-700 text-center">Jumlah</th>
-                    <th className="p-4 font-semibold text-gray-700">Total</th>
-                    <th className="p-4 font-semibold text-gray-700 text-center">Status</th>
-                    <th className="p-4 font-semibold text-gray-700 text-center">Aksi</th>
+                    <th className="border p-3 text-gray-700">Kode Booking</th>
+                    <th className="border p-3 text-gray-700">Nama</th>
+                    <th className="border p-3 text-gray-700">Email</th>
+                    <th className="border p-3 text-gray-700">Kategori</th>
+                    <th className="border p-3 text-gray-700 text-center">Jumlah</th>
+                    <th className="border p-3 text-gray-700">Total</th>
+                    <th className="border p-3 text-gray-700 text-center">Status</th>
+                    <th className="border p-3 text-gray-700 text-center">Aksi</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-100">
                   {tiket.map((item) => (
                     <tr key={item.id} className="hover:bg-gray-50 transition-colors">
-                      <td className="p-4 font-mono text-sm">{item.kodeBooking}</td>
-                      <td className="p-4">{item.namaPemesan}</td>
-                      <td className="p-4">{item.email}</td>
-                      <td className="p-4 capitalize">{item.jenisTiket}</td>
-                      <td className="p-4 text-center">{item.jumlahTiket}</td>
-                      <td className="p-4 font-semibold">Rp {item.totalHarga?.toLocaleString()}</td>
-                      <td className="p-4 text-center">
-                        <span className={`px-3 py-1.5 rounded-full text-xs font-bold ${
-                          item.status === "dibayar" 
-                            ? "bg-green-100 text-green-700" 
-                            : "bg-yellow-100 text-yellow-700"
-                        }`}>
+                      <td className="border p-3 font-mono text-sm">{item.kodeBooking}</td>
+                      <td className="border p-3">{item.namaPemesan}</td>
+                      <td className="border p-3">{item.email}</td>
+                      <td className="border p-3 capitalize">{item.jenisTiket}</td>
+                      <td className="border p-3 text-center">{item.jumlahTiket}</td>
+                      <td className="border p-3 font-semibold">Rp {item.totalHarga?.toLocaleString()}</td>
+                      <td className="border p-3 text-center">
+                        <span 
+                          style={{
+                            padding: "6px 12px",
+                            borderRadius: "9999px",
+                            fontSize: "12px",
+                            fontWeight: "bold",
+                            backgroundColor: item.status === "dibayar" ? "#dcfce7" : "#fef9c3",
+                            color: item.status === "dibayar" ? "#15803d" : "#a16207"
+                          }}
+                        >
                           {item.status}
                         </span>
                       </td>
-                      <td className="p-4 text-center">
-                        <div className="flex items-center justify-center gap-2">
-                          {item.status === "pending" && (
-                            <button 
-                              onClick={() => konfirmasiTiket(item.id)}
-                              className="bg-green-600 text-white px-3 py-1.5 rounded-lg text-sm font-medium hover:bg-green-700 transition-all"
-                            >
-                              Konfirmasi
-                            </button>
-                          )}
+                      <td className="border p-3 text-center">
+                        {item.status === "pending" && (
                           <button 
-                            onClick={() => handleDelete(item.id)}
-                            className="bg-red-50 text-red-600 px-3 py-1.5 rounded-lg text-sm font-medium hover:bg-red-600 hover:text-white transition-all"
+                            onClick={() => konfirmasiTiket(item.id)}
+                            style={{
+                              backgroundColor: "#16a34a",
+                              color: "white",
+                              padding: "6px 12px",
+                              borderRadius: "6px",
+                              border: "none",
+                              cursor: "pointer",
+                              fontWeight: "500"
+                            }}
                           >
-                            Hapus
+                            Konfirmasi
                           </button>
-                        </div>
+                        )}
                       </td>
                     </tr>
                   ))}
