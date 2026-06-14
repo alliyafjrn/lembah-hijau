@@ -2,7 +2,6 @@
 
 import { useEffect, useState, use } from "react";
 import { getWisataById } from "@/services/wisata";
-import { createTiket } from "@/services/tiket";
 import Link from "next/link";
 import UserNavbar from "@/components/UserNavbar";
 
@@ -27,7 +26,6 @@ export default function DetailWisataPage({ params }: { params: Promise<{ id: str
   async function loadWisata(wisataId: number) {
     try {
       const response = await getWisataById(wisataId);
-
       if (response && response.data) {
         setWisata(response.data);
       } else {
@@ -42,114 +40,131 @@ export default function DetailWisataPage({ params }: { params: Promise<{ id: str
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-100">
-        <p className="text-xl text-gray-600 font-semibold animate-pulse">
-          Memuat detail wisata...
-        </p>
+      <div style={{ minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center", backgroundColor: "#f4f7f5", fontFamily: "sans-serif", fontSize: "14px", color: "#4a554e" }}>
+        Memuat detail wisata...
       </div>
     );
   }
 
   if (!wisata) {
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100 text-black">
+      <div style={{ minHeight: "100vh", display: "flex", flexDirection: "column", backgroundColor: "#f4f7f5", color: "#2d3732", fontFamily: "sans-serif" }}>
         <UserNavbar />
-        <p className="text-xl font-semibold text-gray-600 mb-4">
-          Data wisata tidak ditemukan.
-        </p>
-        <Link href="/wisata-user" className="text-green-700 hover:underline">
-          ← Kembali ke Daftar Wisata
-        </Link>
+        <div style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: "16px" }}>
+          <p style={{ fontSize: "14px", color: "#607466", marginBottom: "12px" }}>Data wisata tidak ditemukan.</p>
+          <Link href="/wisata-user" style={{ fontSize: "12px", fontWeight: 600, color: "#166534", backgroundColor: "#edf5f0", padding: "8px 16px", borderRadius: "8px", textDecoration: "none" }}>
+            ← Kembali ke Daftar Wisata
+          </Link>
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gray-100 text-black">
+    <div style={{ minHeight: "100vh", backgroundColor: "#eff3f0", color: "#2d3732", fontFamily: "sans-serif", display: "flex", flexDirection: "column" }}>
       <UserNavbar />
-      <div className="max-w-3xl mx-auto p-8">
-        <Link
-          href="/wisata-user"
-          className="inline-block mb-6 text-green-700 font-medium hover:text-green-800 transition"
-        >
-          ← Kembali ke Daftar Wisata
-        </Link>
+      
+      <div style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", padding: "24px 16px", boxSizing: "border-box" }}>
+        <div style={{ width: "100%", maxWidth: "480px", marginBottom: "12px", textAlign: "left" }}>
+          <Link href="/wisata-user" style={{ fontSize: "12px", fontWeight: 500, color: "#607466", textDecoration: "none" }}>
+            ← Kembali ke Daftar Wisata
+          </Link>
+        </div>
 
-        <div className="bg-white p-8 rounded-xl shadow-md border border-gray-200">
-          <img
-            src={wisata.gambar || "https://placehold.co/600x400"}
-            alt={wisata.nama}
-            className="w-full h-64 object-cover rounded-lg mb-6 shadow-sm"
-          />
-          <h1 className="text-4xl font-bold text-green-700 mb-5">
-            {wisata.nama}
-          </h1>
-
-          <p className="text-lg text-gray-700 mb-6 leading-relaxed">
-            {wisata.deskripsi || "Tidak ada deskripsi lengkap mengenai tempat wisata ini."}
-          </p>
-
-          <div className="inline-block bg-green-50 text-green-800 px-4 py-2 rounded-lg border border-green-200 font-medium">
-            Kategori: {wisata.kategori?.nama || wisata.kategoriNama || "-"}
+        <div style={{ width: "100%", maxWidth: "480px", backgroundColor: "#ffffff", border: "1px solid #e1e8e3", borderRadius: "16px", boxShadow: "0 10px 15px -3px rgba(0, 0, 0, 0.04)", overflow: "hidden" }}>
+          
+          <div style={{ display: "flex", justifyContent: "center", alignItems: "center", padding: "16px", backgroundColor: "#ffffff" }}>
+            <div style={{ position: "relative", width: "100%", height: "240px", borderRadius: "12px", overflow: "hidden", border: "1px solid #e2e8f0" }}>
+              <img
+                src={wisata.gambar || "https://placehold.co/600x400"}
+                alt={wisata.nama}
+                style={{ width: "100%", height: "100%", objectFit: "cover" }}
+              />
+              <span style={{ position: "absolute", top: "12px", left: "12px", backgroundColor: "rgba(237, 245, 240, 0.95)", backdropFilter: "blur(4px)", color: "#1b4332", fontSize: "10px", fontWeight: 700, padding: "4px 8px", borderRadius: "6px", textTransform: "uppercase", border: "1px solid #d1e4d7" }}>
+                {wisata.kategori?.nama || wisata.kategoriNama || "Wisata"}
+              </span>
+            </div>
           </div>
 
-          <div className="mt-10">
-            <h2 className="text-2xl font-bold mb-5 text-green-700">Pesan Tiket</h2>
-            <div className="space-y-4">
-              <input
-                type="text"
-                placeholder="Nama Pemesan"
-                value={namaPemesan}
-                onChange={(e) => setNamaPemesan(e.target.value)}
-                className="w-full border p-3 rounded"
-              />
+          <div style={{ padding: "0 20px 20px 20px", borderBottom: "1px solid #f0f4f1" }}>
+            <h1 style={{ margin: "0 0 8px 0", fontSize: "20px", fontWeight: 700, color: "#1b4332" }}>
+              {wisata.nama}
+            </h1>
+            <p style={{ margin: 0, fontSize: "13px", color: "#4d5951", lineHeight: "1.6" }}>
+              {wisata.deskripsi || "Tidak ada deskripsi lengkap mengenai tempat wisata ini."}
+            </p>
+          </div>
 
-              <input
-                type="email"
-                placeholder="Email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="w-full border p-3 rounded"
-              />
+          <div style={{ padding: "20px", backgroundColor: "#fcfdfe", display: "flex", flexDirection: "column", gap: "14px" }}>
+            <h2 style={{ margin: 0, fontSize: "14px", fontWeight: 700, color: "#1b4332", display: "flex", alignItems: "center", gap: "6px" }}>
+              <span style={{ display: "inline-block", width: "4px", height: "14px", backgroundColor: "#15803d", borderRadius: "2px" }}></span>
+              Pesan Tiket Masuk
+            </h2>
+            
+            <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+              <div>
+                <input
+                  type="text"
+                  placeholder="Nama Pemesan"
+                  value={namaPemesan}
+                  onChange={(e) => setNamaPemesan(e.target.value)}
+                  style={{ width: "100%", boxSizing: "border-box", border: "1px solid #cbd5e1", padding: "10px 12px", borderRadius: "8px", fontSize: "13px", outline: "none", fontFamily: "sans-serif" }}
+                />
+              </div>
 
-              <select
-                value={jenisTiket}
-                onChange={(e) => handleJenisTiket(e.target.value)}
-                className="w-full border rounded p-3"
-              >
-                <option value="waterboom">
-                  Tiket Masuk + Waterboom (Rp25.000)
-                </option>
-                <option value="satwa">
-                  Tiket Masuk + Taman Satwa (Rp50.000)
-                </option>
-                <option value="terusan">
-                  Tiket Terusan (Rp60.000)
-                </option>
-              </select>
+              <div>
+                <input
+                  type="email"
+                  placeholder="Alamat Email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  style={{ width: "100%", boxSizing: "border-box", border: "1px solid #cbd5e1", padding: "10px 12px", borderRadius: "8px", fontSize: "13px", outline: "none", fontFamily: "sans-serif" }}
+                />
+              </div>
 
-              <input
-                type="number"
-                min={1}
-                value={jumlahTiket}
-                onChange={(e) => setJumlahTiket(Number(e.target.value))}
-                className="w-full border p-3 rounded"
-              />
+              <div>
+                <select
+                  value={jenisTiket}
+                  onChange={(e) => handleJenisTiket(e.target.value)}
+                  style={{ width: "100%", boxSizing: "border-box", border: "1px solid #cbd5e1", padding: "10px 12px", borderRadius: "8px", fontSize: "13px", backgroundColor: "#ffffff", outline: "none", color: "#334155", fontFamily: "sans-serif" }}
+                >
+                  <option value="waterboom">Tiket Masuk + Waterboom (Rp25.000)</option>
+                  <option value="satwa">Tiket Masuk + Taman Satwa (Rp50.000)</option>
+                  <option value="terusan">Tiket Terusan (Rp60.000)</option>
+                </select>
+              </div>
 
-              <div className="border rounded p-4 bg-green-50">
-                <p>
-                  Harga: Rp{harga.toLocaleString()}
-                </p>
-                <p>
-                  Total: Rp{(harga * jumlahTiket).toLocaleString()}
-                </p>
+              <div>
+                <input
+                  type="number"
+                  min={1}
+                  value={jumlahTiket}
+                  onChange={(e) => setJumlahTiket(Math.max(1, Number(e.target.value)))}
+                  style={{ width: "100%", boxSizing: "border-box", border: "1px solid #cbd5e1", padding: "10px 12px", borderRadius: "8px", fontSize: "13px", outline: "none", fontFamily: "sans-serif" }}
+                />
+              </div>
+
+              <div style={{ backgroundColor: "#edf5f0", border: "1px solid #d1e4d7", borderRadius: "10px", padding: "12px", fontSize: "12px", color: "#4d5951", display: "flex", flexDirection: "column", gap: "6px", marginTop: "4px" }}>
+                <div style={{ display: "flex", justifyContent: "space-between" }}>
+                  <span>Harga Satuan</span>
+                  <span style={{ fontWeight: 600, color: "#2d3732" }}>Rp {harga.toLocaleString('id-ID')}</span>
+                </div>
+                <div style={{ display: "flex", justifyContent: "space-between" }}>
+                  <span>Kuantitas</span>
+                  <span style={{ fontWeight: 600, color: "#2d3732" }}>{jumlahTiket} Pcs</span>
+                </div>
+                <div style={{ borderTop: "1px solid #d1e4d7", margin: "4px 0" }} />
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", fontSize: "13px", fontWeight: 700 }}>
+                  <span style={{ color: "#2d3732" }}>Total Tagihan</span>
+                  <span style={{ color: "#15803d", fontSize: "15px" }}>Rp {(harga * jumlahTiket).toLocaleString('id-ID')}</span>
+                </div>
               </div>
 
               <button
                 onClick={handlePesan}
-                className="bg-green-700 text-white px-5 py-3 rounded"
+                style={{ width: "100%", marginTop: "6px", padding: "11px", backgroundColor: "#166534", color: "#ffffff", fontWeight: 600, fontSize: "13px", borderRadius: "8px", border: "none", cursor: "pointer", boxShadow: "0 2px 4px rgba(22, 101, 52, 0.1)" }}
               >
-                Pesan Tiket
+                Lanjut ke Pembayaran
               </button>
             </div>
           </div>
@@ -160,6 +175,11 @@ export default function DetailWisataPage({ params }: { params: Promise<{ id: str
   );
 
   async function handlePesan() {
+    if (!namaPemesan.trim() || !email.trim()) {
+      alert("Silakan lengkapi nama dan email Anda.");
+      return;
+    }
+
     localStorage.setItem(
       "checkout",
       JSON.stringify({
@@ -179,15 +199,8 @@ export default function DetailWisataPage({ params }: { params: Promise<{ id: str
 
   function handleJenisTiket(value: string) {
     setJenisTiket(value);
-
-    if (value === "waterboom") {
-      setHarga(25000);
-    }
-    if (value === "satwa") {
-      setHarga(50000);
-    }
-    if (value === "terusan") {
-      setHarga(60000);
-    }
+    if (value === "waterboom") setHarga(25000);
+    if (value === "satwa") setHarga(50000);
+    if (value === "terusan") setHarga(60000);
   }
 }
