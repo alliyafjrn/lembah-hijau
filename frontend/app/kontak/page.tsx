@@ -1,43 +1,56 @@
+"use client";
+
 import UserNavbar from "@/components/UserNavbar";
 import Footer from "@/components/Footer";
 
 export default function KontakPage() {
   return (
-    <div className="min-h-screen bg-gray-100 flex flex-col">
+    <div style={{ minHeight: "100vh", backgroundColor: "#f8fafc", fontFamily: "sans-serif", display: "flex", flexDirection: "column" }}>
       <UserNavbar />
       
-      {/* Container utama dengan padding responsif */}
-      <div className="flex-grow max-w-5xl mx-auto bg-white p-4 md:p-8 rounded-lg shadow-md mt-4 md:mt-10 w-full md:w-11/12">
-        <h1 className="text-2xl md:text-4xl font-bold text-green-700 mb-6">
-          Kontak
-        </h1>
+      <div style={{ flex: 1, width: "100%", maxWidth: "1152px", margin: "0 auto", padding: "40px 24px", boxSizing: "border-box" }}>
+        <div style={{ backgroundColor: "#ffffff", border: "1px solid #e2e8f0", borderRadius: "16px", padding: "32px", boxShadow: "0 4px 6px -1px rgba(0,0,0,0.05)" }}>
+          
+          <h1 style={{ margin: "0 0 24px 0", fontSize: "32px", fontWeight: 800, color: "#166534" }}>
+            Hubungi Kami
+          </h1>
 
-        <div className="text-sm md:text-base">
-          <p>
-            <span className="font-semibold">Alamat:</span><br />
-            Jalan Raden Imba Kusuma, Sukadana Ham, Bandar Lampung
-          </p>
+          <div style={{ display: "flex", flexWrap: "wrap", gap: "24px", marginBottom: "32px" }}>
+            <div style={{ flex: "1 1 280px", backgroundColor: "#f0fdf4", padding: "20px", borderRadius: "12px", border: "1px solid #dcfce7" }}>
+              <div style={{ fontSize: "20px", marginBottom: "8px" }}>📍</div>
+              <h3 style={{ margin: "0 0 4px 0", fontSize: "14px", fontWeight: 700, color: "#14532d" }}>Alamat Resmi</h3>
+              <p style={{ margin: 0, fontSize: "13.5px", color: "#166534", lineHeight: "1.5" }}>
+                Jalan Raden Imba Kusuma, Sukadana Ham, Bandar Lampung
+              </p>
+            </div>
 
-          <p className="mt-4">
-            <span className="font-semibold">Telepon:</span><br />
-            (0721) 123456
-          </p>
+            <div style={{ flex: "1 1 280px", backgroundColor: "#f8fafc", padding: "20px", borderRadius: "12px", border: "1px solid #e2e8f0" }}>
+              <div style={{ fontSize: "20px", marginBottom: "8px" }}>📞</div>
+              <h3 style={{ margin: "0 0 4px 0", fontSize: "14px", fontWeight: 700, color: "#0f172a" }}>Nomor Telepon</h3>
+              <p style={{ margin: 0, fontSize: "13.5px", color: "#475569" }}>
+                (0721) 123456
+              </p>
+            </div>
 
-          <p className="mt-4">
-            <span className="font-semibold">Email:</span><br />
-            info@lembahhijau.com
-          </p>
-        </div>
+            <div style={{ flex: "1 1 280px", backgroundColor: "#f8fafc", padding: "20px", borderRadius: "12px", border: "1px solid #e2e8f0" }}>
+              <div style={{ fontSize: "20px", marginBottom: "8px" }}>✉️</div>
+              <h3 style={{ margin: "0 0 4px 0", fontSize: "14px", fontWeight: 700, color: "#0f172a" }}>E-mail Hubungan</h3>
+              <p style={{ margin: 0, fontSize: "13.5px", color: "#475569" }}>
+                info@lembahhijau.com
+              </p>
+            </div>
+          </div>
 
-        {/* Iframe responsif dengan aspect ratio */}
-        <div className="mt-8 w-full aspect-video">
-          <iframe
-            src="https://maps.google.com/maps?q=lembah%20hijau%20lampung&t=&z=13&ie=UTF8&iwloc=&output=embed"
-            width="100%"
-            height="100%"
-            loading="lazy"
-            className="rounded-lg shadow-sm"
-          />
+          <div style={{ width: "100%", height: "400px", borderRadius: "12px", overflow: "hidden", border: "1px solid #e2e8f0" }}>
+            <iframe
+              src="https://maps.google.com/maps?q=lembah%20hijau%20lampung&t=&z=13&ie=UTF8&iwloc=&output=embed"
+              width="100%"
+              height="100%"
+              loading="lazy"
+              style={{ border: 0 }}
+            />
+          </div>
+
         </div>
       </div>
       
