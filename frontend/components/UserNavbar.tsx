@@ -2,12 +2,20 @@ import Link from "next/link";
 
 export default function UserNavbar() {
   return (
-    <nav className="bg-green-700 text-white p-4">
-      <div className="max-w-6xl mx-auto flex flex-col md:flex-row gap-4 md:gap-6">
-        <Link href="/">Home</Link>
-        <Link href="/wisata-user">Wisata</Link>
-        <Link href="/tentang">Tentang</Link>
-        <Link href="/kontak">Kontak</Link>
+    <nav style={{ backgroundColor: "#166534", padding: "14px 16px", fontFamily: "sans-serif" }}>
+      <div style={{ maxWidth: "480px", margin: "0 auto", display: "flex", justifyContent: "center", alignItems: "center", gap: "20px" }}>
+        <Link href="/" style={{ color: "#ffffff", textDecoration: "none", fontSize: "14px", fontWeight: "500", opacity: "0.9" }}>
+          Home
+        </Link>
+        <Link href="/wisata-user" style={{ color: "#ffffff", textDecoration: "none", fontSize: "14px", fontWeight: "600", borderBottom: "2px solid #ffffff", paddingBottom: "2px" }}>
+          Wisata
+        </Link>
+        <Link href="/tentang" style={{ color: "#ffffff", textDecoration: "none", fontSize: "14px", fontWeight: "500", opacity: "0.9" }}>
+          Tentang
+        </Link>
+        <Link href="/kontak" style={{ color: "#ffffff", textDecoration: "none", fontSize: "14px", fontWeight: "500", opacity: "0.9" }}>
+          Kontak
+        </Link>
       </div>
     </nav>
   );
