@@ -6,17 +6,14 @@ import { createTiket } from "@/services/tiket";
 
 export default function CheckoutPage() {
   const router = useRouter();
-
   const [data, setData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const checkoutData = localStorage.getItem("checkout");
-
     if (checkoutData) {
       setData(JSON.parse(checkoutData));
     }
-
     setLoading(false);
   }, []);
 
@@ -33,102 +30,44 @@ export default function CheckoutPage() {
         jenisTiket: data.jenisTiket || "waterboom",
         harga: Number(data.harga) || 0,
         jumlahTiket: Number(data.jumlahTiket) || 1,
-        totalHarga:
-          Number(data.totalHarga) ||
-          Number(data.harga) * Number(data.jumlahTiket),
+        totalHarga: Number(data.totalHarga) || Number(data.harga) * Number(data.jumlahTiket),
         wisataId: Number(data.wisataId) || 1,
       };
 
-      console.log("Mengirim data tiket:", dataKirim);
-
       const response = await createTiket(dataKirim);
 
-      console.log("Response tiket:", response);
-
-      localStorage.setItem(
-        "tiket",
-        JSON.stringify(response?.data ?? response),
-      );
-
+      localStorage.setItem("tiket", JSON.stringify(response?.data ?? response));
       localStorage.removeItem("checkout");
 
       router.push("/tiket-user");
     } catch (error) {
       console.error("ERROR SAAT CREATE TIKET:", error);
-      alert("Gagal melakukan pembayaran");
+      alert("Gagal melakukan pembayaran. Cek terminal backend.");
     }
   }
 
-  if (loading) {
-    return <div className="p-8 text-center">Loading...</div>;
-  }
-
-  if (!data) {
-    return (
-      <div className="p-8 text-center text-red-500">
-        Gagal memuat data checkout. Silakan pesan ulang.
-      </div>
-    );
-  }
+  if (loading) return <div style={{ padding: "20px", textAlign: "center" }}>Loading...</div>;
+  if (!data) return <div style={{ padding: "20px", textAlign: "center", color: "red" }}>Data tidak ditemukan.</div>;
 
   return (
-    <div className="max-w-md mx-auto my-10 p-6 bg-white rounded-lg shadow-md border">
-      <h2 className="text-2xl font-bold mb-6 text-gray-800">
-        Review Pembayaran
-      </h2>
-
-      <div className="space-y-4 text-gray-700">
-        <div>
-          Nama Pemesan:
-          <span className="font-semibold">
-            {" "}
-            {data.namaPemesan}
-          </span>
-        </div>
-
-        <div>
-          Email:
-          <span className="font-semibold">
-            {" "}
-            {data.email}
-          </span>
-        </div>
-
-        <div>
-          Kategori Tiket:
-          <span className="font-semibold uppercase">
-            {" "}
-            {data.jenisTiket}
-          </span>
-        </div>
-
-        <div>
-          Jumlah Tiket:
-          <span className="font-semibold">
-            {" "}
-            {data.jumlahTiket} Pcs
-          </span>
-        </div>
-
-        <div>
-          Harga Satuan:
-          <span className="font-semibold">
-            {" "}
-            Rp {Number(data.harga).toLocaleString()}
-          </span>
-        </div>
-
-        <div className="border-t pt-4 text-xl font-bold text-green-600 flex justify-between">
-          <span>Total Bayar:</span>
-          <span>
-            Rp {Number(data.totalHarga).toLocaleString()}
-          </span>
+    <div style={{ maxWidth: "450px", margin: "40px auto", padding: "24px", border: "1px solid #ccc", borderRadius: "8px", fontFamily: "sans-serif" }}>
+      <h2 style={{ fontSize: "24px", fontWeight: "bold", marginBottom: "24px" }}>Review Pembayaran</h2>
+      
+      <div style={{ display: "flex", flexDirection: "column", gap: "16px", marginBottom: "24px" }}>
+        <div>Nama Pemesan: <strong>{data.namaPemesan}</strong></div>
+        <div>Email: <strong>{data.email}</strong></div>
+        <div>Kategori Tiket: <strong style={{ textTransform: "uppercase" }}>{data.jenisTiket}</strong></div>
+        <div>Jumlah Tiket: <strong>{data.jumlahTiket} Pcs</strong></div>
+        <div>Harga Satuan: <strong>Rp {Number(data.harga).toLocaleString()}</strong></div>
+        
+        <div style={{ borderTop: "1px solid #eee", paddingTop: "16px", fontSize: "20px", fontWeight: "bold", color: "#16a34a", display: "flex", justifyContent: "between" }}>
+          <span>Total Bayar: Rp {Number(data.totalHarga).toLocaleString()}</span>
         </div>
       </div>
 
       <button
         onClick={handleBayar}
-        className="w-full mt-6 bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-4 rounded transition duration-200"
+        style={{ wWidth: "100%", width: "100%", backgroundColor: "#16a34a", color: "white", fontWeight: "bold", padding: "12px", borderRadius: "4px", border: "none", cursor: "pointer", fontSize: "16px" }}
       >
         Bayar Sekarang
       </button>

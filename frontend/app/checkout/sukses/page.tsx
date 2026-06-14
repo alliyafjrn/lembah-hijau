@@ -11,7 +11,11 @@ export default function SuksesPage() {
   useEffect(() => {
     const dataTiket = localStorage.getItem("tiket");
     if (dataTiket) {
-      setTiket(JSON.parse(dataTiket));
+      try {
+        setTiket(JSON.parse(dataTiket));
+      } catch (e) {
+        console.error("Gagal parsing data tiket:", e);
+      }
     }
   }, []);
 
