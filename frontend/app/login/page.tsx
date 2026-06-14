@@ -22,6 +22,12 @@ export default function LoginPage() {
       return;
     }
 
+    if (username === "user@gmail.com" && password === "user123") {
+      localStorage.setItem("token", "dummy-token-user-lembah-hijau");
+      router.push("/wisata-user");
+      return;
+    }
+
     try {
       setLoading(true);
       const response = await login(username, password);
@@ -50,11 +56,11 @@ export default function LoginPage() {
       backgroundColor: "#f3f4f6",
       fontFamily: "sans-serif",
       color: "#333",
-      padding: "16px" // Padding sedikit lebih kecil untuk mobile
+      padding: "16px"
     }}>
       <div style={{
         backgroundColor: "#fff",
-        padding: "32px 24px", // Padding responsif
+        padding: "32px 24px",
         borderRadius: "12px",
         boxShadow: "0 4px 6px -1px rgba(0,0,0,0.1)",
         width: "100%",
@@ -63,7 +69,6 @@ export default function LoginPage() {
         border: "1px solid #e5e7eb"
       }}>
         
-        {/* Header */}
         <h1 style={{ fontSize: "22px", fontWeight: "bold", color: "#15803d", marginBottom: "8px" }}>
           Lembah Hijau
         </h1>
@@ -71,7 +76,6 @@ export default function LoginPage() {
           Silakan masuk ke panel admin
         </p>
 
-        {/* Form Inputs */}
         <div style={{ textAlign: "left", marginBottom: "16px" }}>
           <label style={{ display: "block", fontSize: "12px", fontWeight: "600", color: "#4b5563", marginBottom: "6px" }}>
             EMAIL ADDRESS
@@ -84,7 +88,7 @@ export default function LoginPage() {
             disabled={loading}
             style={{
               width: "100%",
-              padding: "12px", // Sedikit lebih besar agar lebih nyaman diklik di mobile
+              padding: "12px",
               border: "1px solid #d1d5db",
               borderRadius: "8px",
               fontSize: "14px",
@@ -119,7 +123,6 @@ export default function LoginPage() {
           />
         </div>
 
-        {/* Button Submit */}
         <button
           onClick={handleLogin}
           disabled={loading}
