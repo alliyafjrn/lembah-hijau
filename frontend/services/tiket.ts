@@ -22,7 +22,7 @@ export async function createTiket(data: any) {
 
 export async function getTiket() {
   try {
-    const response = await fetch("http://localhost:3000/tiket");
+    const response = await fetch("http://localhost:3003/tiket");
     return await response.json();
   } catch (error) {
     return [];
@@ -42,7 +42,7 @@ export async function deleteTiket(id: number) {
 }
 
 export async function updateStatusTiket(id: number, status: string) {
-  const response = await fetch(`http://localhost:3000/tiket/${id}`, {
+  const response = await fetch(`http://localhost:3003/tiket/${id}`, {
     method: "PATCH",
     headers: {
       "Content-Type": "application/json",

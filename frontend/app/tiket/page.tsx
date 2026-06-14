@@ -17,9 +17,15 @@ export default function TiketPage() {
     setTiket(Array.isArray(response) ? response : (response.data || []));
   }
 
-  async function updateTiketStatus(id: number, status: string) {
-    await updateStatusTiket(id, status);
-    loadTiket();
+  async function updateTiketStatus(id: any, status: string) {
+    try {
+      const targetId = Number(id);
+      
+      await updateStatusTiket(targetId, status.toLowerCase());
+      await loadTiket();
+    } catch (error) {
+      console.error("Gagal memperbarui status:", error);
+    }
   }
 
   return (
@@ -46,48 +52,68 @@ export default function TiketPage() {
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-100">
-                  {tiket.map((item) => (
-                    <tr key={item.id} className="hover:bg-gray-50 transition-colors">
-                      <td className="border p-3 font-mono text-sm">{item.kodeBooking}</td>
-                      <td className="border p-3">{item.namaPemesan}</td>
-                      <td className="border p-3">{item.email}</td>
-                      <td className="border p-3 capitalize">{item.jenisTiket}</td>
-                      <td className="border p-3 text-center">{item.jumlahTiket}</td>
-                      <td className="border p-3 font-semibold">Rp {item.totalHarga?.toLocaleString()}</td>
-                      <td className="border p-3 text-center">
-                        <span 
-                          style={{
-                            padding: "6px 12px",
-                            borderRadius: "9999px",
-                            fontSize: "12px",
-                            fontWeight: "bold",
-                            backgroundColor: item.status === "dibayar" ? "#dcfce7" : "#fef9c3",
-                            color: item.status === "dibayar" ? "#15803d" : "#a16207"
-                          }}
-                        >
-                          {item.status}
-                        </span>
-                      </td>
-                      <td className="border p-3 text-center">
-                        {item.status === "pending" && (
-                          <button 
-                            onClick={() => updateTiketStatus(item.id, "dibayar")}
+                  {tiket.map((item) => {
+                    const currentStatus = item.status?.toLowerCase();
+
+                    return (
+                      <tr key={item.id} className="hover:bg-gray-50 transition-colors">
+                        <td className="border p-3 font-mono text-sm">{item.kodeBooking}</td>
+                        <td className="border p-3">{item.namaPemesan}</td>
+                        <td className="border p-3">{item.email}</td>
+                        <td className="border p-3 capitalize">{item.jenisTiket}</td>
+                        <td className="border p-3 text-center">{item.jumlahTiket}</td>
+                        <td className="border p-3 font-semibold">Rp {item.totalHarga?.toLocaleString()}</td>
+                        <td className="border p-3 text-center">
+                          <span 
                             style={{
-                              backgroundColor: "#16a34a",
-                              color: "white",
                               padding: "6px 12px",
-                              borderRadius: "6px",
-                              border: "none",
-                              cursor: "pointer",
-                              fontWeight: "500"
+                              borderRadius: "9999px",
+                              fontSize: "12px",
+                              fontWeight: "bold",
+                              backgroundColor: currentStatus === "selesai" ? "#dbeafe" : currentStatus === "dibayar" ? "#dcfce7" : "#fef9c3",
+                              color: currentStatus === "selesai" ? "#1d4ed8" : currentStatus === "dibayar" ? "#15803d" : "#a16207"
                             }}
                           >
-                            Konfirmasi
-                          </button>
-                        )}
-                      </td>
-                    </tr>
-                  ))}
+                            {item.status}
+                          </span>
+                        </td>
+                        <td className="border p-3 text-center">
+                          {currentStatus === "pending" && (
+                            <button 
+                              onClick={() => updateTiketStatus(item.id, "dibayar")}
+                              style={{
+                                backgroundColor: "#16a34a",
+                                color: "white",
+                                padding: "6px 12px",
+                                borderRadius: "6px",
+                                border: "none",
+                                cursor: "pointer",
+                                fontWeight: "500"
+                              }}
+                            >
+                              Konfirmasi
+                            </button>
+                          )}
+                          {currentStatus === "dibayar" && (
+                            <button 
+                              onClick={() => updateTiketStatus(item.id, "selesai")}
+                              style={{
+                                backgroundColor: "#2563eb",
+                                color: "white",
+                                padding: "6px 12px",
+                                borderRadius: "6px",
+                                border: "none",
+                                cursor: "pointer",
+                                fontWeight: "500"
+                              }}
+                            >
+                              Selesai
+                            </button>
+                          )}
+                        </td>
+                      </tr>
+                    );
+                  })}
                 </tbody>
               </table>
               {tiket.length === 0 && (
