@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Sidebar from "@/components/sidebar";
 import Navbar from "@/components/navbar";
-import { getTiket, deleteTiket } from "@/services/tiket";
+import { getTiket, deleteTiket, updateStatusTiket } from "@/services/tiket";
 
 export default function TiketPage() {
   const [tiket, setTiket] = useState<any[]>([]);
@@ -15,6 +15,11 @@ export default function TiketPage() {
   async function loadTiket() {
     const response = await getTiket();
     setTiket(Array.isArray(response) ? response : (response.data || []));
+  }
+
+  async function konfirmasiTiket(id: number) {
+    await updateStatusTiket(id, "dibayar");
+    loadTiket();
   }
 
   async function handleDelete(id: number) {
@@ -43,6 +48,7 @@ export default function TiketPage() {
                     <th className="p-4 font-semibold text-gray-700">Kategori</th>
                     <th className="p-4 font-semibold text-gray-700 text-center">Jumlah</th>
                     <th className="p-4 font-semibold text-gray-700">Total</th>
+                    <th className="p-4 font-semibold text-gray-700 text-center">Status</th>
                     <th className="p-4 font-semibold text-gray-700 text-center">Aksi</th>
                   </tr>
                 </thead>
@@ -56,12 +62,31 @@ export default function TiketPage() {
                       <td className="p-4 text-center">{item.jumlahTiket}</td>
                       <td className="p-4 font-semibold">Rp {item.totalHarga?.toLocaleString()}</td>
                       <td className="p-4 text-center">
-                        <button 
-                          onClick={() => handleDelete(item.id)}
-                          className="bg-red-50 text-red-600 px-4 py-1.5 rounded-lg text-sm font-medium hover:bg-red-600 hover:text-white transition-all"
-                        >
-                          Hapus
-                        </button>
+                        <span className={`px-3 py-1.5 rounded-full text-xs font-bold ${
+                          item.status === "dibayar" 
+                            ? "bg-green-100 text-green-700" 
+                            : "bg-yellow-100 text-yellow-700"
+                        }`}>
+                          {item.status}
+                        </span>
+                      </td>
+                      <td className="p-4 text-center">
+                        <div className="flex items-center justify-center gap-2">
+                          {item.status === "pending" && (
+                            <button 
+                              onClick={() => konfirmasiTiket(item.id)}
+                              className="bg-green-600 text-white px-3 py-1.5 rounded-lg text-sm font-medium hover:bg-green-700 transition-all"
+                            >
+                              Konfirmasi
+                            </button>
+                          )}
+                          <button 
+                            onClick={() => handleDelete(item.id)}
+                            className="bg-red-50 text-red-600 px-3 py-1.5 rounded-lg text-sm font-medium hover:bg-red-600 hover:text-white transition-all"
+                          >
+                            Hapus
+                          </button>
+                        </div>
                       </td>
                     </tr>
                   ))}
