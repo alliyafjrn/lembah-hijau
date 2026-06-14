@@ -17,8 +17,8 @@ export default function TiketPage() {
     setTiket(Array.isArray(response) ? response : (response.data || []));
   }
 
-  async function konfirmasiTiket(id: number) {
-    await updateStatusTiket(id, "dibayar");
+  async function updateTiketStatus(id: number, status: string) {
+    await updateStatusTiket(id, status);
     loadTiket();
   }
 
@@ -71,7 +71,7 @@ export default function TiketPage() {
                       <td className="border p-3 text-center">
                         {item.status === "pending" && (
                           <button 
-                            onClick={() => konfirmasiTiket(item.id)}
+                            onClick={() => updateTiketStatus(item.id, "dibayar")}
                             style={{
                               backgroundColor: "#16a34a",
                               color: "white",
