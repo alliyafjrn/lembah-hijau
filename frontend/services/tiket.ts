@@ -28,3 +28,15 @@ export async function getTiket() {
     return [];
   }
 }
+
+export async function deleteTiket(id: number) {
+  try {
+    const response = await fetch(`http://localhost:3003/tiket/${id}`, {
+      method: "DELETE",
+    });
+    return await response.json();
+  } catch (error) {
+    console.error("Gagal menghapus tiket:", error);
+    throw error;
+  }
+}
