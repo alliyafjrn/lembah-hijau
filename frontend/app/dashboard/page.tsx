@@ -38,68 +38,61 @@ export default function DashboardPage() {
 
   return (
     <ProtectedRoute>
-      <div style={{
-        display: "flex",
-        minHeight: "100vh",
-        backgroundColor: "#f9fafb",
-        fontFamily: "sans-serif",
-        flexDirection: "row"
-      }}>
+      <div style={{ display: "flex", minHeight: "100vh", backgroundColor: "#f8fafc", fontFamily: "sans-serif", flexDirection: "row" }}>
         <div style={{ display: "flex" }}>
           <Sidebar />
         </div>
 
-        <div style={{
-          flex: 1,
-          display: "flex",
-          flexDirection: "column",
-          minWidth: 0
-        }}>
+        <div style={{ flex: 1, display: "flex", flexDirection: "column", minWidth: 0 }}>
           <Navbar />
 
           <div style={{ padding: "40px 32px", boxSizing: "border-box" }}>
             <div style={{ marginBottom: "32px" }}>
-              <h1 style={{ fontSize: "28px", fontWeight: "700", color: "#1f2937", margin: "0 0 6px 0" }}>
+              <h1 style={{ fontSize: "28px", fontWeight: "700", color: "#0f172a", margin: "0 0 6px 0", letterSpacing: "-0.5px" }}>
                 Dashboard Ringkasan
               </h1>
-              <p style={{ fontSize: "14px", color: "#6b7280", margin: 0 }}>
+              <p style={{ fontSize: "14px", color: "#64748b", margin: 0 }}>
                 Selamat datang kembali, Admin! Berikut adalah data statistik terbaru kawasan Lembah Hijau.
               </p>
             </div>
 
-            <div className="grid md:grid-cols-2 gap-5 mb-10">
-              <div className="bg-white p-6 rounded-lg shadow">
-                <h2 className="text-gray-500">Total Kategori</h2>
-                <p className="text-4xl font-bold text-green-700">
+            <div style={{ display: "flex", flexWrap: "wrap", gap: "24px", marginBottom: "40px" }}>
+              <div style={{ flex: "1 1 240px", backgroundColor: "#ffffff", padding: "24px", borderRadius: "16px", border: "1px solid #e2e8f0", boxShadow: "0 1px 3px rgba(0,0,0,0.02)" }}>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "12px" }}>
+                  <span style={{ fontSize: "14px", fontWeight: "600", color: "#64748b" }}>Total Kategori</span>
+                  <span style={{ fontSize: "20px" }}>🗂️</span>
+                </div>
+                <p style={{ margin: 0, fontSize: "36px", fontWeight: "800", color: "#166534" }}>
                   {loading ? "..." : totalKategori}
                 </p>
               </div>
 
-              <div className="bg-white p-6 rounded-lg shadow">
-                <h2 className="text-gray-500">Total Wisata</h2>
-                <p className="text-4xl font-bold text-blue-700">
+              <div style={{ flex: "1 1 240px", backgroundColor: "#ffffff", padding: "24px", borderRadius: "16px", border: "1px solid #e2e8f0", boxShadow: "0 1px 3px rgba(0,0,0,0.02)" }}>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "12px" }}>
+                  <span style={{ fontSize: "14px", fontWeight: "600", color: "#64748b" }}>Total Wisata</span>
+                  <span style={{ fontSize: "20px" }}>🌴</span>
+                </div>
+                <p style={{ margin: 0, fontSize: "36px", fontWeight: "800", color: "#166534" }}>
                   {loading ? "..." : totalWisata}
                 </p>
               </div>
             </div>
 
             <div style={{ marginBottom: "16px" }}>
-              <h3 style={{ fontSize: "16px", fontWeight: "600", color: "#374151", margin: "0 0 16px 0" }}>
+              <h3 style={{ fontSize: "15px", fontWeight: "700", color: "#0f172a", margin: 0 }}>
                 Akses Cepat Menu Navigasi
               </h3>
             </div>
 
-            <div style={{
-              display: "flex",
-              gap: "24px",
-              flexWrap: "wrap"
-            }}>
+            <div style={{ display: "flex", gap: "20px", flexWrap: "wrap" }}>
               <Link href="/kategori" style={quickLinkStyle}>
                 <span>Kelola Data Kategori</span>
+                <span>➔</span>
               </Link>
 
               <Link href="/wisata" style={quickLinkStyle}>
                 <span>Kelola Data Wisata</span>
+                <span>➔</span>
               </Link>
             </div>
           </div>
@@ -110,16 +103,17 @@ export default function DashboardPage() {
 }
 
 const quickLinkStyle: React.CSSProperties = {
-  flex: "1 1 250px",
+  flex: "1 1 240px",
   backgroundColor: "#ffffff",
-  border: "1px solid #e5e7eb",
-  borderRadius: "12px",
+  border: "1px solid #e2e8f0",
+  borderRadius: "14px",
   padding: "20px 24px",
-  fontSize: "15px",
+  fontSize: "14px",
   fontWeight: "600",
-  color: "#1f2937",
+  color: "#0f172a",
   textDecoration: "none",
   display: "flex",
   alignItems: "center",
-  justifyContent: "space-between"
+  justifyContent: "space-between",
+  boxShadow: "0 1px 2px rgba(0,0,0,0.02)"
 };

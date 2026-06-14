@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useRouter, usePathname } from "next/navigation";
 
 export default function Sidebar() {
@@ -9,14 +10,13 @@ export default function Sidebar() {
   function handleLogout() {
     localStorage.removeItem("token");
     router.push("/login");
-    window.location.reload();
   }
 
   const menuItems = [
     {
       name: "Dashboard",
       href: "/dashboard",
-      icon: "M3.75 6A2.25 2.25 0 016 3.75h2.25A2.25 2.25 0 0110.5 6v2.25a2.25 2.25 0 01-2.25 2.25H6a2.25 2.25 0 01-2.25-2.25V6zM3.75 15.75A2.25 2.25 0 016 13.5h2.25a2.25 2.25 0 012.25 2.25V18a2.25 2.25 0 01-2.25 2.25H6A2.25 2.25 0 013.75 18v-2.25zM13.5 6a2.25 2.25 0 012.25-2.25H18A2.25 2.25 0 0120.25 6v2.25A2.25 2.25 0 0118 10.5h-2.25a2.25 2.25 0 01-2.25-2.25V6zM13.5 15.75a2.25 2.25 0 012.25-2.25H18a2.25 2.25 0 012.25 2.25V18A2.25 2.25 0 0118 20.25h-2.25a2.25 2.25 0 0113.5 18v-2.25z"
+      icon: "M3.75 6A2.25 2.25 0 016 3.75h2.25A2.25 2.25 0 0110.5 6v2.25a2.25 2.25 0 01-2.25 2.25H6a2.25 2.25 0 01-2.25-2.25V6zM3.75 15.75A2.25 2.25 0 016 13.5h2.25a2.25 2.25 0 012.25 2.25V18a2.25 2.25 0 01-2.25 2.25H6A2.25 2.25 0 013.75 18v-2.25zM13.5 6a2.25 2.25 0 012.25-2.25H18A2.25 2.25 0 0120.25 6v2.25A2.25 2.25 0 0118 10.5h-2.25a2.25 2.25 0 01-2.25-2.25V6zM13.5 15.75a2.25 2.25 0 012.25-2.25H18a2.25 2.25 0 012.25 2.25V18A2.25 2.25 0 0118 20.25h-2.25a2.25 2.25 0 01-2.25-2.25V15z"
     },
     {
       name: "Wisata",
@@ -36,90 +36,56 @@ export default function Sidebar() {
   ];
 
   return (
-    <div style={{
-      width: "260px",
-      minWidth: "260px",
-      height: "100vh",
-      minHeight: "100vh",
-      backgroundColor: "#15803d",
-      color: "#ffffff",
-      padding: "32px 24px",
-      display: "flex",
-      flexDirection: "column",
-      justifyContent: "space-between",
-      boxSizing: "border-box",
-      fontFamily: "sans-serif"
-    }}>
+    <div style={{ width: "260px", minWidth: "260px", height: "100vh", backgroundColor: "#14532d", color: "#ffffff", padding: "36px 20px", display: "flex", flexDirection: "column", justifyContent: "space-between", boxSizing: "border-box", fontFamily: "sans-serif", borderRight: "1px solid rgba(255,255,255,0.05)" }}>
       <div style={{ width: "100%" }}>
-        <div style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "40px" }}>
-          <div style={{
-            backgroundColor: "rgba(255, 255, 255, 0.2)",
-            padding: "8px",
-            borderRadius: "10px",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center"
-          }}>
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" style={{ width: "22px", height: "22px" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "40px", paddingLeft: "8px" }}>
+          <div style={{ backgroundColor: "rgba(255, 255, 255, 0.1)", padding: "8px", borderRadius: "10px", display: "flex", alignItems: "center", justifyContent: "center" }}>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" style={{ width: "20px", height: "20px" }}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />
             </svg>
           </div>
-          <h1 style={{ fontSize: "22px", fontWeight: "700", letterSpacing: "0.5px", margin: 0 }}>
+          <h1 style={{ fontSize: "20px", fontWeight: "700", letterSpacing: "-0.5px", margin: 0 }}>
             Lembah Hijau
           </h1>
         </div>
 
-        <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: "8px" }}>
+        <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: "6px" }}>
           {menuItems.map((item) => {
             const isActive = pathname === item.href;
             return (
               <li key={item.href}>
-                <a
+                <Link
                   href={item.href}
                   style={{
                     display: "flex",
                     alignItems: "center",
-                    gap: "14px",
+                    gap: "12px",
                     padding: "12px 16px",
-                    borderRadius: "10px",
-                    fontSize: "15px",
+                    borderRadius: "12px",
+                    fontSize: "14px",
                     fontWeight: isActive ? "600" : "500",
                     color: "#ffffff",
                     textDecoration: "none",
                     backgroundColor: isActive ? "rgba(255, 255, 255, 0.15)" : "transparent",
-                    transition: "background-color 0.2s ease"
+                    opacity: isActive ? 1 : 0.8,
+                    transition: "all 0.2s ease"
                   }}
                 >
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" style={{ width: "20px", height: "20px", opacity: isActive ? 1 : 0.8 }}>
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" style={{ width: "18px", height: "18px" }}>
                     <path strokeLinecap="round" strokeLinejoin="round" d={item.icon} />
                   </svg>
                   {item.name}
-                </a>
+                </Link>
               </li>
             );
           })}
         </ul>
       </div>
 
-      <div style={{ marginTop: "auto", width: "100%" }}>
+      <div style={{ width: "100%" }}>
         <button
           onClick={handleLogout}
-          style={{
-            width: "100%",
-            backgroundColor: "#dc2626",
-            color: "#ffffff",
-            padding: "12px",
-            border: "none",
-            borderRadius: "10px",
-            fontSize: "15px",
-            fontWeight: "600",
-            cursor: "pointer",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            gap: "10px",
-            transition: "background-color 0.2s ease"
-          }}
+          style={{ width: "100%", backgroundColor: "#b91c1c", color: "#ffffff", padding: "12px", border: "none", borderRadius: "12px", fontSize: "14px", fontWeight: "600", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: "8px", transition: "background-color 0.2s ease" }}
         >
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" style={{ width: "18px", height: "18px" }}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15M12 9l-3 3m0 0l3 3m-3-3h12.75" />

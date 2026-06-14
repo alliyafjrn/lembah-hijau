@@ -10,40 +10,24 @@ export default function ProtectedRoute({
 }) {
   const router = useRouter();
   const [loading, setLoading] = useState(true);
+  const [authorized, setAuthorized] = useState(false);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
 
     if (!token) {
-      router.push("/login");
+      router.replace("/login");
     } else {
+      setAuthorized(true);
       setLoading(false);
     }
-  }, []);
+  }, [router]);
 
-  if (loading) {
+  if (loading || !authorized) {
     return (
-      <div style={{
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        minHeight: "100vh",
-        backgroundColor: "#f9fafb",
-        fontFamily: "sans-serif",
-        color: "#6b7280",
-        fontSize: "16px",
-        fontWeight: "500"
-      }}>
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "center", minHeight: "100vh", backgroundColor: "#f8fafc", fontFamily: "sans-serif", color: "#64748b", fontSize: "15px", fontWeight: "500" }}>
         <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "12px" }}>
-          {/* Animasi Spinner Simple */}
-          <div style={{
-            width: "24px",
-            height: "24px",
-            border: "3px solid #e5e7eb",
-            borderTop: "3px solid #15803d",
-            borderRadius: "50%",
-            animation: "spin 1s linear infinite"
-          }}></div>
+          <div style={{ width: "24px", height: "24px", border: "3px solid #e2e8f0", borderTop: "3px solid #166534", borderRadius: "50%", animation: "spin 1s linear infinite" }}></div>
           <style>{`
             @keyframes spin {
               0% { transform: rotate(0deg); }
