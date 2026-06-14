@@ -8,41 +8,22 @@ export class KategoriService {
     constructor(private prisma: PrismaService) { }
 
     async create(createKategoriDto: CreateKategoriDto) {
-        return this.prisma.kategori.create({
-            data: createKategoriDto,
-        });
+        return this.prisma.kategori.create({ data: createKategoriDto });
     }
 
     async findAll() {
-        return this.prisma.kategori.findMany({
-            orderBy: {
-                id: 'desc',
-            },
-        });
+        return this.prisma.kategori.findMany({ orderBy: { id: 'desc' } });
     }
 
     async findOne(id: number) {
-        return this.prisma.kategori.findUnique({
-            where: {
-                id,
-            },
-        });
+        return this.prisma.kategori.findUnique({ where: { id } });
     }
 
     async update(id: number, updateKategoriDto: UpdateKategoriDto) {
-        return this.prisma.kategori.update({
-            where: {
-                id,
-            },
-            data: updateKategoriDto,
-        });
+        return this.prisma.kategori.update({ where: { id }, data: updateKategoriDto });
     }
 
     async remove(id: number) {
-        return this.prisma.kategori.delete({
-            where: {
-                id,
-            },
-        });
+        return this.prisma.kategori.delete({ where: { id } });
     }
 }
